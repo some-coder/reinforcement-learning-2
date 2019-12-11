@@ -12,9 +12,11 @@ SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS
 include_directories(includes)
 
 set(SOURCES
+        sources/Maze.cpp
         sources/Main.cpp)
 
 set(INCLUDES
+        includes/Maze.hpp
 )
 
 add_executable(maze ${SOURCES})

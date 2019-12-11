@@ -150,6 +150,33 @@ sources/Main.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Main.cpp.s
 .PHONY : sources/Main.cpp.s
 
+sources/Maze.o: sources/Maze.cpp.o
+
+.PHONY : sources/Maze.o
+
+# target to build an object file
+sources/Maze.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.o
+.PHONY : sources/Maze.cpp.o
+
+sources/Maze.i: sources/Maze.cpp.i
+
+.PHONY : sources/Maze.i
+
+# target to preprocess a source file
+sources/Maze.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.i
+.PHONY : sources/Maze.cpp.i
+
+sources/Maze.s: sources/Maze.cpp.s
+
+.PHONY : sources/Maze.s
+
+# target to generate assembly for a file
+sources/Maze.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
+.PHONY : sources/Maze.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +189,9 @@ help:
 	@echo "... sources/Main.o"
 	@echo "... sources/Main.i"
 	@echo "... sources/Main.s"
+	@echo "... sources/Maze.o"
+	@echo "... sources/Maze.i"
+	@echo "... sources/Maze.s"
 .PHONY : help
 
 
