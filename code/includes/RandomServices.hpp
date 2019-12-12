@@ -11,9 +11,6 @@ class RandomServices {
     private:
         constexpr static double epsilon = std::numeric_limits<double>::min();
         constexpr static double twoPi = 2.0 * 3.14159265358979323846;
-        static double firstNormal;
-        static double secondNormal;
-        static bool shouldGenerate;
         static void seed();
         static void initialiseNormalNumberGenerator();
 

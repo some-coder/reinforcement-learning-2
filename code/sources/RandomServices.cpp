@@ -1,10 +1,15 @@
+#include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <cmath>
 #include "RandomServices.hpp"
 
+static double firstNormal;
+static double secondNormal;
+static bool shouldGenerate;
+
 void RandomServices::seed() {
-    srand(time(nullptr));
+    srandom(time(nullptr));
 }
 
 void RandomServices::initialiseNormalNumberGenerator() {
@@ -13,7 +18,7 @@ void RandomServices::initialiseNormalNumberGenerator() {
 }
 
 double RandomServices::randomValue() {
-    return rand() * (1.0 / RAND_MAX);
+    return (double)random() * (1.0 / RAND_MAX);
 }
 
 /**
@@ -59,13 +64,14 @@ int RandomServices::discreteUniformSample(int ceiling) {
     int sample;
     bool isWithinRange;
     random = (ceiling + 1) * randomValue();
+//    std::cout << "Random drawn: " << random << "." << std::endl;
     sample = -1;
     do {
         /* Find the bin which 'contains' our random value. */
         sample++;
-        isWithinRange = (range[0] >= random && range[1] < random);
+        isWithinRange = (range[0] <= random && range[1] > random);
         range[0] += 1.0; range[1] += 1.0;
-    } while (isWithinRange || range[0] <= (double)ceiling);
+    } while (!isWithinRange && range[0] <= (double)ceiling);
     return sample;
 }
 
