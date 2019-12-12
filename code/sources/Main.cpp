@@ -6,6 +6,7 @@ int main(int argc, char *argv[]) {
     m.readMazeFromInput();
     std::cout << "Height is: " << m.getHeight() << std::endl;
     std::cout << "Width is: " << m.getWidth() << std::endl;
-    std::cout << "Random entry (1, 1): " << m.getEntry(1, 1) << std::endl;
+    Position p = Position(1, 1);
+    std::cout << "Random entry (1, 1): " << m.getEntry(p) << std::endl;
     return EXIT_SUCCESS;
 }

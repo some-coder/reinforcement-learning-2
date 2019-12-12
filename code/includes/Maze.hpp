@@ -3,14 +3,19 @@
 
 #include <map>
 #include <vector>
+#include "Position.hpp"
 
 class Maze {
     private:
         int width;
         int height;
-        std::map<std::vector<int>, char> contents;
-        bool readMazeRowFromInput(int currentRow);
-        bool isWithinBounds(int x, int y);
+        std::map<Position, char> entries;
+        static bool isValidEntry(char *entry);
+        void ensureConstantWidth(int current);
+        bool readMazeEntryFromInput(Position p);
+        bool readMazeRowFromInput(int row);
+        bool isWithinBounds(Position p);
+        void setWidth(int newWidth);
 
     public:
         Maze();
@@ -18,7 +23,7 @@ class Maze {
         virtual void readMazeFromInput();
         int getWidth();
         int getHeight();
-        char getEntry(int x, int y);
+        char getEntry(Position p);
 };
 
 #endif

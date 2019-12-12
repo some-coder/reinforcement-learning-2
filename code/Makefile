@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.15.5/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.15.5/bin/cmake -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/niels/Documents/university/3rd-year/reinforcement-lear
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/3.15.5/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/3.15.5/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -122,6 +122,33 @@ maze: cmake_check_build_system
 maze/fast:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/build
 .PHONY : maze/fast
+
+sources/InvalidWidthException.o: sources/InvalidWidthException.cpp.o
+
+.PHONY : sources/InvalidWidthException.o
+
+# target to build an object file
+sources/InvalidWidthException.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/InvalidWidthException.cpp.o
+.PHONY : sources/InvalidWidthException.cpp.o
+
+sources/InvalidWidthException.i: sources/InvalidWidthException.cpp.i
+
+.PHONY : sources/InvalidWidthException.i
+
+# target to preprocess a source file
+sources/InvalidWidthException.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/InvalidWidthException.cpp.i
+.PHONY : sources/InvalidWidthException.cpp.i
+
+sources/InvalidWidthException.s: sources/InvalidWidthException.cpp.s
+
+.PHONY : sources/InvalidWidthException.s
+
+# target to generate assembly for a file
+sources/InvalidWidthException.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/InvalidWidthException.cpp.s
+.PHONY : sources/InvalidWidthException.cpp.s
 
 sources/Main.o: sources/Main.cpp.o
 
@@ -177,6 +204,33 @@ sources/Maze.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
 .PHONY : sources/Maze.cpp.s
 
+sources/Position.o: sources/Position.cpp.o
+
+.PHONY : sources/Position.o
+
+# target to build an object file
+sources/Position.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.o
+.PHONY : sources/Position.cpp.o
+
+sources/Position.i: sources/Position.cpp.i
+
+.PHONY : sources/Position.i
+
+# target to preprocess a source file
+sources/Position.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.i
+.PHONY : sources/Position.cpp.i
+
+sources/Position.s: sources/Position.cpp.s
+
+.PHONY : sources/Position.s
+
+# target to generate assembly for a file
+sources/Position.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.s
+.PHONY : sources/Position.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +240,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... maze"
+	@echo "... sources/InvalidWidthException.o"
+	@echo "... sources/InvalidWidthException.i"
+	@echo "... sources/InvalidWidthException.s"
 	@echo "... sources/Main.o"
 	@echo "... sources/Main.i"
 	@echo "... sources/Main.s"
 	@echo "... sources/Maze.o"
 	@echo "... sources/Maze.i"
 	@echo "... sources/Maze.s"
+	@echo "... sources/Position.o"
+	@echo "... sources/Position.i"
+	@echo "... sources/Position.s"
 .PHONY : help
 
 
