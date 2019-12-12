@@ -6,10 +6,13 @@
 #include "Position.hpp"
 
 class Maze {
+    enum ValidTiles {Hedge = '#', Path = '.', Exit = '*'};
+
     private:
         int width;
         int height;
         std::map<Position, char> entries;
+        static bool isValidTile(char entry);
         static bool isValidEntry(char *entry);
         void ensureConstantWidth(int current);
         bool readMazeEntryFromInput(Position p);

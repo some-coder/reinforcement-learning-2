@@ -12,12 +12,14 @@ SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS
 include_directories(includes)
 
 set(SOURCES
+        sources/RandomServices.cpp
         sources/InvalidWidthException.cpp
         sources/Position.cpp
         sources/Maze.cpp
         sources/Main.cpp)
 
 set(INCLUDES
+        includes/RandomServices.hpp
         includes/InvalidWidthException.hpp
         includes/Position.hpp
         includes/Maze.hpp

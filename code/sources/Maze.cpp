@@ -3,6 +3,23 @@
 #include "InvalidWidthException.hpp"
 
 /**
+ * Determines whether an entry to the maze is a valid tile.
+ *
+ * @param entry The symbol of the entry in the maze.
+ * @return The question's answer.
+ */
+bool Maze::isValidTile(char entry) {
+    switch (entry) {
+        case ValidTiles::Hedge:
+        case ValidTiles::Path:
+        case ValidTiles::Exit:
+            return true;
+        default:
+            return false;
+    }
+}
+
+/**
  * Determines whether the given maze entry is a valid one.
  *
  * A maze entry is valid if it uses a legal symbol and it is not a
@@ -12,7 +29,7 @@
  * @return The question's answer.
  */
 bool Maze::isValidEntry(char *entry) {
-    return scanf("%c", entry) && *entry != '\n';
+    return scanf("%c", entry) && *entry != '\n' && isValidTile(*entry);
 }
 
 /**

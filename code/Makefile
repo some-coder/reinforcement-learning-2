@@ -231,6 +231,33 @@ sources/Position.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.s
 .PHONY : sources/Position.cpp.s
 
+sources/RandomServices.o: sources/RandomServices.cpp.o
+
+.PHONY : sources/RandomServices.o
+
+# target to build an object file
+sources/RandomServices.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.o
+.PHONY : sources/RandomServices.cpp.o
+
+sources/RandomServices.i: sources/RandomServices.cpp.i
+
+.PHONY : sources/RandomServices.i
+
+# target to preprocess a source file
+sources/RandomServices.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.i
+.PHONY : sources/RandomServices.cpp.i
+
+sources/RandomServices.s: sources/RandomServices.cpp.s
+
+.PHONY : sources/RandomServices.s
+
+# target to generate assembly for a file
+sources/RandomServices.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.s
+.PHONY : sources/RandomServices.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -252,6 +279,9 @@ help:
 	@echo "... sources/Position.o"
 	@echo "... sources/Position.i"
 	@echo "... sources/Position.s"
+	@echo "... sources/RandomServices.o"
+	@echo "... sources/RandomServices.i"
+	@echo "... sources/RandomServices.s"
 .PHONY : help
 
 
