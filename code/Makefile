@@ -204,6 +204,33 @@ sources/Maze.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
 .PHONY : sources/Maze.cpp.s
 
+sources/Player.o: sources/Player.cpp.o
+
+.PHONY : sources/Player.o
+
+# target to build an object file
+sources/Player.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.o
+.PHONY : sources/Player.cpp.o
+
+sources/Player.i: sources/Player.cpp.i
+
+.PHONY : sources/Player.i
+
+# target to preprocess a source file
+sources/Player.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.i
+.PHONY : sources/Player.cpp.i
+
+sources/Player.s: sources/Player.cpp.s
+
+.PHONY : sources/Player.s
+
+# target to generate assembly for a file
+sources/Player.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.s
+.PHONY : sources/Player.cpp.s
+
 sources/Position.o: sources/Position.cpp.o
 
 .PHONY : sources/Position.o
@@ -303,6 +330,9 @@ help:
 	@echo "... sources/Maze.o"
 	@echo "... sources/Maze.i"
 	@echo "... sources/Maze.s"
+	@echo "... sources/Player.o"
+	@echo "... sources/Player.i"
+	@echo "... sources/Player.s"
 	@echo "... sources/Position.o"
 	@echo "... sources/Position.i"
 	@echo "... sources/Position.s"

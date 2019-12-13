@@ -17,6 +17,7 @@ set(SOURCES
         sources/Position.cpp
         sources/State.cpp
         sources/Maze.cpp
+        sources/Player.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -24,6 +25,7 @@ set(INCLUDES
         includes/InvalidWidthException.hpp
         includes/Position.hpp
         includes/State.hpp
+        includes/Player.hpp
         includes/Maze.hpp
 )
 
