@@ -1,6 +1,8 @@
 #ifndef RANDOM_SERVICES_HPP
 #define RANDOM_SERVICES_HPP
 
+#include <limits>
+
 /* - Normal(mu, st.dev)
  * - Bernoulli(p)
  * - DiscreteUniform(0, l)
