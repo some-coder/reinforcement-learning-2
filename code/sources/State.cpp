@@ -18,8 +18,8 @@ void State::determineLegalActions(Maze *m) {
             continue;
         }
         entry = m->getEntry(d);
-        if (Maze::isTraversibleTile(entry)) {
-            this->actions.push_back(directions(i));
+        if (Maze::isTraversableTile(entry)) {
+            this->actions.push_back(direction(i));
         }
     }
 }
@@ -28,10 +28,20 @@ State::State(const Position& pos, Maze *m) : p(pos) {
     this->determineLegalActions(m);
 }
 
+bool State::operator<(const State & other) const {
+    if (this->p < other.p) {
+        return true;
+    }
+    if (this->actions < other.actions) {
+        return true;
+    }
+    return false;
+}
+
 Position State::getPosition() {
     return this->p;
 }
 
-std::vector<State::directions> State::getActions() {
+std::vector<State::direction> State::getActions() {
     return this->actions;
 }

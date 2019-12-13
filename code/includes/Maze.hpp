@@ -23,7 +23,7 @@ class Maze {
         Maze();
         virtual ~Maze();
         virtual void readMazeFromInput();
-        static bool isTraversibleTile(char entry);
+        static bool isTraversableTile(char entry);
         bool isWithinBounds(Position p);
         int getWidth();
         int getHeight();

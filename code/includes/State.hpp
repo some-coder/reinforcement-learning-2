@@ -6,17 +6,20 @@
 #include "Maze.hpp"
 
 class State {
+    public:
+        enum direction {Up, Right, Down, Left};
+
     private:
         Position p;
-        std::vector<directions> actions;
+        std::vector<direction> actions;
         void determineLegalActions(Maze *m);
         /* Agents map states to values */
 
     public:
         explicit State(const Position& pos, Maze *m);
-        enum directions {Up, Right, Down, Left};
+        bool operator<(const State & other) const;
         Position getPosition();
-        std::vector<State::directions> getActions();
+        std::vector<State::direction> getActions();
 };
 
 #endif

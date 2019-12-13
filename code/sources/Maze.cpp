@@ -25,7 +25,7 @@ bool Maze::isValidTile(char entry) {
  * @param entry The entry to evaluate.
  * @return The question's answer.
  */
-bool Maze::isTraversibleTile(char entry) {
+bool Maze::isTraversableTile(char entry) {
     switch (entry) {
         case ValidTiles::Hedge:
             return false;
