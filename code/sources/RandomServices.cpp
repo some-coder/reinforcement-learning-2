@@ -64,7 +64,6 @@ int RandomServices::discreteUniformSample(int ceiling) {
     int sample;
     bool isWithinRange;
     random = (ceiling + 1) * randomValue();
-//    std::cout << "Random drawn: " << random << "." << std::endl;
     sample = -1;
     do {
         /* Find the bin which 'contains' our random value. */

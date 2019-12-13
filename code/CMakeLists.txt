@@ -15,6 +15,7 @@ set(SOURCES
         sources/RandomServices.cpp
         sources/InvalidWidthException.cpp
         sources/Position.cpp
+        sources/State.cpp
         sources/Maze.cpp
         sources/Main.cpp)
 
@@ -22,6 +23,7 @@ set(INCLUDES
         includes/RandomServices.hpp
         includes/InvalidWidthException.hpp
         includes/Position.hpp
+        includes/State.hpp
         includes/Maze.hpp
 )
 
