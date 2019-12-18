@@ -17,13 +17,14 @@ class Maze {
         void ensureConstantWidth(int current);
         bool readMazeEntryFromInput(Position p);
         bool readMazeRowFromInput(int row);
-        bool isWithinBounds(Position p);
         void setWidth(int newWidth);
 
     public:
         Maze();
         virtual ~Maze();
         virtual void readMazeFromInput();
+        static bool isTraversableTile(char entry);
+        bool isWithinBounds(Position p);
         int getWidth();
         int getHeight();
         char getEntry(Position p);

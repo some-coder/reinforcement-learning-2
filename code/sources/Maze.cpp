@@ -20,6 +20,21 @@ bool Maze::isValidTile(char entry) {
 }
 
 /**
+ * Determines whether an entry to the maze is traversible.
+ *
+ * @param entry The entry to evaluate.
+ * @return The question's answer.
+ */
+bool Maze::isTraversableTile(char entry) {
+    switch (entry) {
+        case ValidTiles::Hedge:
+            return false;
+        default:
+            return true;
+    }
+}
+
+/**
  * Determines whether the given maze entry is a valid one.
  *
  * A maze entry is valid if it uses a legal symbol and it is not a
@@ -96,7 +111,7 @@ void Maze::readMazeFromInput() {
 Maze::Maze() {
     this->width = 0;
     this->height = 0;
-};
+}
 
 /**
  * Destructs the maze.
