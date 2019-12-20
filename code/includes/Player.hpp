@@ -9,9 +9,12 @@ class Player {
     private:
         std::map<State, double> stateValues;
         std::map<std::tuple<State, State::direction>, double> stateActionValues;
+        std::map<std::tuple<State, State::direction>, double> policy;
+        Maze* maze;
+        void solveMaze();
 
     public:
-        Player();
+        explicit Player(Maze *m);
         virtual ~Player();
         double getStateValue(State s);
         void setStateValue(State s, double newValue);

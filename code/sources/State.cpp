@@ -24,7 +24,7 @@ void State::determineLegalActions(Maze *m) {
     }
 }
 
-State::State(const Position& pos, Maze *m) : p(pos) {
+State::State(Position pos, Maze *m) : p(pos) {
     this->determineLegalActions(m);
 }
 

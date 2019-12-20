@@ -4,11 +4,13 @@
 #include <map>
 #include <vector>
 #include "Position.hpp"
+#include "State.hpp"
 
 class Maze {
-    enum ValidTiles {Hedge = '#', Path = '.', Exit = '*'};
+    enum ValidTiles {Hedge = ' ', Path = '.', Exit = '*'};
 
     private:
+        bool randomStarts;
         int width;
         int height;
         std::map<Position, char> entries;
@@ -20,7 +22,7 @@ class Maze {
         void setWidth(int newWidth);
 
     public:
-        Maze();
+        Maze(bool shouldStartRandomly);
         virtual ~Maze();
         virtual void readMazeFromInput();
         static bool isTraversableTile(char entry);
@@ -28,6 +30,7 @@ class Maze {
         int getWidth();
         int getHeight();
         char getEntry(Position p);
+        State getStartingState();
 };
 
 #endif

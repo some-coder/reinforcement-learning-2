@@ -16,7 +16,7 @@ class State {
         /* Agents map states to values */
 
     public:
-        explicit State(const Position& pos, Maze *m);
+        State(Position pos, Maze *m);
         bool operator<(const State & other) const;
         Position getPosition();
         std::vector<State::direction> getActions();

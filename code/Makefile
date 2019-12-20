@@ -258,6 +258,33 @@ sources/Position.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.s
 .PHONY : sources/Position.cpp.s
 
+sources/RandomPlayer.o: sources/RandomPlayer.cpp.o
+
+.PHONY : sources/RandomPlayer.o
+
+# target to build an object file
+sources/RandomPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomPlayer.cpp.o
+.PHONY : sources/RandomPlayer.cpp.o
+
+sources/RandomPlayer.i: sources/RandomPlayer.cpp.i
+
+.PHONY : sources/RandomPlayer.i
+
+# target to preprocess a source file
+sources/RandomPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomPlayer.cpp.i
+.PHONY : sources/RandomPlayer.cpp.i
+
+sources/RandomPlayer.s: sources/RandomPlayer.cpp.s
+
+.PHONY : sources/RandomPlayer.s
+
+# target to generate assembly for a file
+sources/RandomPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomPlayer.cpp.s
+.PHONY : sources/RandomPlayer.cpp.s
+
 sources/RandomServices.o: sources/RandomServices.cpp.o
 
 .PHONY : sources/RandomServices.o
@@ -284,6 +311,33 @@ sources/RandomServices.s: sources/RandomServices.cpp.s
 sources/RandomServices.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.s
 .PHONY : sources/RandomServices.cpp.s
+
+sources/Run.o: sources/Run.cpp.o
+
+.PHONY : sources/Run.o
+
+# target to build an object file
+sources/Run.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Run.cpp.o
+.PHONY : sources/Run.cpp.o
+
+sources/Run.i: sources/Run.cpp.i
+
+.PHONY : sources/Run.i
+
+# target to preprocess a source file
+sources/Run.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Run.cpp.i
+.PHONY : sources/Run.cpp.i
+
+sources/Run.s: sources/Run.cpp.s
+
+.PHONY : sources/Run.s
+
+# target to generate assembly for a file
+sources/Run.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Run.cpp.s
+.PHONY : sources/Run.cpp.s
 
 sources/State.o: sources/State.cpp.o
 
@@ -336,9 +390,15 @@ help:
 	@echo "... sources/Position.o"
 	@echo "... sources/Position.i"
 	@echo "... sources/Position.s"
+	@echo "... sources/RandomPlayer.o"
+	@echo "... sources/RandomPlayer.i"
+	@echo "... sources/RandomPlayer.s"
 	@echo "... sources/RandomServices.o"
 	@echo "... sources/RandomServices.i"
 	@echo "... sources/RandomServices.s"
+	@echo "... sources/Run.o"
+	@echo "... sources/Run.i"
+	@echo "... sources/Run.s"
 	@echo "... sources/State.o"
 	@echo "... sources/State.i"
 	@echo "... sources/State.s"
