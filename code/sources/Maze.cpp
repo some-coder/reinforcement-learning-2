@@ -108,9 +108,10 @@ void Maze::readMazeFromInput() {
 /**
  * Constructs a new maze.
  */
-Maze::Maze() {
+Maze::Maze(bool shouldStartRandomly) {
     this->width = 0;
     this->height = 0;
+    this->randomStarts = shouldStartRandomly;
 }
 
 /**
@@ -173,4 +174,8 @@ char Maze::getEntry(Position p) {
     } else {
         throw std::out_of_range("This maze position is out of range!\n");
     }
+}
+
+State Maze::getStartingState() {
+    return State(Position(0, 0), &this);
 }

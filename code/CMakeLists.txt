@@ -18,6 +18,8 @@ set(SOURCES
         sources/State.cpp
         sources/Maze.cpp
         sources/Player.cpp
+        sources/RandomPlayer.cpp
+        sources/Run.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -26,6 +28,8 @@ set(INCLUDES
         includes/Position.hpp
         includes/State.hpp
         includes/Player.hpp
+        includes/RandomPlayer.hpp
+        includes/Run.hpp
         includes/Maze.hpp
 )
 

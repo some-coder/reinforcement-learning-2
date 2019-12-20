@@ -1,6 +1,8 @@
 #include "Player.hpp"
 
-Player::Player() = default;
+Player::Player(Maze *m) {
+    this->maze = m;
+}
 
 Player::~Player() = default;
 
