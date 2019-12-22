@@ -42,6 +42,7 @@ class Maze {
         Maze();
         int indexFromCoordinates(int x, int y);
         std::tuple<int, int> coordinatesFromIndex(int i);
+        std::vector<State>* getStates();
         State* getStartingState();
         double getActionProbability(Actions action);
         std::tuple<State*, double> getStateTransitionResult(State *s, Actions a);

@@ -15,12 +15,14 @@ set(SOURCES
         sources/RandomServices.cpp
         sources/State.cpp
         sources/Maze.cpp
+        sources/Player.cpp
         sources/Main.cpp)
 
 set(INCLUDES
         includes/RandomServices.hpp
         includes/State.hpp
         includes/Maze.hpp
+        includes/Player.hpp
         includes/Maze.hpp
 )
 

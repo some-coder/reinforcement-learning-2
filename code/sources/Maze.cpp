@@ -84,6 +84,10 @@ std::tuple<int, int> Maze::coordinatesFromIndex(int i) {
     return std::make_tuple(i % this->width, i / this->width);
 }
 
+std::vector<State>* Maze::getStates() {
+    return &(this->states);
+}
+
 State* Maze::getStartingState() {
     int randomIndex;
     if (this->shouldStartAtRandomPosition()) {

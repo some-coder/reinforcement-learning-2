@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.15.5/bin/cmake
+CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.15.5/bin/cmake -E remove -f
+RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/niels/Documents/university/3rd-year/reinforcement-lear
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/3.15.5/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/3.15.5/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -177,32 +177,32 @@ sources/Maze.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
 .PHONY : sources/Maze.cpp.s
 
-sources/MazeMaintainer.o: sources/MazeMaintainer.cpp.o
+sources/Player.o: sources/Player.cpp.o
 
-.PHONY : sources/MazeMaintainer.o
+.PHONY : sources/Player.o
 
 # target to build an object file
-sources/MazeMaintainer.cpp.o:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MazeMaintainer.cpp.o
-.PHONY : sources/MazeMaintainer.cpp.o
+sources/Player.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.o
+.PHONY : sources/Player.cpp.o
 
-sources/MazeMaintainer.i: sources/MazeMaintainer.cpp.i
+sources/Player.i: sources/Player.cpp.i
 
-.PHONY : sources/MazeMaintainer.i
+.PHONY : sources/Player.i
 
 # target to preprocess a source file
-sources/MazeMaintainer.cpp.i:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MazeMaintainer.cpp.i
-.PHONY : sources/MazeMaintainer.cpp.i
+sources/Player.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.i
+.PHONY : sources/Player.cpp.i
 
-sources/MazeMaintainer.s: sources/MazeMaintainer.cpp.s
+sources/Player.s: sources/Player.cpp.s
 
-.PHONY : sources/MazeMaintainer.s
+.PHONY : sources/Player.s
 
 # target to generate assembly for a file
-sources/MazeMaintainer.cpp.s:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MazeMaintainer.cpp.s
-.PHONY : sources/MazeMaintainer.cpp.s
+sources/Player.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.s
+.PHONY : sources/Player.cpp.s
 
 sources/RandomServices.o: sources/RandomServices.cpp.o
 
@@ -273,9 +273,9 @@ help:
 	@echo "... sources/Maze.o"
 	@echo "... sources/Maze.i"
 	@echo "... sources/Maze.s"
-	@echo "... sources/MazeMaintainer.o"
-	@echo "... sources/MazeMaintainer.i"
-	@echo "... sources/MazeMaintainer.s"
+	@echo "... sources/Player.o"
+	@echo "... sources/Player.i"
+	@echo "... sources/Player.s"
 	@echo "... sources/RandomServices.o"
 	@echo "... sources/RandomServices.i"
 	@echo "... sources/RandomServices.s"
