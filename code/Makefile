@@ -231,6 +231,33 @@ sources/Maze.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
 .PHONY : sources/Maze.cpp.s
 
+sources/MonteCarloPlayer.o: sources/MonteCarloPlayer.cpp.o
+
+.PHONY : sources/MonteCarloPlayer.o
+
+# target to build an object file
+sources/MonteCarloPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloPlayer.cpp.o
+.PHONY : sources/MonteCarloPlayer.cpp.o
+
+sources/MonteCarloPlayer.i: sources/MonteCarloPlayer.cpp.i
+
+.PHONY : sources/MonteCarloPlayer.i
+
+# target to preprocess a source file
+sources/MonteCarloPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloPlayer.cpp.i
+.PHONY : sources/MonteCarloPlayer.cpp.i
+
+sources/MonteCarloPlayer.s: sources/MonteCarloPlayer.cpp.s
+
+.PHONY : sources/MonteCarloPlayer.s
+
+# target to generate assembly for a file
+sources/MonteCarloPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloPlayer.cpp.s
+.PHONY : sources/MonteCarloPlayer.cpp.s
+
 sources/Player.o: sources/Player.cpp.o
 
 .PHONY : sources/Player.o
@@ -333,6 +360,9 @@ help:
 	@echo "... sources/Maze.o"
 	@echo "... sources/Maze.i"
 	@echo "... sources/Maze.s"
+	@echo "... sources/MonteCarloPlayer.o"
+	@echo "... sources/MonteCarloPlayer.i"
+	@echo "... sources/MonteCarloPlayer.s"
 	@echo "... sources/Player.o"
 	@echo "... sources/Player.i"
 	@echo "... sources/Player.s"
