@@ -4,7 +4,7 @@
 #include "Player.hpp"
 
 class DynamicProgrammingPlayer : public Player {
-    private:
+    protected:
         double theta;
 
     public:

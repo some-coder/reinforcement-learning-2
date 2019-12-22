@@ -4,7 +4,7 @@
 #include "LearningPlayer.hpp"
 
 class MonteCarloPlayer : public LearningPlayer {
-    private:
+    protected:
         std::vector<std::tuple<State*, Maze::Actions>> episode;
 
     public:

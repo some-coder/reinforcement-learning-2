@@ -19,6 +19,7 @@ set(SOURCES
         sources/LearningPlayer.cpp
         sources/DynamicProgrammingPlayer.cpp
         sources/MonteCarloPlayer.cpp
+        sources/TimeDifferencePlayer.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -29,6 +30,7 @@ set(INCLUDES
         includes/LearningPlayer.hpp
         includes/DynamicProgrammingPlayer.hpp
         includes/MonteCarloPlayer.hpp
+        includes/TimeDifferencePlayer.hpp
         includes/Maze.hpp
 )
 

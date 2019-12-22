@@ -339,6 +339,33 @@ sources/State.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/State.cpp.s
 .PHONY : sources/State.cpp.s
 
+sources/TimeDifferencePlayer.o: sources/TimeDifferencePlayer.cpp.o
+
+.PHONY : sources/TimeDifferencePlayer.o
+
+# target to build an object file
+sources/TimeDifferencePlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/TimeDifferencePlayer.cpp.o
+.PHONY : sources/TimeDifferencePlayer.cpp.o
+
+sources/TimeDifferencePlayer.i: sources/TimeDifferencePlayer.cpp.i
+
+.PHONY : sources/TimeDifferencePlayer.i
+
+# target to preprocess a source file
+sources/TimeDifferencePlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/TimeDifferencePlayer.cpp.i
+.PHONY : sources/TimeDifferencePlayer.cpp.i
+
+sources/TimeDifferencePlayer.s: sources/TimeDifferencePlayer.cpp.s
+
+.PHONY : sources/TimeDifferencePlayer.s
+
+# target to generate assembly for a file
+sources/TimeDifferencePlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/TimeDifferencePlayer.cpp.s
+.PHONY : sources/TimeDifferencePlayer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -372,6 +399,9 @@ help:
 	@echo "... sources/State.o"
 	@echo "... sources/State.i"
 	@echo "... sources/State.s"
+	@echo "... sources/TimeDifferencePlayer.o"
+	@echo "... sources/TimeDifferencePlayer.i"
+	@echo "... sources/TimeDifferencePlayer.s"
 .PHONY : help
 
 
