@@ -29,20 +29,20 @@ class Maze {
         static Actions actionFromIndex(int index);
         Actions actualAction(Actions chosenAction);
         bool moveIsOutOfBounds(int x, int y);
-        bool stateIsIntraversible(State *s);
+        static bool stateIsIntraversible(State *s);
         bool moveShouldFail(int x, int y);
         State* getWarpStateResult(State *s);
         void openGates();
         void removeSnack(State *s);
         State* getSpecialStateResult(State *s);
         State* getNextState(State *state, Actions action);
-        static double getReward(State *state);
 
     public:
         Maze();
         int indexFromCoordinates(int x, int y);
         std::tuple<int, int> coordinatesFromIndex(int i);
         std::vector<State>* getStates();
+        static double getReward(State *state);
         State* getStartingState();
         double getActionProbability(Actions action);
         std::tuple<State*, double> getStateTransitionResult(State *s, Actions a);

@@ -4,7 +4,7 @@
 #include "Player.hpp"
 
 class LearningPlayer : public Player {
-    private:
+    protected:
         static constexpr double INITIAL_STATE_ACTION_VALUE = 0.0;
         int timeoutEpoch;
         int currentEpoch;

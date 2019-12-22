@@ -123,6 +123,33 @@ maze/fast:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/build
 .PHONY : maze/fast
 
+sources/DynamicProgrammingPlayer.o: sources/DynamicProgrammingPlayer.cpp.o
+
+.PHONY : sources/DynamicProgrammingPlayer.o
+
+# target to build an object file
+sources/DynamicProgrammingPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/DynamicProgrammingPlayer.cpp.o
+.PHONY : sources/DynamicProgrammingPlayer.cpp.o
+
+sources/DynamicProgrammingPlayer.i: sources/DynamicProgrammingPlayer.cpp.i
+
+.PHONY : sources/DynamicProgrammingPlayer.i
+
+# target to preprocess a source file
+sources/DynamicProgrammingPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/DynamicProgrammingPlayer.cpp.i
+.PHONY : sources/DynamicProgrammingPlayer.cpp.i
+
+sources/DynamicProgrammingPlayer.s: sources/DynamicProgrammingPlayer.cpp.s
+
+.PHONY : sources/DynamicProgrammingPlayer.s
+
+# target to generate assembly for a file
+sources/DynamicProgrammingPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/DynamicProgrammingPlayer.cpp.s
+.PHONY : sources/DynamicProgrammingPlayer.cpp.s
+
 sources/LearningPlayer.o: sources/LearningPlayer.cpp.o
 
 .PHONY : sources/LearningPlayer.o
@@ -294,6 +321,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... maze"
+	@echo "... sources/DynamicProgrammingPlayer.o"
+	@echo "... sources/DynamicProgrammingPlayer.i"
+	@echo "... sources/DynamicProgrammingPlayer.s"
 	@echo "... sources/LearningPlayer.o"
 	@echo "... sources/LearningPlayer.i"
 	@echo "... sources/LearningPlayer.s"
