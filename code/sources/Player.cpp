@@ -1,8 +1,8 @@
 #include "Player.hpp"
 
-Player::Player(Maze* m, double d) {
+Player::Player(Maze* m, double gamma) {
     this->maze = m;
-    this->discountFactor = d;
+    this->discountFactor = gamma;
     this->initialiseStateValues();
 }
 

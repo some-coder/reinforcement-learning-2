@@ -8,7 +8,7 @@
 #include "Maze.hpp"
 
 class Player {
-    private:
+    protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
         Maze* maze;
         double discountFactor;
@@ -17,7 +17,7 @@ class Player {
         void initialiseStateValues();
 
     public:
-        Player(Maze* m, double d);
+        Player(Maze* m, double gamma);
         virtual ~Player();
         virtual void solveMaze() = 0;
 };

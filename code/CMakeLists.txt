@@ -16,6 +16,7 @@ set(SOURCES
         sources/State.cpp
         sources/Maze.cpp
         sources/Player.cpp
+        sources/LearningPlayer.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -23,6 +24,7 @@ set(INCLUDES
         includes/State.hpp
         includes/Maze.hpp
         includes/Player.hpp
+        includes/LearningPlayer.hpp
         includes/Maze.hpp
 )
 

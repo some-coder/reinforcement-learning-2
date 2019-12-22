@@ -123,6 +123,33 @@ maze/fast:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/build
 .PHONY : maze/fast
 
+sources/LearningPlayer.o: sources/LearningPlayer.cpp.o
+
+.PHONY : sources/LearningPlayer.o
+
+# target to build an object file
+sources/LearningPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/LearningPlayer.cpp.o
+.PHONY : sources/LearningPlayer.cpp.o
+
+sources/LearningPlayer.i: sources/LearningPlayer.cpp.i
+
+.PHONY : sources/LearningPlayer.i
+
+# target to preprocess a source file
+sources/LearningPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/LearningPlayer.cpp.i
+.PHONY : sources/LearningPlayer.cpp.i
+
+sources/LearningPlayer.s: sources/LearningPlayer.cpp.s
+
+.PHONY : sources/LearningPlayer.s
+
+# target to generate assembly for a file
+sources/LearningPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/LearningPlayer.cpp.s
+.PHONY : sources/LearningPlayer.cpp.s
+
 sources/Main.o: sources/Main.cpp.o
 
 .PHONY : sources/Main.o
@@ -267,6 +294,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... maze"
+	@echo "... sources/LearningPlayer.o"
+	@echo "... sources/LearningPlayer.i"
+	@echo "... sources/LearningPlayer.s"
 	@echo "... sources/Main.o"
 	@echo "... sources/Main.i"
 	@echo "... sources/Main.s"
