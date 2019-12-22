@@ -14,14 +14,12 @@ include_directories(includes)
 set(SOURCES
         sources/RandomServices.cpp
         sources/State.cpp
-        sources/MazeMaintainer.cpp
         sources/Maze.cpp
         sources/Main.cpp)
 
 set(INCLUDES
         includes/RandomServices.hpp
         includes/State.hpp
-        includes/MazeMaintainer.hpp
         includes/Maze.hpp
         includes/Maze.hpp
 )

@@ -4,7 +4,6 @@
 #include <vector>
 #include <tuple>
 #include "State.hpp"
-#include "MazeMaintainer.hpp"
 
 class Maze {
     public:
