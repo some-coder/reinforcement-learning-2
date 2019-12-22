@@ -13,13 +13,16 @@ class Player {
         Maze* maze;
         double discountFactor;
         std::map<State*, double> stateValues;
-        std::map<std::tuple<State*, Maze::Actions>, std::vector<double>> policy;
+        std::map<State*, std::vector<double>> policy;
         void initialiseStateValues();
+        double actionProbability(State *s, Maze::Actions a);
 
     public:
         Player(Maze* m, double gamma);
         virtual ~Player();
+        virtual Maze::Actions chooseAction(State *s);
         virtual void solveMaze() = 0;
+        std::map<State*, std::vector<double>> getPolicy();
 };
 
 #endif

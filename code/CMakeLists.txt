@@ -20,6 +20,7 @@ set(SOURCES
         sources/DynamicProgrammingPlayer.cpp
         sources/MonteCarloPlayer.cpp
         sources/TimeDifferencePlayer.cpp
+        sources/PolicyIterationPlayer.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -31,6 +32,7 @@ set(INCLUDES
         includes/DynamicProgrammingPlayer.hpp
         includes/MonteCarloPlayer.hpp
         includes/TimeDifferencePlayer.hpp
+        includes/PolicyIterationPlayer.hpp
         includes/Maze.hpp
 )
 

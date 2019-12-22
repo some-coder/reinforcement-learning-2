@@ -285,6 +285,33 @@ sources/Player.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.s
 .PHONY : sources/Player.cpp.s
 
+sources/PolicyIterationPlayer.o: sources/PolicyIterationPlayer.cpp.o
+
+.PHONY : sources/PolicyIterationPlayer.o
+
+# target to build an object file
+sources/PolicyIterationPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/PolicyIterationPlayer.cpp.o
+.PHONY : sources/PolicyIterationPlayer.cpp.o
+
+sources/PolicyIterationPlayer.i: sources/PolicyIterationPlayer.cpp.i
+
+.PHONY : sources/PolicyIterationPlayer.i
+
+# target to preprocess a source file
+sources/PolicyIterationPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/PolicyIterationPlayer.cpp.i
+.PHONY : sources/PolicyIterationPlayer.cpp.i
+
+sources/PolicyIterationPlayer.s: sources/PolicyIterationPlayer.cpp.s
+
+.PHONY : sources/PolicyIterationPlayer.s
+
+# target to generate assembly for a file
+sources/PolicyIterationPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/PolicyIterationPlayer.cpp.s
+.PHONY : sources/PolicyIterationPlayer.cpp.s
+
 sources/RandomServices.o: sources/RandomServices.cpp.o
 
 .PHONY : sources/RandomServices.o
@@ -393,6 +420,9 @@ help:
 	@echo "... sources/Player.o"
 	@echo "... sources/Player.i"
 	@echo "... sources/Player.s"
+	@echo "... sources/PolicyIterationPlayer.o"
+	@echo "... sources/PolicyIterationPlayer.i"
+	@echo "... sources/PolicyIterationPlayer.s"
 	@echo "... sources/RandomServices.o"
 	@echo "... sources/RandomServices.i"
 	@echo "... sources/RandomServices.s"

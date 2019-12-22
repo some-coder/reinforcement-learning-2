@@ -88,6 +88,10 @@ std::vector<State>* Maze::getStates() {
     return &(this->states);
 }
 
+State* Maze::getState(int index) {
+    return &(this->states[index]);
+}
+
 State* Maze::getStartingState() {
     int randomIndex;
     if (this->shouldStartAtRandomPosition()) {
@@ -118,13 +122,14 @@ Maze::Actions Maze::actualAction(Maze::Actions chosenAction) {
     double bar, current;
     bar = RandomServices::continuousUniformSample(1.0);
     current = std::get<0>(this->moveProbabilities);
-    for (a = 0; a < 4; a++) {
+    for (a = 0; a < ACTION_NUMBER; a++) {
         if (bar <= current) {
             return this->actionFromIndex(a);
         }
-        current += this->getActionProbability(this->actionFromIndex(a));
+        /* Todo: May potentially crash when having number under- or overflow. */
+        current += this->getActionProbability(this->actionFromIndex(a + 1));
     }
-    return this->actionFromIndex(3);
+    return this->actionFromIndex(ACTION_NUMBER - 1);
 }
 
 bool Maze::moveIsOutOfBounds(int x, int y) {
@@ -147,7 +152,7 @@ bool Maze::moveShouldFail(int x, int y) {
 }
 
 State* Maze::getNextState(State *s, Actions action) {
-    int x, y, deltas[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
+    int x, y, deltas[ACTION_NUMBER][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
     switch (this->actualAction(action)) {
         case moveUp:
             x = s->getX() + deltas[0][0];
@@ -174,13 +179,19 @@ State* Maze::getNextState(State *s, Actions action) {
     }
 }
 
-double Maze::getActionProbability(Actions action) {
-    switch (action) {
-        case moveUp:
+/**
+ * Obtains the probability of performing an action given some action.
+ *
+ * @param relativeIndex The rotation from the action under consideration.
+ * @return The probability of performing the given action.
+ */
+double Maze::getActionProbability(int relativeIndex) {
+    switch (relativeIndex) {
+        case Rotations::Zero:
             return std::get<0>(this->moveProbabilities);
-        case moveRight:
+        case Rotations::Quarter:
             return std::get<1>(this->moveProbabilities);
-        case moveDown:
+        case Rotations::Half:
             return std::get<2>(this->moveProbabilities);
         default:
             return std::get<3>(this->moveProbabilities);
@@ -188,10 +199,10 @@ double Maze::getActionProbability(Actions action) {
 }
 
 State* Maze::getWarpStateResult(State *s) {
-    int i, x, y, deltas[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
+    int i, x, y, deltas[ACTION_NUMBER][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
     State *randomGoal;
     randomGoal = this->goalStates[RandomServices::discreteUniformSample((int)this->goalStates.size() - 1)];
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ACTION_NUMBER; i++) {
         x = randomGoal->getX() + deltas[i][0];
         y = randomGoal->getY() + deltas[i][1];
         if (!this->moveShouldFail(x, y)) {

@@ -1,3 +1,4 @@
+#include <RandomServices.hpp>
 #include "Player.hpp"
 
 Player::Player(Maze* m, double gamma) {
@@ -17,4 +18,26 @@ void Player::initialiseStateValues() {
         state = &(states->at(i));
         this->stateValues[state] = INITIAL_STATE_VALUE;
     }
+}
+
+double Player::actionProbability(State *s, Maze::Actions a) {
+    return this->policy[s][a];
+}
+
+Maze::Actions Player::chooseAction(State *s) {
+    int i;
+    double bar, current;
+    bar = RandomServices::continuousUniformSample(Maze::ACTION_NUMBER - 1);
+    current = this->actionProbability(s, Maze::actionFromIndex(0));
+    for (i = 0; i < Maze::ACTION_NUMBER; i++) {
+        if (bar <= current) {
+            return Maze::actionFromIndex(i);
+        }
+        current += this->actionProbability(s, Maze::actionFromIndex(i + 1));
+    }
+    return Maze::actionFromIndex(Maze::ACTION_NUMBER - 1);
+}
+
+std::map<State*, std::vector<double>> Player::getPolicy() {
+    return this->policy;
 }
