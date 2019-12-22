@@ -5,6 +5,7 @@
 int main(int argc, char *argv[]) {
     RandomServices::initialiseRandomServices();
     Maze m = Maze();
-    m.readMazeFromInput();
+    State *s = m.getStartingState();
+    std::cout << "(" << s->getX() << ", " << s->getY() << "): " << s->getType() << "." << std::endl;
     return EXIT_SUCCESS;
 }

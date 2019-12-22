@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.15.5/bin/cmake
 
 # The command to remove a file.
-RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
+RM = /usr/local/Cellar/cmake/3.15.5/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/niels/Documents/university/3rd-year/reinforcement-lear
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.15.5/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/local/Cellar/cmake/3.15.5/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -122,33 +122,6 @@ maze: cmake_check_build_system
 maze/fast:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/build
 .PHONY : maze/fast
-
-sources/InvalidWidthException.o: sources/InvalidWidthException.cpp.o
-
-.PHONY : sources/InvalidWidthException.o
-
-# target to build an object file
-sources/InvalidWidthException.cpp.o:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/InvalidWidthException.cpp.o
-.PHONY : sources/InvalidWidthException.cpp.o
-
-sources/InvalidWidthException.i: sources/InvalidWidthException.cpp.i
-
-.PHONY : sources/InvalidWidthException.i
-
-# target to preprocess a source file
-sources/InvalidWidthException.cpp.i:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/InvalidWidthException.cpp.i
-.PHONY : sources/InvalidWidthException.cpp.i
-
-sources/InvalidWidthException.s: sources/InvalidWidthException.cpp.s
-
-.PHONY : sources/InvalidWidthException.s
-
-# target to generate assembly for a file
-sources/InvalidWidthException.cpp.s:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/InvalidWidthException.cpp.s
-.PHONY : sources/InvalidWidthException.cpp.s
 
 sources/Main.o: sources/Main.cpp.o
 
@@ -204,86 +177,32 @@ sources/Maze.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
 .PHONY : sources/Maze.cpp.s
 
-sources/Player.o: sources/Player.cpp.o
+sources/MazeMaintainer.o: sources/MazeMaintainer.cpp.o
 
-.PHONY : sources/Player.o
-
-# target to build an object file
-sources/Player.cpp.o:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.o
-.PHONY : sources/Player.cpp.o
-
-sources/Player.i: sources/Player.cpp.i
-
-.PHONY : sources/Player.i
-
-# target to preprocess a source file
-sources/Player.cpp.i:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.i
-.PHONY : sources/Player.cpp.i
-
-sources/Player.s: sources/Player.cpp.s
-
-.PHONY : sources/Player.s
-
-# target to generate assembly for a file
-sources/Player.cpp.s:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.s
-.PHONY : sources/Player.cpp.s
-
-sources/Position.o: sources/Position.cpp.o
-
-.PHONY : sources/Position.o
+.PHONY : sources/MazeMaintainer.o
 
 # target to build an object file
-sources/Position.cpp.o:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.o
-.PHONY : sources/Position.cpp.o
+sources/MazeMaintainer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MazeMaintainer.cpp.o
+.PHONY : sources/MazeMaintainer.cpp.o
 
-sources/Position.i: sources/Position.cpp.i
+sources/MazeMaintainer.i: sources/MazeMaintainer.cpp.i
 
-.PHONY : sources/Position.i
-
-# target to preprocess a source file
-sources/Position.cpp.i:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.i
-.PHONY : sources/Position.cpp.i
-
-sources/Position.s: sources/Position.cpp.s
-
-.PHONY : sources/Position.s
-
-# target to generate assembly for a file
-sources/Position.cpp.s:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Position.cpp.s
-.PHONY : sources/Position.cpp.s
-
-sources/RandomPlayer.o: sources/RandomPlayer.cpp.o
-
-.PHONY : sources/RandomPlayer.o
-
-# target to build an object file
-sources/RandomPlayer.cpp.o:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomPlayer.cpp.o
-.PHONY : sources/RandomPlayer.cpp.o
-
-sources/RandomPlayer.i: sources/RandomPlayer.cpp.i
-
-.PHONY : sources/RandomPlayer.i
+.PHONY : sources/MazeMaintainer.i
 
 # target to preprocess a source file
-sources/RandomPlayer.cpp.i:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomPlayer.cpp.i
-.PHONY : sources/RandomPlayer.cpp.i
+sources/MazeMaintainer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MazeMaintainer.cpp.i
+.PHONY : sources/MazeMaintainer.cpp.i
 
-sources/RandomPlayer.s: sources/RandomPlayer.cpp.s
+sources/MazeMaintainer.s: sources/MazeMaintainer.cpp.s
 
-.PHONY : sources/RandomPlayer.s
+.PHONY : sources/MazeMaintainer.s
 
 # target to generate assembly for a file
-sources/RandomPlayer.cpp.s:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomPlayer.cpp.s
-.PHONY : sources/RandomPlayer.cpp.s
+sources/MazeMaintainer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MazeMaintainer.cpp.s
+.PHONY : sources/MazeMaintainer.cpp.s
 
 sources/RandomServices.o: sources/RandomServices.cpp.o
 
@@ -311,33 +230,6 @@ sources/RandomServices.s: sources/RandomServices.cpp.s
 sources/RandomServices.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.s
 .PHONY : sources/RandomServices.cpp.s
-
-sources/Run.o: sources/Run.cpp.o
-
-.PHONY : sources/Run.o
-
-# target to build an object file
-sources/Run.cpp.o:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Run.cpp.o
-.PHONY : sources/Run.cpp.o
-
-sources/Run.i: sources/Run.cpp.i
-
-.PHONY : sources/Run.i
-
-# target to preprocess a source file
-sources/Run.cpp.i:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Run.cpp.i
-.PHONY : sources/Run.cpp.i
-
-sources/Run.s: sources/Run.cpp.s
-
-.PHONY : sources/Run.s
-
-# target to generate assembly for a file
-sources/Run.cpp.s:
-	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Run.cpp.s
-.PHONY : sources/Run.cpp.s
 
 sources/State.o: sources/State.cpp.o
 
@@ -375,30 +267,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... maze"
-	@echo "... sources/InvalidWidthException.o"
-	@echo "... sources/InvalidWidthException.i"
-	@echo "... sources/InvalidWidthException.s"
 	@echo "... sources/Main.o"
 	@echo "... sources/Main.i"
 	@echo "... sources/Main.s"
 	@echo "... sources/Maze.o"
 	@echo "... sources/Maze.i"
 	@echo "... sources/Maze.s"
-	@echo "... sources/Player.o"
-	@echo "... sources/Player.i"
-	@echo "... sources/Player.s"
-	@echo "... sources/Position.o"
-	@echo "... sources/Position.i"
-	@echo "... sources/Position.s"
-	@echo "... sources/RandomPlayer.o"
-	@echo "... sources/RandomPlayer.i"
-	@echo "... sources/RandomPlayer.s"
+	@echo "... sources/MazeMaintainer.o"
+	@echo "... sources/MazeMaintainer.i"
+	@echo "... sources/MazeMaintainer.s"
 	@echo "... sources/RandomServices.o"
 	@echo "... sources/RandomServices.i"
 	@echo "... sources/RandomServices.s"
-	@echo "... sources/Run.o"
-	@echo "... sources/Run.i"
-	@echo "... sources/Run.s"
 	@echo "... sources/State.o"
 	@echo "... sources/State.i"
 	@echo "... sources/State.s"

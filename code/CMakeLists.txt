@@ -13,23 +13,16 @@ include_directories(includes)
 
 set(SOURCES
         sources/RandomServices.cpp
-        sources/InvalidWidthException.cpp
-        sources/Position.cpp
         sources/State.cpp
+        sources/MazeMaintainer.cpp
         sources/Maze.cpp
-        sources/Player.cpp
-        sources/RandomPlayer.cpp
-        sources/Run.cpp
         sources/Main.cpp)
 
 set(INCLUDES
         includes/RandomServices.hpp
-        includes/InvalidWidthException.hpp
-        includes/Position.hpp
         includes/State.hpp
-        includes/Player.hpp
-        includes/RandomPlayer.hpp
-        includes/Run.hpp
+        includes/MazeMaintainer.hpp
+        includes/Maze.hpp
         includes/Maze.hpp
 )
 
