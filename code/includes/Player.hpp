@@ -23,6 +23,7 @@ class Player {
         virtual Maze::Actions chooseAction(State *s);
         virtual void solveMaze() = 0;
         std::map<State*, std::vector<double>> getPolicy();
+        virtual void printFinalPolicy();
 };
 
 #endif

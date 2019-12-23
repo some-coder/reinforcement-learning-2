@@ -10,10 +10,10 @@ class Maze {
         enum Actions {moveUp, moveRight, moveDown, moveLeft};
         enum Rotations {Zero, Quarter, Half, ThreeQuarters};
         static constexpr int ACTION_NUMBER = 4;
-        static constexpr double NORMAL_REWARD = -1.0;
+        static constexpr double NORMAL_REWARD = -0.04;
         static constexpr double POSITIVE_REWARD = 1.0;
-        static constexpr double NEGATIVE_REWARD = -10.0;
-        static constexpr double GOAL_REWARD = 0.0;
+        static constexpr double NEGATIVE_REWARD = -1.0;
+        static constexpr double GOAL_REWARD = 1.0;
 
     private:
         std::tuple<double, double, double, double> moveProbabilities;
@@ -47,6 +47,7 @@ class Maze {
         State* getState(int index);
         State* getStartingState();
         double getActionProbability(int relativeIndex);
+        State* getNextStateDeterministic(State *state, Actions action);
         State* getNextState(State *state, Actions action);
         std::tuple<State*, double> getStateTransitionResult(State *s, Actions a);
 };

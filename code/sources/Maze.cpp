@@ -69,7 +69,7 @@ Maze::Maze() {
     this->getMazeDimensionsFromInput();
     this->getMazeStatesFromInput();
     this->getMazeSpecialStates();
-    this->moveProbabilities = std::make_tuple(1.0, 0.0, 0.0, 0.0);
+    this->moveProbabilities = std::make_tuple(0.8, 0.1, 0.0, 0.1);
 }
 
 bool Maze::shouldStartAtRandomPosition() {
@@ -118,6 +118,7 @@ Maze::Actions Maze::actionFromIndex(int index) {
 }
 
 Maze::Actions Maze::actualAction(Maze::Actions chosenAction) {
+    /* Todo: Function is incorrect; doesn't use chosenAction. */
     int a;
     double bar, current;
     bar = RandomServices::continuousUniformSample(1.0);
@@ -151,32 +152,38 @@ bool Maze::moveShouldFail(int x, int y) {
     }
 }
 
-State* Maze::getNextState(State *s, Actions action) {
+State* Maze::getNextStateDeterministic(class State * state, enum Maze::Actions action) {
     int x, y, deltas[ACTION_NUMBER][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
-    switch (this->actualAction(action)) {
+    x = state->getX();
+    y = state->getY();
+    switch (action) {
         case moveUp:
-            x = s->getX() + deltas[0][0];
-            y = s->getY() + deltas[0][1];
+            x += deltas[0][0];
+            y += deltas[0][1];
             break;
         case moveRight:
-            x = s->getX() + deltas[1][0];
-            y = s->getY() + deltas[1][1];
+            x += deltas[1][0];
+            y += deltas[1][1];
             break;
         case moveDown:
-            x = s->getX() + deltas[2][0];
-            y = s->getY() + deltas[2][1];
+            x += + deltas[2][0];
+            y += deltas[2][1];
             break;
         default:
-            x = s->getX() + deltas[3][0];
-            y = s->getY() + deltas[3][1];
+            x += deltas[3][0];
+            y += deltas[3][1];
             break;
     }
     if (this->moveShouldFail(x, y)) {
         /* Maneuver failed. Remain in the current state.  */
-        return s;
+        return state;
     } else {
         return &(this->states[this->indexFromCoordinates(x, y)]);
     }
+}
+
+State* Maze::getNextState(State *s, Actions action) {
+    return this->getNextStateDeterministic(s, this->actualAction(action));
 }
 
 /**
