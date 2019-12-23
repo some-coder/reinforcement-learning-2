@@ -39,6 +39,7 @@ class Maze {
     public:
         Maze();
         static bool stateIsIntraversible(State *s);
+        static bool stateIsTerminal(State *s);
         int indexFromCoordinates(int x, int y);
         static Actions actionFromIndex(int index);
         std::tuple<int, int> coordinatesFromIndex(int i);
@@ -50,6 +51,7 @@ class Maze {
         State* getNextStateDeterministic(State *state, Actions action);
         State* getNextState(State *state, Actions action);
         std::tuple<State*, double> getStateTransitionResult(State *s, Actions a);
+        static std::string actionAsString(Actions a);
 };
 
 #endif

@@ -10,8 +10,10 @@ class PolicyIterationPlayer : public DynamicProgrammingPlayer {
         std::map<State*, double> oldStateValues;
         void initialisePolicy();
         void copyStateValues(std::map<State*, double>* source, std::map<State*, double> *target);
-        double stateEvaluation(State *s, Maze::Actions a);
+        double stateValue(State *s, Maze::Actions a);
+        double updatedStateValue(State *s, Maze::Actions a);
         Maze::Actions greedyActionForState(State *s);
+        static std::vector<double> greedyActionProbabilities(Maze::Actions greedyAction);
         void performEvaluationStep();
         void performImprovementStep();
 

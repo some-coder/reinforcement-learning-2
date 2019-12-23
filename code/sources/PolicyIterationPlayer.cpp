@@ -41,12 +41,12 @@ void PolicyIterationPlayer::copyStateValues(std::map<State*, double> *source, st
 
 PolicyIterationPlayer::PolicyIterationPlayer(Maze *m, double gamma, double theta) :
         DynamicProgrammingPlayer(m, gamma, theta) {
-    this->policyIsStable = false;
+    this->policyIsStable = true;
     this->initialisePolicy();
     this->copyStateValues(&(this->stateValues), &(this->oldStateValues));
 }
 
-double PolicyIterationPlayer::stateEvaluation(State *s, Maze::Actions a) {
+double PolicyIterationPlayer::stateValue(State *s, Maze::Actions a) {
     int i;
     double newValue;
     State *nextState;
@@ -58,16 +58,20 @@ double PolicyIterationPlayer::stateEvaluation(State *s, Maze::Actions a) {
         nextState = this->maze->getNextStateDeterministic(s, actualAction);
         newValue += this->maze->getActionProbability(i) * this->oldStateValues[nextState];
     }
-    return Maze::getReward(s) + this->discountFactor * newValue;
+    return newValue;
+}
+
+double PolicyIterationPlayer::updatedStateValue(State *s, Maze::Actions a) {
+    return Maze::getReward(s) + this->discountFactor * this->stateValue(s, a);
 }
 
 Maze::Actions PolicyIterationPlayer::greedyActionForState(State *s) {
     double bestValue, currentValue;
     int bestIndex, i;
     bestIndex = 0;
-    bestValue = this->stateEvaluation(s, Maze::actionFromIndex(bestIndex));
+    bestValue = this->stateValue(s, Maze::actionFromIndex(bestIndex));
     for (i = 1; i < Maze::ACTION_NUMBER; i++) {
-        currentValue = this->stateEvaluation(s, Maze::actionFromIndex(i));
+        currentValue = this->stateValue(s, Maze::actionFromIndex(i));
         if (currentValue > bestValue) {
             bestIndex = i;
             bestValue = currentValue;
@@ -76,30 +80,37 @@ Maze::Actions PolicyIterationPlayer::greedyActionForState(State *s) {
     return Maze::actionFromIndex(bestIndex);
 }
 
+std::vector<double> PolicyIterationPlayer::greedyActionProbabilities(Maze::Actions greedyAction) {
+    int i;
+    std::vector<double> probabilities;
+    for (i = 0; i < Maze::ACTION_NUMBER; i++) {
+        if (Maze::actionFromIndex(i) == greedyAction) {
+            probabilities.push_back(1.0);
+        } else {
+            probabilities.push_back(0.0);
+        }
+    }
+    return probabilities;
+}
+
 void PolicyIterationPlayer::performEvaluationStep() {
     int i;
     double delta, oldValue;
     State *s;
-    printf("Before:\n");
-    this->printFinalPolicy();
     do {
         delta = 0.0;
         for (i = 0; i < this->maze->getStates()->size(); i++) {
             s = this->maze->getState(i);
-            if (Maze::stateIsIntraversible(s) || s->getType() == State::Types::goal ||
-                    s->getType() == State::Types::pit) {
+            if (Maze::stateIsIntraversible(s) || Maze::stateIsTerminal(s)) {
                 /* We shouldn't alter these states in any way. */
                 continue;
             }
             oldValue = this->stateValues[s];
-            this->stateValues[s] = this->stateEvaluation(s, Maze::actionFromIndex(this->chooseAction(s)));
+            this->stateValues[s] = this->updatedStateValue(s, Maze::actionFromIndex(this->chooseAction(s)));
             delta = std::max(delta, std::fabs(oldValue - this->stateValues[s]));
         }
         this->copyStateValues(&(this->stateValues), &(this->oldStateValues));
     } while (delta >= this->theta);
-    printf("After:\n");
-    this->printFinalPolicy();
-    printf("\n");
 }
 
 void PolicyIterationPlayer::performImprovementStep() {
@@ -108,26 +119,29 @@ void PolicyIterationPlayer::performImprovementStep() {
     Maze::Actions current, greedy;
     for (i = 0; i < this->maze->getStates()->size(); i++) {
         s = this->maze->getState(i);
-        if (Maze::stateIsIntraversible(s)) {
+        if (Maze::stateIsIntraversible(s) || Maze::stateIsTerminal(s)) {
             continue;
         }
         current = this->chooseAction(s);
         greedy = this->greedyActionForState(s);
-        if (current != greedy) {
+        this->policy[s] = this->greedyActionProbabilities(greedy);
+        if (current != greedy && !Maze::stateIsIntraversible(s) &&
+            !Maze::stateIsTerminal(s)) {
             this->policyIsStable = false;
-            break;
         }
     }
 }
 
 void PolicyIterationPlayer::solveMaze() {
-    this->printFinalPolicy();
     int i = 0;
-    while (!this->policyIsStable && i < 100) {
+    do {
+        this->policyIsStable = true;
         this->performEvaluationStep();
-//        this->performImprovementStep();
+        this->performImprovementStep();
         i++;
-    }
+    } while (!this->policyIsStable);
+    printf("Took %d epochs.\n", i);
+    this->printFinalPolicy();
 }
 
 PolicyIterationPlayer::~PolicyIterationPlayer() = default;

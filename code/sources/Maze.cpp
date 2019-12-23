@@ -143,6 +143,12 @@ bool Maze::stateIsIntraversible(State *s) {
     return (t == State::Types::none) || (t == State::Types::gate);
 }
 
+bool Maze::stateIsTerminal(State *s) {
+    State::Types t;
+    t = s->getType();
+    return (t == State::Types::goal) || (t == State::Types::pit);
+}
+
 bool Maze::moveShouldFail(int x, int y) {
     if (this->moveIsOutOfBounds(x, y)) {
         return true;
@@ -271,4 +277,17 @@ std::tuple<State*, double> Maze::getStateTransitionResult(State *s, Actions a) {
     double reward = this->getReward(newState);
     newState = this->getSpecialStateResult(newState);
     return std::make_tuple(newState, reward);
+}
+
+std::string Maze::actionAsString(enum Maze::Actions a) {
+    switch (a) {
+        case Actions::moveUp:
+            return "UP";
+        case Actions::moveRight:
+            return "RIGHT";
+        case Actions::moveDown:
+            return "DOWN";
+        default:
+            return "LEFT";
+    }
 }
