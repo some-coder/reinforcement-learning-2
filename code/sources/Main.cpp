@@ -1,12 +1,19 @@
 #include <iostream>
+#include <PolicyIterationPlayer.hpp>
 #include "RandomServices.hpp"
 #include "Maze.hpp"
-#include "PolicyIterationPlayer.hpp"
+#include "ValueIterationPlayer.hpp"
 
 int main(int argc, char *argv[]) {
     RandomServices::initialiseRandomServices();
     Maze m = Maze();
-    PolicyIterationPlayer p = PolicyIterationPlayer(&m, 1.0, 1e-3);
-    p.solveMaze();
+    double gamma, theta;
+    gamma = 1.0;
+    theta = 1e-6; // 1e-2 * ((1.0 - gamma) / gamma);
+    PolicyIterationPlayer pp = PolicyIterationPlayer(&m, gamma, theta);
+    ValueIterationPlayer vp = ValueIterationPlayer(&m, gamma, theta);
+    pp.solveMaze();
+    printf("\n");
+    vp.solveMaze();
     return EXIT_SUCCESS;
 }

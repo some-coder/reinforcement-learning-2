@@ -14,7 +14,7 @@ double ValueIterationPlayer::stateActionValue(State *s, Maze::Actions a) {
     for (relativeActionIndex = 0; relativeActionIndex < Maze::ACTION_NUMBER; relativeActionIndex++) {
         action = Maze::actionFromIndex( (a + relativeActionIndex) % Maze::ACTION_NUMBER );
         nextState = this->maze->getNextStateDeterministic(s, action);
-        nextStateProbability = this->maze->getActionProbability(action);
+        nextStateProbability = this->maze->getActionProbability(relativeActionIndex);
         totalValue += nextStateProbability * (Maze::getReward(nextState) +
                 this->discountFactor * this->oldStateValues[nextState]);
     }
@@ -81,4 +81,5 @@ void ValueIterationPlayer::performConstructionStep() {
 void ValueIterationPlayer::solveMaze() {
     this->performRepetitionStep();
     this->performConstructionStep();
+    this->printFinalPolicy();
 }
