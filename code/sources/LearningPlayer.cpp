@@ -15,7 +15,7 @@ void LearningPlayer::initialiseStateActionValues() {
     State *state;
     std::vector<State>* states;
     states = this->maze->getStates();
-    for (i = 0; i < states->size(); i++) {
+    for (i = 0; i < (int)states->size(); i++) {
         state = &(states->at(i));
         this->setStateActionValue(state, Maze::Actions::moveUp, INITIAL_STATE_ACTION_VALUE);
         this->setStateActionValue(state, Maze::Actions::moveRight, INITIAL_STATE_ACTION_VALUE);

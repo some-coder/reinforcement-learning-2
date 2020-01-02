@@ -15,7 +15,7 @@ void Player::initialiseStateValues() {
     State *state;
     std::vector<State>* states;
     states = this->maze->getStates();
-    for (i = 0; i < states->size(); i++) {
+    for (i = 0; i < (int)states->size(); i++) {
         state = &(states->at(i));
         if (state->getType() == State::Types::goal ||
             state->getType() == State::Types::pit) {
@@ -28,6 +28,15 @@ void Player::initialiseStateValues() {
 
 double Player::actionProbability(State *s, Maze::Actions a) {
     return this->policy[s][a];
+}
+
+std::vector<double> Player::actionAsActionProbabilityDistribution(Maze::Actions a) {
+    int actionIndex;
+    std::vector<double> distribution;
+    for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+        distribution.push_back( (actionIndex == a ? 1.0 : 0.0) );
+    }
+    return distribution;
 }
 
 Maze::Actions Player::chooseAction(State *s) {
@@ -51,7 +60,7 @@ std::map<State*, std::vector<double>> Player::getPolicy() {
 void Player::printFinalPolicy() {
     int i;
     State *s;
-    for (i = 0; i < this->maze->getStates()->size(); i++) {
+    for (i = 0; i < (int)this->maze->getStates()->size(); i++) {
         s = this->maze->getState(i);
         printf("State (%d, %d) has action %s and state utility %.3lf.\n",
             s->getX(), s->getY(), Maze::actionAsString(this->chooseAction(s)).c_str(), this->stateValues[s]);

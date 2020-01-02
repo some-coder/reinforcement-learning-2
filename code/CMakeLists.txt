@@ -21,6 +21,7 @@ set(SOURCES
         sources/MonteCarloPlayer.cpp
         sources/TimeDifferencePlayer.cpp
         sources/PolicyIterationPlayer.cpp
+        sources/ValueIterationPlayer.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -33,6 +34,7 @@ set(INCLUDES
         includes/MonteCarloPlayer.hpp
         includes/TimeDifferencePlayer.hpp
         includes/PolicyIterationPlayer.hpp
+        includes/ValueIterationPlayer.hpp
         includes/Maze.hpp
 )
 

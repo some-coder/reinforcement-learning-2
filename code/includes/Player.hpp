@@ -16,6 +16,7 @@ class Player {
         std::map<State*, std::vector<double>> policy;
         void initialiseStateValues();
         double actionProbability(State *s, Maze::Actions a);
+        static std::vector<double> actionAsActionProbabilityDistribution(Maze::Actions a);
 
     public:
         Player(Maze* m, double gamma);

@@ -46,7 +46,7 @@ void Maze::getMazeStatesFromInput() {
 void Maze::getMazeSpecialStates() {
     int i;
     State *s = nullptr;
-    for (i = 0; i < this->states.size(); i++) {
+    for (i = 0; i < (int)this->states.size(); i++) {
         s = &(this->states[i]);
         switch (s->getType()) {
             case State::Types::start:
@@ -64,13 +64,14 @@ void Maze::getMazeSpecialStates() {
     }
 }
 
-Maze::Maze() {
-    /* Todo: Make new constructor in which move probabilities can be defined. */
+Maze::Maze(std::tuple<double, double, double, double> mps) {
     this->getMazeDimensionsFromInput();
     this->getMazeStatesFromInput();
     this->getMazeSpecialStates();
-    this->moveProbabilities = std::make_tuple(0.8, 0.1, 0.0, 0.1);
+    this->moveProbabilities = mps;
 }
+
+Maze::Maze() : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.0)) {}
 
 bool Maze::shouldStartAtRandomPosition() {
     return this->startingStates.empty();

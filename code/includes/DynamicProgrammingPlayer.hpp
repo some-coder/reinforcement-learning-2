@@ -6,6 +6,8 @@
 class DynamicProgrammingPlayer : public Player {
     protected:
         double theta;
+        std::map<State*, double> oldStateValues;
+        void copyStateValues(std::map<State*, double> *source, std::map<State*, double> *target);
 
     public:
         DynamicProgrammingPlayer(Maze *m, double gamma, double theta);
