@@ -71,7 +71,7 @@ Maze::Maze(std::tuple<double, double, double, double> mps) {
     this->moveProbabilities = mps;
 }
 
-Maze::Maze() : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.0)) {}
+Maze::Maze() : Maze(std::make_tuple(0.8, 0.1, 0.1, 0.0)) {}
 
 bool Maze::shouldStartAtRandomPosition() {
     return this->startingStates.empty();

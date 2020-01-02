@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     Maze m = Maze();
     double gamma, theta;
     gamma = 1.0;
-    theta = 1e-6; // 1e-2 * ((1.0 - gamma) / gamma);
+    theta = 1e-3; // 1e-2 * ((1.0 - gamma) / gamma);
     PolicyIterationPlayer pp = PolicyIterationPlayer(&m, gamma, theta);
     ValueIterationPlayer vp = ValueIterationPlayer(&m, gamma, theta);
     pp.solveMaze();
