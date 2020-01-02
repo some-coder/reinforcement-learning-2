@@ -4,16 +4,15 @@
 #include "DynamicProgrammingPlayer.hpp"
 
 class PolicyIterationPlayer : public DynamicProgrammingPlayer {
-    private:
+    protected:
         bool policyIsStable;
         static std::vector<double> randomStatePolicy();
         void initialisePolicy();
         double stateValue(State *s, Maze::Actions a);
         double updatedStateValue(State *s, Maze::Actions a);
         Maze::Actions greedyActionForState(State *s);
-
-    void performEvaluationStep();
-        void performImprovementStep();
+        virtual void performEvaluationStep() = 0;
+        virtual void performImprovementStep() = 0;
 
     public:
         PolicyIterationPlayer(Maze *m, double gamma, double theta);
