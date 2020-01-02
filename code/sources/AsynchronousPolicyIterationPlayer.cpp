@@ -1,4 +1,3 @@
-#include <RandomServices.hpp>
 #include <cmath>
 #include "AsynchronousPolicyIterationPlayer.hpp"
 
@@ -10,16 +9,6 @@ AsynchronousPolicyIterationPlayer::AsynchronousPolicyIterationPlayer(Maze *m, do
 }
 
 AsynchronousPolicyIterationPlayer::~AsynchronousPolicyIterationPlayer() = default;
-
-State* AsynchronousPolicyIterationPlayer::randomNontrivialState() {
-    State *s;
-    int randomIndex;
-    do {
-        randomIndex = RandomServices::discreteUniformSample((int)this->maze->getStates()->size() - 1);
-        s = &(this->maze->getStates()->at(randomIndex));
-    } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
-    return s;
-}
 
 void AsynchronousPolicyIterationPlayer::performEvaluationStep() {
     double delta, oldValue;

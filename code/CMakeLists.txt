@@ -24,6 +24,8 @@ set(SOURCES
         sources/ValueIterationPlayer.cpp
         sources/SynchronousPolicyIterationPlayer.cpp
         sources/AsynchronousPolicyIterationPlayer.cpp
+        sources/SynchronousValueIterationPlayer.cpp
+        sources/AsynchronousValueIterationPlayer.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -39,6 +41,8 @@ set(INCLUDES
         includes/ValueIterationPlayer.hpp
         includes/SynchronousPolicyIterationPlayer.hpp
         includes/AsynchronousPolicyIterationPlayer.hpp
+        includes/SynchronousValueIterationPlayer.hpp
+        includes/AsynchronousValueIterationPlayer.hpp
         includes/Maze.hpp
 )
 

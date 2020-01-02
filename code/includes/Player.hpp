@@ -14,6 +14,8 @@ class Player {
         double discountFactor;
         std::map<State*, double> stateValues;
         std::map<State*, std::vector<double>> policy;
+        static std::vector<double> randomStatePolicy();
+        void initialisePolicy();
         void initialiseStateValues();
         double actionProbability(State *s, Maze::Actions a);
         static std::vector<double> actionAsActionProbabilityDistribution(Maze::Actions a);

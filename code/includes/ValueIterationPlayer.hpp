@@ -4,12 +4,12 @@
 #include "DynamicProgrammingPlayer.hpp"
 
 class ValueIterationPlayer : public DynamicProgrammingPlayer {
-    private:
+    protected:
         double stateActionValue(State *s, Maze::Actions a);
         double updatedStateValue(State *s);
         Maze::Actions greedyActionForState(State *s);
-        void performRepetitionStep();
-        void performConstructionStep();
+        virtual void performRepetitionStep() = 0;
+        virtual void performConstructionStep() = 0;
 
     public:
         ValueIterationPlayer(Maze *m, double gamma, double theta);

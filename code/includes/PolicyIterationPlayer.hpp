@@ -6,8 +6,6 @@
 class PolicyIterationPlayer : public DynamicProgrammingPlayer {
     protected:
         bool policyIsStable;
-        static std::vector<double> randomStatePolicy();
-        void initialisePolicy();
         double stateValue(State *s, Maze::Actions a);
         double updatedStateValue(State *s, Maze::Actions a);
         Maze::Actions greedyActionForState(State *s);

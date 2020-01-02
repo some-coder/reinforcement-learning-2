@@ -1,25 +1,6 @@
 #include "RandomServices.hpp"
 #include "PolicyIterationPlayer.hpp"
 
-std::vector<double> PolicyIterationPlayer::randomStatePolicy() {
-    int randomIndex;
-    std::vector<double> statePolicy;
-    randomIndex = RandomServices::discreteUniformSample(Maze::ACTION_NUMBER - 1);
-    return Player::actionAsActionProbabilityDistribution(Maze::actionFromIndex(randomIndex));
-}
-
-/* Note: this is a deterministic policy, not a stochastic one. */
-void PolicyIterationPlayer::initialisePolicy() {
-    int i;
-    State* s;
-    std::vector<State> *states;
-    states = this->maze->getStates();
-    for (i = 0; i < (int)states->size(); i++) {
-        s = &(states->at(i));
-        this->policy[s] = this->randomStatePolicy();
-    }
-}
-
 PolicyIterationPlayer::PolicyIterationPlayer(Maze *m, double gamma, double theta) :
         DynamicProgrammingPlayer(m, gamma, theta) {
     this->policyIsStable = true;
@@ -68,8 +49,6 @@ void PolicyIterationPlayer::solveMaze() {
         this->performImprovementStep();
         i++;
     } while (!this->policyIsStable);
-    printf("Took %d epochs.\n", i);
-    this->printFinalPolicy();
 }
 
 PolicyIterationPlayer::~PolicyIterationPlayer() = default;

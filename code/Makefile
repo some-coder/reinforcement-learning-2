@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/snap/clion/97/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/snap/clion/97/bin/cmake/linux/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -149,6 +149,33 @@ sources/AsynchronousPolicyIterationPlayer.s: sources/AsynchronousPolicyIteration
 sources/AsynchronousPolicyIterationPlayer.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/AsynchronousPolicyIterationPlayer.cpp.s
 .PHONY : sources/AsynchronousPolicyIterationPlayer.cpp.s
+
+sources/AsynchronousValueIterationPlayer.o: sources/AsynchronousValueIterationPlayer.cpp.o
+
+.PHONY : sources/AsynchronousValueIterationPlayer.o
+
+# target to build an object file
+sources/AsynchronousValueIterationPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/AsynchronousValueIterationPlayer.cpp.o
+.PHONY : sources/AsynchronousValueIterationPlayer.cpp.o
+
+sources/AsynchronousValueIterationPlayer.i: sources/AsynchronousValueIterationPlayer.cpp.i
+
+.PHONY : sources/AsynchronousValueIterationPlayer.i
+
+# target to preprocess a source file
+sources/AsynchronousValueIterationPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/AsynchronousValueIterationPlayer.cpp.i
+.PHONY : sources/AsynchronousValueIterationPlayer.cpp.i
+
+sources/AsynchronousValueIterationPlayer.s: sources/AsynchronousValueIterationPlayer.cpp.s
+
+.PHONY : sources/AsynchronousValueIterationPlayer.s
+
+# target to generate assembly for a file
+sources/AsynchronousValueIterationPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/AsynchronousValueIterationPlayer.cpp.s
+.PHONY : sources/AsynchronousValueIterationPlayer.cpp.s
 
 sources/DynamicProgrammingPlayer.o: sources/DynamicProgrammingPlayer.cpp.o
 
@@ -420,6 +447,33 @@ sources/SynchronousPolicyIterationPlayer.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/SynchronousPolicyIterationPlayer.cpp.s
 .PHONY : sources/SynchronousPolicyIterationPlayer.cpp.s
 
+sources/SynchronousValueIterationPlayer.o: sources/SynchronousValueIterationPlayer.cpp.o
+
+.PHONY : sources/SynchronousValueIterationPlayer.o
+
+# target to build an object file
+sources/SynchronousValueIterationPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/SynchronousValueIterationPlayer.cpp.o
+.PHONY : sources/SynchronousValueIterationPlayer.cpp.o
+
+sources/SynchronousValueIterationPlayer.i: sources/SynchronousValueIterationPlayer.cpp.i
+
+.PHONY : sources/SynchronousValueIterationPlayer.i
+
+# target to preprocess a source file
+sources/SynchronousValueIterationPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/SynchronousValueIterationPlayer.cpp.i
+.PHONY : sources/SynchronousValueIterationPlayer.cpp.i
+
+sources/SynchronousValueIterationPlayer.s: sources/SynchronousValueIterationPlayer.cpp.s
+
+.PHONY : sources/SynchronousValueIterationPlayer.s
+
+# target to generate assembly for a file
+sources/SynchronousValueIterationPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/SynchronousValueIterationPlayer.cpp.s
+.PHONY : sources/SynchronousValueIterationPlayer.cpp.s
+
 sources/TimeDifferencePlayer.o: sources/TimeDifferencePlayer.cpp.o
 
 .PHONY : sources/TimeDifferencePlayer.o
@@ -486,6 +540,9 @@ help:
 	@echo "... sources/AsynchronousPolicyIterationPlayer.o"
 	@echo "... sources/AsynchronousPolicyIterationPlayer.i"
 	@echo "... sources/AsynchronousPolicyIterationPlayer.s"
+	@echo "... sources/AsynchronousValueIterationPlayer.o"
+	@echo "... sources/AsynchronousValueIterationPlayer.i"
+	@echo "... sources/AsynchronousValueIterationPlayer.s"
 	@echo "... sources/DynamicProgrammingPlayer.o"
 	@echo "... sources/DynamicProgrammingPlayer.i"
 	@echo "... sources/DynamicProgrammingPlayer.s"
@@ -516,6 +573,9 @@ help:
 	@echo "... sources/SynchronousPolicyIterationPlayer.o"
 	@echo "... sources/SynchronousPolicyIterationPlayer.i"
 	@echo "... sources/SynchronousPolicyIterationPlayer.s"
+	@echo "... sources/SynchronousValueIterationPlayer.o"
+	@echo "... sources/SynchronousValueIterationPlayer.i"
+	@echo "... sources/SynchronousValueIterationPlayer.s"
 	@echo "... sources/TimeDifferencePlayer.o"
 	@echo "... sources/TimeDifferencePlayer.i"
 	@echo "... sources/TimeDifferencePlayer.s"

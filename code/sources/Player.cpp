@@ -1,11 +1,30 @@
 #include <RandomServices.hpp>
-#include <iostream>
 #include "Player.hpp"
+
+std::vector<double> Player::randomStatePolicy() {
+    int randomIndex;
+    std::vector<double> statePolicy;
+    randomIndex = RandomServices::discreteUniformSample(Maze::ACTION_NUMBER - 1);
+    return Player::actionAsActionProbabilityDistribution(Maze::actionFromIndex(randomIndex));
+}
+
+/* Note: this is a deterministic policy, not a stochastic one. */
+void Player::initialisePolicy() {
+    int i;
+    State* s;
+    std::vector<State> *states;
+    states = this->maze->getStates();
+    for (i = 0; i < (int)states->size(); i++) {
+        s = &(states->at(i));
+        this->policy[s] = Player::randomStatePolicy();
+    }
+}
 
 Player::Player(Maze* m, double gamma) {
     this->maze = m;
     this->discountFactor = gamma;
     this->initialiseStateValues();
+    this->initialisePolicy();       /* Todo: Initialisation by default is deterministic. No problems? */
 }
 
 Player::~Player() = default;

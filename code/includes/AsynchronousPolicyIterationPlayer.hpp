@@ -8,7 +8,6 @@ class AsynchronousPolicyIterationPlayer : public PolicyIterationPlayer {
         State* currentState;
         int iteration;
         int maximumIteration;
-        State* randomNontrivialState();
         void performEvaluationStep() override;
         void performImprovementStep() override;
 
