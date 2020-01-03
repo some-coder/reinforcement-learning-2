@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/snap/clion/97/bin/cmake/linux/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/snap/clion/97/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -284,6 +284,33 @@ sources/Maze.s: sources/Maze.cpp.s
 sources/Maze.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
 .PHONY : sources/Maze.cpp.s
+
+sources/MonteCarloESPlayer.o: sources/MonteCarloESPlayer.cpp.o
+
+.PHONY : sources/MonteCarloESPlayer.o
+
+# target to build an object file
+sources/MonteCarloESPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloESPlayer.cpp.o
+.PHONY : sources/MonteCarloESPlayer.cpp.o
+
+sources/MonteCarloESPlayer.i: sources/MonteCarloESPlayer.cpp.i
+
+.PHONY : sources/MonteCarloESPlayer.i
+
+# target to preprocess a source file
+sources/MonteCarloESPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloESPlayer.cpp.i
+.PHONY : sources/MonteCarloESPlayer.cpp.i
+
+sources/MonteCarloESPlayer.s: sources/MonteCarloESPlayer.cpp.s
+
+.PHONY : sources/MonteCarloESPlayer.s
+
+# target to generate assembly for a file
+sources/MonteCarloESPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloESPlayer.cpp.s
+.PHONY : sources/MonteCarloESPlayer.cpp.s
 
 sources/MonteCarloPlayer.o: sources/MonteCarloPlayer.cpp.o
 
@@ -555,6 +582,9 @@ help:
 	@echo "... sources/Maze.o"
 	@echo "... sources/Maze.i"
 	@echo "... sources/Maze.s"
+	@echo "... sources/MonteCarloESPlayer.o"
+	@echo "... sources/MonteCarloESPlayer.i"
+	@echo "... sources/MonteCarloESPlayer.s"
 	@echo "... sources/MonteCarloPlayer.o"
 	@echo "... sources/MonteCarloPlayer.i"
 	@echo "... sources/MonteCarloPlayer.s"
