@@ -4,6 +4,7 @@
 #include <vector>
 #include <tuple>
 #include <map>
+#include <string>
 #include "State.hpp"
 #include "Maze.hpp"
 
