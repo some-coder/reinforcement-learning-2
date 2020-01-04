@@ -1,7 +1,7 @@
 #include <iostream>
 #include "RandomServices.hpp"
 #include "Maze.hpp"
-#include "MonteCarloESPlayer.hpp"
+#include "MonteCarloExploringStartsPlayer.hpp"
 
 int main(int argc, char *argv[]) {
     Maze m = Maze();

@@ -1,9 +1,7 @@
 #include <RandomServices.hpp>
-#include "MonteCarloESPlayer.hpp"
+#include "MonteCarloExploringStartsPlayer.hpp"
 
-void MonteCarloExploringStartsPlayer::performInitialisation() {
-    /* Todo: Returns vectors have been initialised for all <s, a> combinations? */
-}
+void MonteCarloExploringStartsPlayer::performInitialisation() {}
 
 State *MonteCarloExploringStartsPlayer::randomState() {
     return this->maze->getState(RandomServices::discreteUniformSample((int)this->stateValues.size() - 1));
@@ -24,20 +22,20 @@ std::tuple<State*, Maze::Actions> MonteCarloExploringStartsPlayer::randomStateAc
     return std::make_tuple(s, a);
 }
 
+std::tuple<State*, Maze::Actions> MonteCarloExploringStartsPlayer::initialStateActionPair() {
+    return this->randomStateActionPair();
+}
+
 std::tuple<State*, Maze::Actions> MonteCarloExploringStartsPlayer::nextStateActionPair(
         std::tuple<State*, Maze::Actions> currentPair) {
-    State *nextState;
-    Maze::Actions nextAction;
-    double reward;
-    nextState = this->maze->getNextState(std::get<0>(currentPair), std::get<1>(currentPair));
-    nextAction = this->chooseAction(nextState);
-    reward = Maze::getReward(nextState);
-    this->rewards.push_back(reward);
-    return std::make_tuple(nextState, nextAction);
+    /* Todo: Check whether special state inclusion causes problems with state valuation and progress. */
+    std::tuple<State*, double> result;
+    result = this->maze->getStateTransitionResult(std::get<0>(currentPair), std::get<1>(currentPair));
+    this->rewards.push_back(std::get<1>(result));
+    return std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
 }
 
 void MonteCarloExploringStartsPlayer::generateEpisode(std::tuple<State *, Maze::Actions> startStateActionPair) {
-    /* Todo: We do not take into account special state effects. */
     int episodeIteration, episodeTimeout;
     std::tuple<State*, Maze::Actions> currentStateActionPair;
     episodeIteration = -1;
@@ -102,10 +100,6 @@ Maze::Actions MonteCarloExploringStartsPlayer::greedyAction(State *s) {
     return bestAction;
 }
 
-bool MonteCarloExploringStartsPlayer::maximumIterationReached() {
-    return this->currentEpoch >= this->timeoutEpoch;
-}
-
 MonteCarloExploringStartsPlayer::MonteCarloExploringStartsPlayer(Maze *m, double gamma, int T) :
         MonteCarloPlayer(m, gamma, T) {}
 
@@ -116,7 +110,7 @@ void MonteCarloExploringStartsPlayer::performIteration() {
     std::tuple<State*, Maze::Actions> stateActionPair;
     double episodeReturn;
     Maze::Actions greedyAction;
-    this->generateEpisode(this->randomStateActionPair());
+    this->generateEpisode(this->initialStateActionPair());
     for (episodeIteration = 0; episodeIteration < (int)this->episode.size(); episodeIteration++) {
         stateActionPair = this->episode[episodeIteration];
         episodeReturn = this->episodeReturn(episodeIteration + 1);

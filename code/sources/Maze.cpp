@@ -106,16 +106,8 @@ State* Maze::getStartingState() {
 }
 
 Maze::Actions Maze::actionFromIndex(int index) {
-    switch (index) {
-        case 0:
-            return moveUp;
-        case 1:
-            return moveRight;
-        case 2:
-            return moveDown;
-        default:
-            return moveLeft;
-    }
+    /* Todo: This cast works successfully? */
+    return (Actions)index;
 }
 
 Maze::Actions Maze::actualAction(Maze::Actions chosenAction) {
@@ -242,7 +234,6 @@ void Maze::removeSnack(State *s) {
 }
 
 State* Maze::getSpecialStateResult(State *s) {
-    /* Todo: Actually use this method in the algorithms. */
     switch (s->getType()) {
         case State::Types::pit:
         case State::Types::goal:

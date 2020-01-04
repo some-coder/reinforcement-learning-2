@@ -1,30 +1,54 @@
 #include <RandomServices.hpp>
 #include "Player.hpp"
 
-std::vector<double> Player::randomStatePolicy() {
-    int randomIndex;
-    std::vector<double> statePolicy;
-    randomIndex = RandomServices::discreteUniformSample(Maze::ACTION_NUMBER - 1);
-    return Player::actionAsActionProbabilityDistribution(Maze::actionFromIndex(randomIndex));
+std::vector<double> Player::randomDiscretePolicy() {
+    int randomActionIndex;
+    randomActionIndex = RandomServices::discreteUniformSample(Maze::ACTION_NUMBER - 1);
+    return Player::actionAsActionProbabilityDistribution(Maze::actionFromIndex(randomActionIndex));
 }
 
-/* Note: this is a deterministic policy, not a stochastic one. */
-void Player::initialisePolicy() {
+std::vector<double> Player::randomStochasticPolicy() {
+    int actionIndex;
+    std::vector<int> presenceScores;
+    std::vector<double> probabilisticPolicy;
+    int sum;
+    sum = 0;
+    do {
+        for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+            presenceScores.push_back(PRESENCE_SCORE_MAXIMUM - 1);
+            sum += presenceScores.back();
+        }
+    } while (sum == 0);
+    for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+        probabilisticPolicy.push_back( presenceScores[actionIndex] / (double)sum );
+    }
+    return probabilisticPolicy;
+}
+
+std::vector<double> Player::randomStatePolicy(bool stochastic) {
+    if (stochastic) {
+        return Player::randomStochasticPolicy();
+    } else {
+        return Player::randomDiscretePolicy();
+    }
+}
+
+void Player::initialisePolicy(bool stochastic) {
     int i;
     State* s;
     std::vector<State> *states;
     states = this->maze->getStates();
     for (i = 0; i < (int)states->size(); i++) {
         s = &(states->at(i));
-        this->policy[s] = Player::randomStatePolicy();
+        this->policy[s] = Player::randomStatePolicy(stochastic);
     }
 }
 
-Player::Player(Maze* m, double gamma) {
+Player::Player(Maze* m, double gamma, bool initialiseStochastic) {
     this->maze = m;
     this->discountFactor = gamma;
     this->initialiseStateValues();
-    this->initialisePolicy();       /* Todo: Initialisation by default is deterministic. No problems? */
+    this->initialisePolicy(initialiseStochastic);
 }
 
 Player::~Player() = default;

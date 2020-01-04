@@ -1,6 +1,7 @@
 #include "LearningPlayer.hpp"
 
-LearningPlayer::LearningPlayer(Maze *m, double gamma, int T) : Player(m, gamma) {
+LearningPlayer::LearningPlayer(Maze *m, double gamma, int T, bool initialiseStochastic) :
+        Player(m, gamma, initialiseStochastic) {
     this->timeoutEpoch = T;
     this->currentEpoch = 0;
     this->initialiseStateActionValues();
@@ -22,6 +23,10 @@ void LearningPlayer::initialiseStateActionValues() {
         this->setStateActionValue(state, Maze::Actions::moveDown, INITIAL_STATE_ACTION_VALUE);
         this->setStateActionValue(state, Maze::Actions::moveLeft, INITIAL_STATE_ACTION_VALUE);
     }
+}
+
+bool LearningPlayer::maximumIterationReached() {
+    return this->currentEpoch >= this->timeoutEpoch;
 }
 
 LearningPlayer::~LearningPlayer() = default;

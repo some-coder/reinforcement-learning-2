@@ -10,7 +10,7 @@ class MonteCarloPlayer : public LearningPlayer {
         virtual void performIteration() = 0;
 
     public:
-        MonteCarloPlayer(Maze *m, double gamma, int T);
+        MonteCarloPlayer(Maze *m, double gamma, int T, bool initialiseStochastic = false);
         ~MonteCarloPlayer() override;
 };
 
