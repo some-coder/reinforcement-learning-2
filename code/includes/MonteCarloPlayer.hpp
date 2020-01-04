@@ -6,6 +6,8 @@
 class MonteCarloPlayer : public LearningPlayer {
     protected:
         std::vector<std::tuple<State*, Maze::Actions>> episode;
+        virtual void performInitialisation() = 0;
+        virtual void performIteration() = 0;
 
     public:
         MonteCarloPlayer(Maze *m, double gamma, int T);

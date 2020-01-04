@@ -71,7 +71,7 @@ Maze::Maze(std::tuple<double, double, double, double> mps) {
     this->moveProbabilities = mps;
 }
 
-Maze::Maze() : Maze(std::make_tuple(0.8, 0.1, 0.1, 0.0)) {}
+Maze::Maze() : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1)) {}
 
 bool Maze::shouldStartAtRandomPosition() {
     return this->startingStates.empty();
@@ -119,17 +119,16 @@ Maze::Actions Maze::actionFromIndex(int index) {
 }
 
 Maze::Actions Maze::actualAction(Maze::Actions chosenAction) {
-    /* Todo: Function is incorrect; doesn't use chosenAction. */
     int a;
     double bar, current;
     bar = RandomServices::continuousUniformSample(1.0);
-    current = std::get<0>(this->moveProbabilities);
+    current = this->getActionProbability(0);
     for (a = 0; a < ACTION_NUMBER; a++) {
         if (bar <= current) {
-            return this->actionFromIndex(a);
+            return this->actionFromIndex((chosenAction + a) % ACTION_NUMBER);
         }
         /* Todo: May potentially crash when having number under- or overflow. */
-        current += this->getActionProbability(this->actionFromIndex(a + 1));
+        current += this->getActionProbability(a + 1);
     }
     return this->actionFromIndex(ACTION_NUMBER - 1);
 }
@@ -173,12 +172,14 @@ State* Maze::getNextStateDeterministic(class State * state, enum Maze::Actions a
             y += deltas[1][1];
             break;
         case moveDown:
-            x += + deltas[2][0];
+            x += deltas[2][0];
             y += deltas[2][1];
             break;
-        default:
+        case moveLeft:
             x += deltas[3][0];
             y += deltas[3][1];
+            break;
+        default:
             break;
     }
     if (this->moveShouldFail(x, y)) {
@@ -241,6 +242,7 @@ void Maze::removeSnack(State *s) {
 }
 
 State* Maze::getSpecialStateResult(State *s) {
+    /* Todo: Actually use this method in the algorithms. */
     switch (s->getType()) {
         case State::Types::pit:
         case State::Types::goal:

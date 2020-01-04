@@ -6,8 +6,9 @@
 class LearningPlayer : public Player {
     protected:
         static constexpr double INITIAL_STATE_ACTION_VALUE = 0.0;
-        int timeoutEpoch;
         int currentEpoch;
+        int timeoutEpoch;
+        std::vector<double> rewards;
         std::map<std::tuple<State*, Maze::Actions>, double> stateActionValues;
         void initialiseStateActionValues();
 
@@ -15,6 +16,8 @@ class LearningPlayer : public Player {
         LearningPlayer(Maze *m, double gamma, int T);
         ~LearningPlayer() override;
         void setStateActionValue(State *s, Maze::Actions action, double value);
+        void printStateActionValues(State *s);
+        void printFinalPolicy() override;
 };
 
 #endif

@@ -81,7 +81,14 @@ void Player::printFinalPolicy() {
     State *s;
     for (i = 0; i < (int)this->maze->getStates()->size(); i++) {
         s = this->maze->getState(i);
-        printf("State (%d, %d) has action %s and state utility %.3lf.\n",
-            s->getX(), s->getY(), Maze::actionAsString(this->chooseAction(s)).c_str(), this->stateValues[s]);
+        printf("State (%d, %d) ", s->getX(), s->getY());
+        if (Maze::stateIsTerminal(s)) {
+            printf("is terminal and has ");
+        } else if (Maze::stateIsIntraversible(s)) {
+            printf("is intraversible and has ");
+        } else {
+            printf("has action %s and ", Maze::actionAsString(this->chooseAction(s)).c_str());
+        }
+        printf("state utility %.3lf.\n", this->stateValues[s]);
     }
 }

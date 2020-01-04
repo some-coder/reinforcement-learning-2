@@ -5,6 +5,7 @@
 #include <tuple>
 #include <map>
 #include <string>
+#include <cmath>
 #include "State.hpp"
 #include "Maze.hpp"
 
