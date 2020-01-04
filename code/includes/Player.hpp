@@ -22,7 +22,7 @@ class Player {
         static std::vector<double> randomStatePolicy(bool stochastic);
         void initialisePolicy(bool stochastic);
         void initialiseStateValues();
-        double actionProbability(State *s, Maze::Actions a);
+        virtual double actionProbability(State *s, Maze::Actions a);
         static std::vector<double> actionAsActionProbabilityDistribution(Maze::Actions a);
 
     public:

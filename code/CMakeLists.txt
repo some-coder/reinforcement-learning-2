@@ -28,6 +28,7 @@ set(SOURCES
         sources/AsynchronousValueIterationPlayer.cpp
         sources/MonteCarloExploringStartsPlayer.cpp
         sources/MonteCarloFirstVisitPlayer.cpp
+        sources/MonteCarloEveryVisitPlayer.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -47,6 +48,7 @@ set(INCLUDES
         includes/AsynchronousValueIterationPlayer.hpp
         includes/MonteCarloExploringStartsPlayer.hpp
         includes/MonteCarloFirstVisitPlayer.hpp
+        includes/MonteCarloEveryVisitPlayer.hpp
         includes/Maze.hpp
 )
 

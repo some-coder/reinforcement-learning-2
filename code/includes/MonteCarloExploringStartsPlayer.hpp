@@ -15,7 +15,6 @@ class MonteCarloExploringStartsPlayer : public MonteCarloPlayer {
         double episodeReturnComponent(int k, int rewardIndex);
         double episodeReturn(int onsetIndex);
         double returnsAverage(std::tuple<State*, Maze::Actions> stateActionPair);
-        Maze::Actions greedyAction(State *s);
         void performInitialisation() override;
         void performIteration() override;
 

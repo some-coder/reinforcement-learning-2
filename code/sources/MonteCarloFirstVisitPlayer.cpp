@@ -35,12 +35,7 @@ void MonteCarloFirstVisitPlayer::generateEpisode(std::tuple<State*, Maze::Action
     this->rewards.push_back(0.0);  /* First iteration has no reward. */
     do {
         currentIteration++;
-//        printf("\t(%d) In (%d, %d) with ", currentIteration, std::get<0>(stateActionPair)->getX(),
-//                std::get<0>(stateActionPair)->getY());
-//        this->printStateActionProbabilities(std::get<0>(stateActionPair));
-//        printf(".\n");
         stateActionPair = this->nextStateActionPair(stateActionPair);
-//        printf("\t\tAction chosen: %s.\n", Maze::actionAsString(std::get<1>(stateActionPair)).c_str());
         this->episode.push_back(stateActionPair);
     } while (currentIteration < maximumIteration && !Maze::stateIsTerminal(std::get<0>(stateActionPair)));
 }
@@ -73,26 +68,6 @@ double MonteCarloFirstVisitPlayer::returnsAverage(std::tuple<State*, Maze::Actio
     } else {
         return (sum / (double)currentReturns.size());
     }
-}
-
-Maze::Actions MonteCarloFirstVisitPlayer::greedyAction(State *s) {
-    int actionIndex;
-    std::tuple<State*, Maze::Actions> stateActionPair;
-    Maze::Actions currentAction, bestAction;
-    double current, best;
-    bestAction = Maze::actionFromIndex(0);
-    stateActionPair = std::make_tuple(s, bestAction);
-    best = this->stateActionValues[stateActionPair];
-    for (actionIndex = 1; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
-        currentAction = Maze::actionFromIndex(actionIndex);
-        stateActionPair = std::make_tuple(s, currentAction);
-        current = this->stateActionValues[stateActionPair];
-        if (current > best) {
-            bestAction = currentAction;
-            best = current;
-        }
-    }
-    return bestAction;
 }
 
 void MonteCarloFirstVisitPlayer::updateStatePolicy(State *s, Maze::Actions greedyAction) {
