@@ -59,7 +59,9 @@ void LearningPlayer::printFinalPolicy() {
             printf("is intraversible.\n");
         } else {
             policyAction = Maze::actionAsString(this->chooseAction(s));
-            printf("has action %s.\n", policyAction.c_str());
+            printf("has action probability distribution ");
+            this->printStateActionProbabilities(s);
+            printf(".\n");
             this->printStateActionValues(s);
         }
     }

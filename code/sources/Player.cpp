@@ -100,6 +100,14 @@ std::map<State*, std::vector<double>> Player::getPolicy() {
     return this->policy;
 }
 
+void Player::printStateActionProbabilities(State *s) {
+    int actionIndex;
+    printf("[");
+    for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+        printf("%.3lf%s", this->policy[s][actionIndex], (actionIndex == Maze::ACTION_NUMBER - 1 ? "]" : ", "));
+    }
+}
+
 void Player::printFinalPolicy() {
     int i;
     State *s;

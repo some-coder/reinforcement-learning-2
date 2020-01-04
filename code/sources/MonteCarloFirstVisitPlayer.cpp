@@ -2,6 +2,7 @@
 
 MonteCarloFirstVisitPlayer::MonteCarloFirstVisitPlayer(Maze *m, double gamma, int T, double epsilon) :
         MonteCarloPlayer(m, gamma, T, true) {
+    /* Todo: Assumes epsilon-soft policy, but policy is completely random. Okay? */
     this->epsilon = epsilon;
 }
 
@@ -12,6 +13,7 @@ std::tuple<State*, Maze::Actions> MonteCarloFirstVisitPlayer::initialStateAction
     Maze::Actions a;
     s = this->maze->getStartingState();
     a = this->chooseAction(s);
+//    printf("\t\tAction chosen: %s.\n", Maze::actionAsString(a).c_str());
     return std::make_tuple(s, a);
 }
 
@@ -20,7 +22,7 @@ std::tuple<State*, Maze::Actions> MonteCarloFirstVisitPlayer::nextStateActionPai
     std::tuple<State*, double> result;
     result = this->maze->getStateTransitionResult(std::get<0>(currentPair), std::get<1>(currentPair));
     this->rewards.push_back(std::get<1>(result));
-    return std::make_tuple(std::get<0>(currentPair), this->chooseAction(std::get<0>(currentPair)));
+    return std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
 }
 
 void MonteCarloFirstVisitPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateActionPair) {
@@ -33,9 +35,14 @@ void MonteCarloFirstVisitPlayer::generateEpisode(std::tuple<State*, Maze::Action
     this->rewards.push_back(0.0);  /* First iteration has no reward. */
     do {
         currentIteration++;
+//        printf("\t(%d) In (%d, %d) with ", currentIteration, std::get<0>(stateActionPair)->getX(),
+//                std::get<0>(stateActionPair)->getY());
+//        this->printStateActionProbabilities(std::get<0>(stateActionPair));
+//        printf(".\n");
         stateActionPair = this->nextStateActionPair(stateActionPair);
+//        printf("\t\tAction chosen: %s.\n", Maze::actionAsString(std::get<1>(stateActionPair)).c_str());
         this->episode.push_back(stateActionPair);
-    } while (currentIteration < maximumIteration);
+    } while (currentIteration < maximumIteration && !Maze::stateIsTerminal(std::get<0>(stateActionPair)));
 }
 
 double MonteCarloFirstVisitPlayer::episodeReturnComponent(int k, int rewardIndex) {
@@ -125,6 +132,7 @@ void MonteCarloFirstVisitPlayer::performIteration() {
         greedyAction = this->greedyAction(std::get<0>(stateActionPair));
         this->updateStatePolicy(std::get<0>(stateActionPair), greedyAction);
     }
+//    printf("\n");
     this->currentEpoch++;
     this->episode.clear();
     this->rewards.clear();

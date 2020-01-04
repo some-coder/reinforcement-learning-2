@@ -37,7 +37,7 @@ class Maze {
         State* getSpecialStateResult(State *s);
 
     public:
-        static Maze(std::tuple<double, double, double, double> mps);
+        explicit Maze(std::tuple<double, double, double, double> mps);
         Maze();
         static bool stateIsIntraversible(State *s);
         static bool stateIsTerminal(State *s);

@@ -17,11 +17,11 @@ class MonteCarloFirstVisitPlayer : public MonteCarloPlayer {
         void updateStatePolicy(State *s, Maze::Actions greedyAction);
         void performInitialisation() override;
         void performIteration() override;
-        void solveMaze() override;
 
     public:
         MonteCarloFirstVisitPlayer(Maze *m, double gamma, int T, double epsilon);
         ~MonteCarloFirstVisitPlayer() override;
+        void solveMaze() override;
 };
 
 #endif

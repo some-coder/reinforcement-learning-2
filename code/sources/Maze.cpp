@@ -95,14 +95,20 @@ State* Maze::getState(int index) {
 
 State* Maze::getStartingState() {
     int randomIndex;
+    State *s;
     if (this->shouldStartAtRandomPosition()) {
-        randomIndex = RandomServices::discreteUniformSample((int)this->states.size() - 1);
-        return &(this->states[randomIndex]);
+        do {
+            randomIndex = RandomServices::discreteUniformSample((int)this->states.size() - 1);
+            s = &(this->states[randomIndex]);
+        } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
     } else {
         /* Todo: Does a uniform distribution work with one sample? */
-        randomIndex = RandomServices::discreteUniformSample((int)this->startingStates.size() - 1);
-        return this->startingStates[randomIndex];
+        do {
+            randomIndex = RandomServices::discreteUniformSample((int)this->startingStates.size() - 1);
+            s = this->startingStates[randomIndex];
+        } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
     }
+    return s;
 }
 
 Maze::Actions Maze::actionFromIndex(int index) {
@@ -174,10 +180,13 @@ State* Maze::getNextStateDeterministic(class State * state, enum Maze::Actions a
         default:
             break;
     }
+//    printf("\t\tIn (%d, %d) and should move %s.\n", state->getX(), state->getY(), actionAsString(action).c_str());
     if (this->moveShouldFail(x, y)) {
         /* Maneuver failed. Remain in the current state.  */
+//        printf("\t\tAction failed. Remaining in current state.\n");
         return state;
     } else {
+//        printf("\t\tSuccessfully moved.\n");
         return &(this->states[this->indexFromCoordinates(x, y)]);
     }
 }
@@ -235,9 +244,6 @@ void Maze::removeSnack(State *s) {
 
 State* Maze::getSpecialStateResult(State *s) {
     switch (s->getType()) {
-        case State::Types::pit:
-        case State::Types::goal:
-            return this->getStartingState();
         case State::Types::warp:
             return this->getWarpStateResult(s);
         case State::Types::lever:

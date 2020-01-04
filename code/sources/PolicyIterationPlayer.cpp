@@ -4,7 +4,6 @@
 PolicyIterationPlayer::PolicyIterationPlayer(Maze *m, double gamma, double theta) :
         DynamicProgrammingPlayer(m, gamma, theta) {
     this->policyIsStable = true;
-    this->initialisePolicy();
 }
 
 double PolicyIterationPlayer::stateValue(State *s, Maze::Actions a) {
