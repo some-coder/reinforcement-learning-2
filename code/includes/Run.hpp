@@ -11,9 +11,11 @@
 #include "MonteCarloEveryVisitPlayer.hpp"
 #include "Datum.hpp"
 
+/* Todo: Make maze state separate for all algorithms. */
+
 class Run {
     private:
-        int mazeUsed;
+        Maze maze;
         std::vector<Player::Types> playerSelection;
         std::vector<Player*> players;
         Datum results;
@@ -21,8 +23,10 @@ class Run {
     public:
         Run(int mazeUsed, std::vector<Player::Types> playerSelection);
         ~Run();
-        void allocatePlayer(Player::Types type, Maze *maze);
-        void allocatePlayers(Maze *maze);
+        void allocatePlayer(Player::Types type);
+        void allocatePlayers();
+        void runAlgorithms();
+        void prepareDatum();
         void deallocatePlayers();
         void performRun();
         Datum getResults();

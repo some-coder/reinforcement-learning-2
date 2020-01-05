@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <utility>
 #include "RandomServices.hpp"
 #include "Maze.hpp"
 
@@ -105,7 +106,7 @@ Maze::Maze(std::tuple<double, double, double, double> mps, std::string inputFile
     this->moveProbabilities = mps;
 }
 
-Maze::Maze(std::string inputFile) : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1), inputFile) {}
+Maze::Maze(std::string inputFile) : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1), std::move(inputFile)) {}
 
 bool Maze::shouldStartAtRandomPosition() {
     return this->startingStates.empty();
