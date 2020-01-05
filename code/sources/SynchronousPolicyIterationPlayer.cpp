@@ -2,7 +2,7 @@
 #include <cmath>
 #include "SynchronousPolicyIterationPlayer.hpp"
 
-/* Todo: This method sometimes gets stuck. */
+/* Todo: This method gets stuck sometimes. */
 
 SynchronousPolicyIterationPlayer::SynchronousPolicyIterationPlayer(Maze *m, double gamma, double theta) :
     PolicyIterationPlayer(m, gamma, theta) {}
