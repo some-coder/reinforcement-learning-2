@@ -10,6 +10,10 @@
 #include "Maze.hpp"
 
 class Player {
+    public:
+        enum Types {SynchronousPolicyIteration, AsynchronousPolicyIteration, SynchronousValueIteration,
+                AsynchronousValueIteration, MonteCarloExploringStarts, MonteCarloFirstVisit, MonteCarloEveryVisit};
+
     protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
         static constexpr int PRESENCE_SCORE_MAXIMUM = 10;

@@ -14,6 +14,7 @@ class Maze {
         static constexpr double POSITIVE_REWARD = 1.0;
         static constexpr double NEGATIVE_REWARD = -1.0;
         static constexpr double GOAL_REWARD = 1.0;
+        static constexpr int MAZES_AVAILABLE = 1;
 
     private:
         std::tuple<double, double, double, double> moveProbabilities;

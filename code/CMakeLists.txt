@@ -29,6 +29,7 @@ set(SOURCES
         sources/MonteCarloExploringStartsPlayer.cpp
         sources/MonteCarloFirstVisitPlayer.cpp
         sources/MonteCarloEveryVisitPlayer.cpp
+        sources/Datum.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -49,6 +50,7 @@ set(INCLUDES
         includes/MonteCarloExploringStartsPlayer.hpp
         includes/MonteCarloFirstVisitPlayer.hpp
         includes/MonteCarloEveryVisitPlayer.hpp
+        includes/Datum.hpp
         includes/Maze.hpp
 )
 
