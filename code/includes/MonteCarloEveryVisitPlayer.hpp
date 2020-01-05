@@ -5,7 +5,9 @@
 
 class MonteCarloEveryVisitPlayer : public MonteCarloPlayer {
     private:
-        static constexpr double EPSILON = 0.4;
+        static constexpr double STARTING_TEMPERATURE = 0.9;
+        static constexpr double ENDING_TEMPERATURE = 0.2;
+        double temperature;
         double G;
         double W;
         std::map<std::tuple<State*, Maze::Actions>, double> C;

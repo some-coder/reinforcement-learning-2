@@ -1,7 +1,10 @@
 #include <RandomServices.hpp>
 #include "MonteCarloEveryVisitPlayer.hpp"
 
-MonteCarloEveryVisitPlayer::MonteCarloEveryVisitPlayer(Maze *m, double gamma, int T) : MonteCarloPlayer(m, gamma, T) {}
+MonteCarloEveryVisitPlayer::MonteCarloEveryVisitPlayer(Maze *m, double gamma, int T) : MonteCarloPlayer(m, gamma, T) {
+    this->temperature = STARTING_TEMPERATURE;
+    this->G = this->W = 0.0;
+}
 
 MonteCarloEveryVisitPlayer::~MonteCarloEveryVisitPlayer() = default;
 
@@ -48,9 +51,9 @@ void MonteCarloEveryVisitPlayer::updateExplorationPolicy(State *s, Maze::Actions
     for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
         currentAction = Maze::actionFromIndex(actionIndex);
         if (currentAction == greedyAction) {
-            newActionProbability = (EPSILON / Maze::ACTION_NUMBER) + 1.0 - EPSILON;
+            newActionProbability = (this->temperature / Maze::ACTION_NUMBER) + 1.0 - this->temperature;
         } else {
-            newActionProbability = (EPSILON / Maze::ACTION_NUMBER);
+            newActionProbability = (this->temperature / Maze::ACTION_NUMBER);
         }
         this->explorationPolicy[s][currentAction] = newActionProbability;
     }
@@ -101,7 +104,7 @@ void MonteCarloEveryVisitPlayer::performIteration() {
         state = std::get<0>(stateActionPair);
         this->policy[state] = Player::actionAsActionProbabilityDistribution(this->greedyAction(state));
         this->updateExplorationPolicy(state, this->greedyAction(state));
-        this->W *= (1.0 / this->explorationPolicy[state][std::get<1>(stateActionPair)]);
+        this->W *= this->explorationPolicy[state][std::get<1>(stateActionPair)];
         if (this->W == 0.0) {
             break;
         }
@@ -115,5 +118,7 @@ void MonteCarloEveryVisitPlayer::solveMaze() {
     this->performInitialisation();
     do {
         this->performIteration();
+        this->temperature = STARTING_TEMPERATURE - (STARTING_TEMPERATURE - ENDING_TEMPERATURE) *
+                ((this->currentEpoch) / (this->timeoutEpoch - 1.0));
     } while (!this->maximumIterationReached());
 }

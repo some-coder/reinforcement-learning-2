@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]) {
     Maze m = Maze();
     RandomServices::initialiseRandomServices();
-    MonteCarloEveryVisitPlayer p = MonteCarloEveryVisitPlayer(&m, 0.9, 1e3);
+    MonteCarloEveryVisitPlayer p = MonteCarloEveryVisitPlayer(&m, 0.9, 1e4);
     p.solveMaze();
     p.printFinalPolicy();
     return EXIT_SUCCESS;
