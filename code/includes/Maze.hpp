@@ -25,7 +25,9 @@ class Maze {
         std::vector<State*> goalStates;
         static State::Types typeFromInput(char input);
         void getMazeDimensionsFromInput();
+        void getMazeDimensionsFromFile(std::ifstream *inputStream);
         void getMazeStatesFromInput();
+        void getMazeStatesFromFile(std::ifstream *inputStream);
         void getMazeSpecialStates();
         bool shouldStartAtRandomPosition();
         Actions actualAction(Actions chosenAction);
@@ -37,8 +39,8 @@ class Maze {
         State* getSpecialStateResult(State *s);
 
     public:
-        explicit Maze(std::tuple<double, double, double, double> mps);
-        Maze();
+        explicit Maze(std::tuple<double, double, double, double> mps, std::string inputFile = "");
+        explicit Maze(std::string inputFile = "");
         static bool stateIsIntraversible(State *s);
         static bool stateIsTerminal(State *s);
         int indexFromCoordinates(int x, int y);

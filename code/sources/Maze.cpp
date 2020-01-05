@@ -1,4 +1,6 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "RandomServices.hpp"
 #include "Maze.hpp"
 
@@ -29,6 +31,19 @@ void Maze::getMazeDimensionsFromInput() {
     scanf("%d %d", &(this->width), &(this->height));
 }
 
+void Maze::getMazeDimensionsFromFile(std::ifstream *inputStream) {
+    int w, h;
+    std::string line;
+    std::getline(*inputStream, line);
+    std::istringstream stream(line);
+    if (!(stream >> w >> h)) {
+        printf("[Maze] Error: Could not read width and height. Aborting.\n");
+    } else {
+        this->width = w;
+        this->height = h;
+    }
+}
+
 void Maze::getMazeStatesFromInput() {
     int x, y;
     char input;
@@ -36,6 +51,19 @@ void Maze::getMazeStatesFromInput() {
     for (y = 0; y < this->height; y++) {
         for (x = 0; x < (this->width + 1); x++) {
             scanf("%c", &input);
+            if (x != this->width) {
+                this->states.emplace_back(x, y, this->typeFromInput(input));
+            }
+        }
+    }
+}
+
+void Maze::getMazeStatesFromFile(std::ifstream *inputStream) {
+    int x, y;
+    char input;
+    for (y = 0; y < this->height; y++) {
+        for (x = 0; x < (this->width + 1); x++) {
+            input = inputStream->get();
             if (x != this->width) {
                 this->states.emplace_back(x, y, this->typeFromInput(input));
             }
@@ -64,14 +92,20 @@ void Maze::getMazeSpecialStates() {
     }
 }
 
-Maze::Maze(std::tuple<double, double, double, double> mps) {
-    this->getMazeDimensionsFromInput();
-    this->getMazeStatesFromInput();
+Maze::Maze(std::tuple<double, double, double, double> mps, std::string inputFile) {
+    if (inputFile.empty()) {
+        this->getMazeDimensionsFromInput();
+        this->getMazeStatesFromInput();
+    } else {
+        std::ifstream inputStream(inputFile);
+        this->getMazeDimensionsFromFile(&inputStream);
+        this->getMazeStatesFromFile(&inputStream);
+    }
     this->getMazeSpecialStates();
     this->moveProbabilities = mps;
 }
 
-Maze::Maze() : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1)) {}
+Maze::Maze(std::string inputFile) : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1), inputFile) {}
 
 bool Maze::shouldStartAtRandomPosition() {
     return this->startingStates.empty();
