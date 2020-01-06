@@ -6,11 +6,10 @@ Experiment::Experiment(std::vector<Player::Types> selectedPlayers, int runNumber
     this->runNumber = runNumber;
 }
 
-Experiment::Experiment(std::vector<Player::Types> selectedPlayers, std::vector<std::string> selectedMazes,
-                       int runNumber) {
+Experiment::Experiment(std::vector<Player::Types> selectedPlayers, std::vector<std::string> selectedMazes) {
     this->selectedPlayers = std::move(selectedPlayers);
     this->selectedMazes   = std::move(selectedMazes);
-    this->runNumber = runNumber;
+    this->runNumber = (int)this->selectedMazes.size();
 }
 
 Experiment::~Experiment() = default;

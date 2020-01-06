@@ -15,7 +15,7 @@ class Experiment {
 
     public:
         Experiment(std::vector<Player::Types> selectedPlayers, int runNumber = 1e2);
-        Experiment(std::vector<Player::Types> selectedPlayers, std::vector<std::string> selectedMazes, int runNumber = 1e2);
+        Experiment(std::vector<Player::Types> selectedPlayers, std::vector<std::string> selectedMazes);
         ~Experiment();
         void conductExperiment();
 };
