@@ -107,7 +107,6 @@ void MonteCarloFirstVisitPlayer::performIteration() {
         greedyAction = this->greedyAction(std::get<0>(stateActionPair));
         this->updateStatePolicy(std::get<0>(stateActionPair), greedyAction);
     }
-//    printf("\n");
     this->currentEpoch++;
     this->episode.clear();
     this->rewards.clear();
@@ -116,6 +115,9 @@ void MonteCarloFirstVisitPlayer::performIteration() {
 void MonteCarloFirstVisitPlayer::solveMaze() {
     this->performInitialisation();
     do {
+        auto startTime = std::chrono::high_resolution_clock::now();
         this->performIteration();
+        auto endTime = std::chrono::high_resolution_clock::now();
+        this->epochTimings.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count() / 1e3);
     } while (!this->maximumIterationReached());
 }

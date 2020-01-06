@@ -1,9 +1,16 @@
-#include <RandomServices.hpp>
+#include <utility>
 #include "Datum.hpp"
 
-Datum::Datum(int mazeUsed) {
-    this->mazeUsed = mazeUsed;
+Datum::Datum(std::string mazeIdentifier, std::vector<Player::Types> players,
+        std::map<Player::Types, std::vector<double>> timings,
+        std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> policies) {
+    this->mazeIdentifier = std::move(mazeIdentifier);
+    this->players  = std::move(players);
+    this->timings  = std::move(timings);
+    this->policies = std::move(policies);
 }
+
+Datum::Datum() = default;
 
 Datum::~Datum() = default;
 

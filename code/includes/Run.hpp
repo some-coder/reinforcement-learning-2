@@ -19,9 +19,11 @@ class Run {
         std::vector<Player::Types> playerSelection;
         std::vector<Player*> players;
         Datum results;
+        std::map<Player::Types, std::vector<double>> prepareTimings();
+        std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> preparePolicies();
 
     public:
-        Run(int mazeUsed, std::vector<Player::Types> playerSelection);
+        Run(std::string mazeIdentifier, std::vector<Player::Types> playerSelection);
         ~Run();
         void allocatePlayer(Player::Types type);
         void allocatePlayers();
@@ -29,7 +31,7 @@ class Run {
         void prepareDatum();
         void deallocatePlayers();
         void performRun();
-        Datum getResults();
+        Datum *getResults();
 };
 
 #endif

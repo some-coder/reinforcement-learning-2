@@ -117,8 +117,11 @@ void MonteCarloEveryVisitPlayer::performIteration() {
 void MonteCarloEveryVisitPlayer::solveMaze() {
     this->performInitialisation();
     do {
+        auto startTime = std::chrono::high_resolution_clock::now();
         this->performIteration();
         this->temperature = STARTING_TEMPERATURE - (STARTING_TEMPERATURE - ENDING_TEMPERATURE) *
                 ((this->currentEpoch) / (this->timeoutEpoch - 1.0));
+        auto endTime = std::chrono::high_resolution_clock::now();
+        this->epochTimings.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count() / 1e3);
     } while (!this->maximumIterationReached());
 }

@@ -96,10 +96,6 @@ Maze::Actions Player::chooseAction(State *s) {
     return Maze::actionFromIndex(Maze::ACTION_NUMBER - 1);
 }
 
-std::map<State*, std::vector<double>> Player::getPolicy() {
-    return this->policy;
-}
-
 void Player::printStateActionProbabilities(State *s) {
     int actionIndex;
     printf("[");
@@ -123,4 +119,25 @@ void Player::printFinalPolicy() {
         }
         printf("state utility %.3lf.\n", this->stateValues[s]);
     }
+}
+
+std::vector<double> Player::getEpochTimings() {
+    return this->epochTimings;
+}
+
+std::map<std::tuple<int, int, Maze::Actions>, double> Player::getPolicy() {
+    int stateIndex, actionIndex;
+    State *s;
+    Maze::Actions a;
+    std::tuple<int, int, Maze::Actions> stateActionPair;
+    std::map<std::tuple<int, int, Maze::Actions>, double> outputPolicy;
+    for (stateIndex = 0; stateIndex < (int)this->stateValues.size(); stateIndex++) {
+        for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+            s = this->maze->getState(stateIndex);
+            a = Maze::actionFromIndex(actionIndex);
+            stateActionPair = std::make_tuple(s->getX(), s->getY(), a);
+            outputPolicy[stateActionPair] = this->policy[s][a];
+        }
+    }
+    return outputPolicy;
 }

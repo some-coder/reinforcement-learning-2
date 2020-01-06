@@ -11,6 +11,7 @@ void SynchronousValueIterationPlayer::performRepetitionStep() {
     int stateIndex;
     State *s;
     do {
+        auto startTime = std::chrono::high_resolution_clock::now();
         delta = 0.0;
         for (stateIndex = 0; stateIndex < (int)this->stateValues.size(); stateIndex++) {
             s = this->maze->getState(stateIndex);
@@ -21,6 +22,8 @@ void SynchronousValueIterationPlayer::performRepetitionStep() {
             delta = std::max(delta, std::fabs(this->oldStateValues[s] - this->stateValues[s]));
         }
         this->copyStateValues(&(this->stateValues), &(this->oldStateValues));
+        auto endTime = std::chrono::high_resolution_clock::now();
+        this->epochTimings.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count() / 1e3);
     } while (delta >= this->theta);
 }
 

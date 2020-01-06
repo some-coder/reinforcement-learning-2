@@ -93,7 +93,7 @@ void Maze::getMazeSpecialStates() {
     }
 }
 
-Maze::Maze(std::tuple<double, double, double, double> mps, std::string inputFile) {
+Maze::Maze(std::tuple<double, double, double, double> mps, std::string inputFile) : mazeIdentifier(inputFile) {
     if (inputFile.empty()) {
         this->getMazeDimensionsFromInput();
         this->getMazeStatesFromInput();
@@ -325,4 +325,8 @@ std::string Maze::actionAsString(enum Maze::Actions a) {
         default:
             return "LEFT";
     }
+}
+
+std::string Maze::getMazeIdentifier() {
+    return this->mazeIdentifier;
 }

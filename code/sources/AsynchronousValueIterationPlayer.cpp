@@ -12,12 +12,15 @@ void AsynchronousValueIterationPlayer::performRepetitionStep() {
     double delta;
     State *s;
     do {
+        auto startTime = std::chrono::high_resolution_clock::now();
         this->iteration++;
         delta = 0.0;
         s = this->randomNontrivialState();
         this->stateValues[s] = this->updatedStateValue(s);
         delta = std::max(delta, std::fabs(this->oldStateValues[s] - this->stateValues[s]));
         this->copyStateValues(&(this->stateValues), &(this->oldStateValues));
+        auto endTime = std::chrono::high_resolution_clock::now();
+        this->epochTimings.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count() / 1e3);
     } while (this->iteration < this->maximumIteration || delta >= this->theta);
 }
 

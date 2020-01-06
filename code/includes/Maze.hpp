@@ -20,6 +20,7 @@ class Maze {
         std::tuple<double, double, double, double> moveProbabilities;
         int width;
         int height;
+        const std::string mazeIdentifier;
         std::vector<State> states;
         std::vector<State*> startingStates;
         std::vector<State*> gateStates;
@@ -56,6 +57,7 @@ class Maze {
         State* getNextState(State *state, Actions action);
         std::tuple<State*, double> getStateTransitionResult(State *s, Actions a);
         static std::string actionAsString(Actions a);
+        std::string getMazeIdentifier();
 };
 
 #endif

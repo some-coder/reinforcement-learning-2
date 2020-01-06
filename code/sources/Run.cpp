@@ -1,8 +1,8 @@
 #include <utility>
 #include "Run.hpp"
 
-Run::Run(int mazeUsed, std::vector<Player::Types> playerSelection) :
-        maze("input/maze-" + std::to_string(mazeUsed) + ".in"), results(mazeUsed) {
+Run::Run(std::string mazeIdentifier, std::vector<Player::Types> playerSelection) :
+        maze(std::move(mazeIdentifier)) {
     this->playerSelection = std::move(playerSelection);
 }
 
@@ -51,8 +51,27 @@ void Run::runAlgorithms() {
     }
 }
 
+std::map<Player::Types, std::vector<double>> Run::prepareTimings() {
+    int playerIndex;
+    std::map<Player::Types, std::vector<double>> playerTimings;
+    for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
+        playerTimings[this->playerSelection[playerIndex]] = this->players[playerIndex]->getEpochTimings();
+    }
+    return playerTimings;
+}
+
+std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> Run::preparePolicies() {
+    int playerIndex;
+    std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> playerPolicies;
+    for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
+        playerPolicies[this->playerSelection[playerIndex]] = this->players[playerIndex]->getPolicy();
+    }
+    return playerPolicies;
+}
+
 void Run::prepareDatum() {
-    printf("Datum preparation to be worked upon.\n");
+    this->results = Datum(this->maze.getMazeIdentifier(), this->playerSelection,
+            this->prepareTimings(), this->preparePolicies());
 }
 
 void Run::deallocatePlayers() {
@@ -67,4 +86,8 @@ void Run::performRun() {
     this->runAlgorithms();
     this->prepareDatum();
     this->deallocatePlayers();
+}
+
+Datum* Run::getResults() {
+    return &(this->results);
 }

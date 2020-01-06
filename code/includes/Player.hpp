@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <cmath>
+#include <chrono>
 #include "State.hpp"
 #include "Maze.hpp"
 
@@ -21,6 +22,7 @@ class Player {
         double discountFactor;
         std::map<State*, double> stateValues;
         std::map<State*, std::vector<double>> policy;
+        std::vector<double> epochTimings;
         static std::vector<double> randomDiscretePolicy();
         static std::vector<double> randomStochasticPolicy();
         static std::vector<double> randomStatePolicy(bool stochastic);
@@ -34,9 +36,10 @@ class Player {
         virtual ~Player();
         virtual Maze::Actions chooseAction(State *s);
         virtual void solveMaze() = 0;
-        std::map<State*, std::vector<double>> getPolicy();
         virtual void printStateActionProbabilities(State *s);
         virtual void printFinalPolicy();
+        std::vector<double> getEpochTimings();
+        std::map<std::tuple<int, int, Maze::Actions>, double> getPolicy();
 };
 
 #endif

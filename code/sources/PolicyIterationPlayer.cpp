@@ -43,10 +43,13 @@ Maze::Actions PolicyIterationPlayer::greedyActionForState(State *s) {
 void PolicyIterationPlayer::solveMaze() {
     int i = 0;
     do {
+        auto startTime = std::chrono::high_resolution_clock::now();
         this->policyIsStable = true;
         this->performEvaluationStep();
         this->performImprovementStep();
         i++;
+        auto endTime = std::chrono::high_resolution_clock::now();
+        this->epochTimings.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count() / 1e3);
     } while (!this->policyIsStable);
 }
 
