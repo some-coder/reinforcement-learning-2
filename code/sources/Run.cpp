@@ -1,8 +1,9 @@
 #include <utility>
 #include "Run.hpp"
 
-Run::Run(std::string mazeIdentifier, std::vector<Player::Types> playerSelection) :
-        maze(std::move(mazeIdentifier)) {
+Run::Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSelection) :
+        maze(std::move(mazeIdentifier)), results(id) {
+    this->id = id;
     this->playerSelection = std::move(playerSelection);
 }
 
@@ -47,7 +48,6 @@ void Run::runAlgorithms() {
     int playerIndex;
     for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
         this->players[playerIndex]->solveMaze();
-        printf("%d / %d.\n", (playerIndex + 1), (int)this->players.size());
     }
 }
 
@@ -70,7 +70,8 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
 }
 
 void Run::prepareDatum() {
-    this->results = Datum(this->maze.getMazeIdentifier(), this->playerSelection,
+    this->results = Datum(this->id, this->maze.getMazeWidth(), this->maze.getMazeHeight(),
+            this->maze.getMazeIdentifier(), this->playerSelection,
             this->prepareTimings(), this->preparePolicies());
 }
 

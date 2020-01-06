@@ -141,3 +141,24 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Player::getPolicy() {
     }
     return outputPolicy;
 }
+
+std::string Player::playerTypeAsString(Player::Types type) {
+    switch (type) {
+        case SynchronousPolicyIteration:
+            return "Synchronous Policy Iteration";
+        case AsynchronousPolicyIteration:
+            return "Asynchronous Policy Iteration";
+        case SynchronousValueIteration:
+            return "Synchronous Value Iteration";
+        case AsynchronousValueIteration:
+            return "Asynchronous Value Iteration";
+        case MonteCarloExploringStarts:
+            return "Monte Carlo Exploring Starts";
+        case MonteCarloFirstVisit:
+            return "Monte Carlo First Visit";
+        case MonteCarloEveryVisit:
+            return "Monte Carlo Every Visit";
+        default:
+            return "Unknown Algorithm";
+    }
+}

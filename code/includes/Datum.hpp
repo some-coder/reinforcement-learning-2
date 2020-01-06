@@ -5,18 +5,24 @@
 
 class Datum {
     private:
+        int id;
+        int mazeWidth;
+        int mazeHeight;
         std::string mazeIdentifier;
         std::vector<Player::Types> players;
         std::map<Player::Types, std::vector<double>> timings;
         std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> policies;
 
     public:
-        Datum(std::string mazeIdentifier, std::vector<Player::Types> players,
+        Datum(int id, int mazeWidth, int mazeHeight, std::string mazeIdentifier, std::vector<Player::Types> players,
                 std::map<Player::Types, std::vector<double>> timings,
                 std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> policies);
-        Datum();
+        explicit Datum(int id);
         ~Datum();
-        double totalTimeElapsed(Player::Types player);
+        std::string singlePlayerTimings(Player::Types type);
+        std::string playerTimings();
+        std::string singlePlayerPolicy(Player::Types type);
+        std::string playerPolicies();
         void writeDatumToFiles();
 };
 

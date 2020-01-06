@@ -330,3 +330,11 @@ std::string Maze::actionAsString(enum Maze::Actions a) {
 std::string Maze::getMazeIdentifier() {
     return this->mazeIdentifier;
 }
+
+int Maze::getMazeWidth() {
+    return this->width;
+}
+
+int Maze::getMazeHeight() {
+    return this->height;
+}

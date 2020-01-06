@@ -56,8 +56,10 @@ class Maze {
         State* getNextStateDeterministic(State *state, Actions action);
         State* getNextState(State *state, Actions action);
         std::tuple<State*, double> getStateTransitionResult(State *s, Actions a);
-        static std::string actionAsString(Actions a);
         std::string getMazeIdentifier();
+        int getMazeWidth();
+        int getMazeHeight();
+        static std::string actionAsString(Actions a);
 };
 
 #endif

@@ -15,6 +15,7 @@
 
 class Run {
     private:
+        int id;
         Maze maze;
         std::vector<Player::Types> playerSelection;
         std::vector<Player*> players;
@@ -23,7 +24,7 @@ class Run {
         std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> preparePolicies();
 
     public:
-        Run(std::string mazeIdentifier, std::vector<Player::Types> playerSelection);
+        Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSelection);
         ~Run();
         void allocatePlayer(Player::Types type);
         void allocatePlayers();

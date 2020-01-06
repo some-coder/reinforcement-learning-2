@@ -12,8 +12,9 @@ int main(int argc, char *argv[]) {
     selection.push_back(Player::Types::MonteCarloFirstVisit);
     selection.push_back(Player::Types::SynchronousValueIteration);
 
-    Run r = Run("input/maze-1.in", selection);
+    Run r = Run(0, "input/maze-1.in", selection);
     r.performRun();
     datum = r.getResults();
+    datum->writeDatumToFiles();
     return EXIT_SUCCESS;
 }

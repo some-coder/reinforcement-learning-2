@@ -40,6 +40,7 @@ class Player {
         virtual void printFinalPolicy();
         std::vector<double> getEpochTimings();
         std::map<std::tuple<int, int, Maze::Actions>, double> getPolicy();
+        static std::string playerTypeAsString(Player::Types type);
 };
 
 #endif
