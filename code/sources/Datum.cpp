@@ -1,5 +1,3 @@
-#include <utility>
-#include <fstream>
 #include "Datum.hpp"
 
 Datum::Datum(int id, int mazeWidth, int mazeHeight, std::string mazeIdentifier, std::vector<Player::Types> players,
@@ -75,10 +73,10 @@ std::string Datum::playerPolicies() {
 
 void Datum::writeDatumToFiles() {
     std::ofstream output;
-    output.open("output/data/timings.csv");
+    output.open("output/data/timings.csv", std::ios_base::app);
     output << this->playerTimings();
     output.close();
-    output.open("output/data/policies.csv");
+    output.open("output/data/policies.csv", std::ios_base::app);
     output << this->playerPolicies();
     output.close();
 }

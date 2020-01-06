@@ -69,8 +69,8 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
     return playerPolicies;
 }
 
-void Run::prepareDatum() {
-    this->results = Datum(this->id, this->maze.getMazeWidth(), this->maze.getMazeHeight(),
+Datum Run::datumFromRun() {
+    return Datum(this->id, this->maze.getMazeWidth(), this->maze.getMazeHeight(),
             this->maze.getMazeIdentifier(), this->playerSelection,
             this->prepareTimings(), this->preparePolicies());
 }
@@ -82,13 +82,10 @@ void Run::deallocatePlayers() {
     }
 }
 
-void Run::performRun() {
+Datum Run::conductRun() {
     this->allocatePlayers();
     this->runAlgorithms();
-    this->prepareDatum();
+    this->results = this->datumFromRun();
     this->deallocatePlayers();
-}
-
-Datum* Run::getResults() {
-    return &(this->results);
+    return this->results;
 }

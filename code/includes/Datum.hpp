@@ -1,6 +1,9 @@
 #ifndef DATUM_HPP
 #define DATUM_HPP
 
+#include <utility>
+#include <fstream>
+#include <iostream>
 #include "Player.hpp"
 
 class Datum {
