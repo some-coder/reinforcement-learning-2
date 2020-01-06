@@ -1,4 +1,3 @@
-#include <iostream>
 #include "RandomServices.hpp"
 #include "Maze.hpp"
 #include "Experiment.hpp"

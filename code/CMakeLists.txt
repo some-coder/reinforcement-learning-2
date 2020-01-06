@@ -32,6 +32,7 @@ set(SOURCES
         sources/Datum.cpp
         sources/Run.cpp
         sources/Experiment.cpp
+        sources/UserInput.cpp
         sources/Main.cpp)
 
 set(INCLUDES
@@ -55,6 +56,7 @@ set(INCLUDES
         includes/Datum.hpp
         includes/Run.hpp
         includes/Experiment.hpp
+        includes/UserInput.hpp
         includes/Maze.hpp
 )
 
