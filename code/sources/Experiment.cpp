@@ -1,4 +1,5 @@
 #include <RandomServices.hpp>
+#include <ExploitPlayer.hpp>
 #include "Experiment.hpp"
 
 Experiment::Experiment(std::vector<Player::Types> selectedPlayers, int runNumber) {
@@ -93,16 +94,41 @@ void Experiment::getAveragePolicies() {
     int mazeIdentifierIndex, playerTypeIndex;
     std::string mazeIdentifier;
     Player::Types playerType;
-    std::vector<std::string> mazeIdentifiers;
-    mazeIdentifiers = this->getMazeIdentifiers();
-    for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)mazeIdentifiers.size(); mazeIdentifierIndex++) {
-        mazeIdentifier = mazeIdentifiers[mazeIdentifierIndex];
+    for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
+        mazeIdentifier = this->mazeIdentifiers[mazeIdentifierIndex];
         for (playerTypeIndex = 0; playerTypeIndex < (int)this->selectedPlayers.size(); playerTypeIndex++) {
             playerType = this->selectedPlayers[playerTypeIndex];
             this->averagePolicies[std::make_tuple(mazeIdentifier, playerType)] = this->averagePolicy(mazeIdentifier,
                     playerType);
         }
     }
+}
+
+std::map<State*, std::vector<double>> Experiment::convertedPolicy(Maze *m, Player::Types type) {
+    int stateIndex, actionIndex;
+    State *s;
+    std::map<State*, std::vector<double>> converted;
+    std::tuple<std::string, Player::Types> outerKey;
+    std::tuple<int, int, Maze::Actions> innerKey;
+    for (stateIndex = 0; stateIndex < (int)m->getStates()->size(); stateIndex++) {
+        s = m->getState(stateIndex);
+        std::vector<double> actionProbabilities;
+        for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+            outerKey = std::make_tuple(m->getMazeIdentifier(), type);
+            innerKey = std::make_tuple(s->getX(), s->getY(), (Maze::Actions)actionIndex);
+            actionProbabilities.push_back(this->averagePolicies[outerKey][innerKey]);
+        }
+        converted[s] = actionProbabilities;
+    }
+    return converted;
+}
+
+void Experiment::evaluateAveragePolicy(int mazeIdentifierIndex, Player::Types type) {
+    std::string mazeIdentifier = this->mazeIdentifiers[mazeIdentifierIndex];
+    Maze maze = Maze(mazeIdentifier);
+    ExploitPlayer p = ExploitPlayer(&maze, this->convertedPolicy(&maze, type));
+    p.solveMaze();
+
 }
 
 /**
@@ -134,6 +160,7 @@ void Experiment::conductExperiment() {
         Run run = Run(runIndex, this->runMazeIdentifier(runIndex), this->selectedPlayers);
         this->data.push_back(run.conductRun());
     }
+    this->mazeIdentifiers = this->getMazeIdentifiers();
     this->getAveragePolicies();
     this->writeData();
 }

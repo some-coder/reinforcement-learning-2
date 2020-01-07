@@ -42,8 +42,8 @@ class Maze {
         State* getSpecialStateResult(State *s);
 
     public:
-        explicit Maze(std::tuple<double, double, double, double> mps, std::string inputFile = "");
-        explicit Maze(std::string inputFile = "");
+        explicit Maze(std::tuple<double, double, double, double> mps, const std::string& inputFile = "");
+        explicit Maze(const std::string& inputFile = "");
         static bool stateIsIntraversible(State *s);
         static bool stateIsTerminal(State *s);
         int indexFromCoordinates(int x, int y);
