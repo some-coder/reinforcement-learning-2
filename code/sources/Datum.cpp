@@ -22,9 +22,9 @@ Datum::~Datum() = default;
 /**
  * Creates and returns a string of the timings of a single player.
  * 
- * The function loops through all the timings of the specific player and appends its timings to a text (string).
+ * The function loops through all the timings of the specific player and appends his timings to a text (string).
  * 
- * @return text with policies of a single player
+ * @return text with timings of a single player
  */
 std::string Datum::singlePlayerTimings(Player::Types type) {
     int timingIndex;
@@ -55,6 +55,13 @@ std::string Datum::playerTimings() {
     return playerTimings;
 }
 
+/**
+ * Creates and returns a string of the policy of a single player.
+ * 
+ * The function appends the player's policy to a text (string).
+ * 
+ * @return text with the policy of a single player
+ */
 std::string Datum::singlePlayerPolicy(Player::Types type) {
     int xIndex, yIndex, actionIndex;
     std::string playerPolicy;

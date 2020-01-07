@@ -9,6 +9,12 @@ Run::Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSe
 
 Run::~Run() = default;
 
+/**
+ * Create a player of the provided type and add the player to the vector 'players'.
+ * 
+ * @param type the type of player that has to be created
+ * @return the created player
+ */
 void Run::allocatePlayer(Player::Types type) {
     switch (type) {
         case Player::Types::SynchronousPolicyIteration:
@@ -37,6 +43,10 @@ void Run::allocatePlayer(Player::Types type) {
     }
 }
 
+/**
+ * Loop through all players selected for this run, create the players using Player and allocate them to
+ * the vector 'players'.
+ */
 void Run::allocatePlayers() {
     int selectedPlayerIndex;
     for (selectedPlayerIndex = 0; selectedPlayerIndex < (int)this->playerSelection.size(); selectedPlayerIndex++) {
@@ -44,6 +54,9 @@ void Run::allocatePlayers() {
     }
 }
 
+/**
+ * Make all players selected for this run solve the maze.
+ */
 void Run::runAlgorithms() {
     int playerIndex;
     for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
@@ -51,6 +64,13 @@ void Run::runAlgorithms() {
     }
 }
 
+/**
+ * Maps the player type to his timings.
+ * 
+ * The function loops through all player types and gets per player the timings of all the player's epochs.
+ * 
+ * @return the timings of all the players
+ */
 std::map<Player::Types, std::vector<double>> Run::prepareTimings() {
     int playerIndex;
     std::map<Player::Types, std::vector<double>> playerTimings;
@@ -60,6 +80,13 @@ std::map<Player::Types, std::vector<double>> Run::prepareTimings() {
     return playerTimings;
 }
 
+/**
+ * Maps the player type to his policy.
+ * 
+ * The function loops through all player types and gets per player the resulting policy.
+ * 
+ * @return the policies of all the players
+ */
 std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> Run::preparePolicies() {
     int playerIndex;
     std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> playerPolicies;
@@ -69,12 +96,25 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
     return playerPolicies;
 }
 
+/**
+ * Creates a datum of the run.
+ * 
+ * Creates a datum of the run. This datum contains all information about the run
+ * (i.e. the run id, the maze dimensions, the maze identifier, all selected player types,
+ * the timings of the player(s) as result and the policies of the player(s) as result).
+ * 
+ * @return A Datum with the results of this run
+ */
 Datum Run::datumFromRun() {
     return Datum(this->id, this->maze.getMazeWidth(), this->maze.getMazeHeight(),
             this->maze.getMazeIdentifier(), this->playerSelection,
             this->prepareTimings(), this->preparePolicies());
 }
 
+/**
+ * Loop through all players selected for this run and deallocate them from
+ * the vector 'players'.
+ */
 void Run::deallocatePlayers() {
     int playerIndex;
     for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
@@ -82,6 +122,14 @@ void Run::deallocatePlayers() {
     }
 }
 
+/**
+ * This function conducts the run for all players in the provided maze.
+ * 
+ * This function loops through all players and for each player conducts a run in the provided maze. It then
+ * collects the results as a datum using Datum. At the end it returns the results as type Datum.
+ * 
+ * @return results of the run (all players) as a Datum
+ */
 Datum Run::conductRun() {
     this->allocatePlayers();
     this->runAlgorithms();
