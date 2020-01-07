@@ -47,6 +47,9 @@ cmake_install.cmake
 # Ignore swap files (Vim)
 *.swp
 
+# Ignore vscode JSON
+.vscode/
+
 # Exception, do not ignore the output
 output/
 !output/scripts/r-script.r
