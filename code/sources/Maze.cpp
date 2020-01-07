@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <utility>
 #include "RandomServices.hpp"
 #include "Maze.hpp"
 
@@ -95,6 +94,11 @@ void Maze::getMazeSpecialStates() {
 
 Maze::Maze(std::tuple<double, double, double, double> mps, std::string inputFile) : mazeIdentifier(inputFile) {
     if (inputFile.empty()) {
+        printf("Please input your self-built maze.\n");
+        printf("  Syntax (Step 1): Enter width, height (two integers greater than zero).\n");
+        printf("  Syntax (Step 2): Enter rows of maze, represented by characters, ending in ENTER.\n");
+        printf("  Legal characters:\n");
+        printf("    (.) Path, (*) Start, (1) Goal, (0) Warp, (:) Lever, (|) Gate, (%%) Snack, (#) Pit, ( ) Empty.\n");
         this->getMazeDimensionsFromInput();
         this->getMazeStatesFromInput();
     } else {
