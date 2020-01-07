@@ -37,6 +37,8 @@ void Experiment::clearOldData() {
     output.close();
     output.open("output/data/policies.csv", std::ofstream::trunc);
     output.close();
+    output.open("output/data/policy-rewards.csv", std::ofstream::trunc);
+    output.close();
 }
 
 std::map<std::tuple<int, int, Maze::Actions>, double> Experiment::averagePolicy(const std::string& mazeIdentifier,
@@ -67,10 +69,10 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Experiment::averagePolicy(
     return average;
 }
 
-bool Experiment::mazeIdentifierAlreadyPresent(std::vector<std::string> *mazeIdentifiers, std::string mazeIdentifier) {
+bool Experiment::mazeIdentifierAlreadyPresent(std::string mazeIdentifier) {
     int identifierIndex;
-    for (identifierIndex = 0; identifierIndex < (int)mazeIdentifiers->size(); identifierIndex++) {
-        if ((*mazeIdentifiers)[identifierIndex] == mazeIdentifier) {
+    for (identifierIndex = 0; identifierIndex < (int)this->mazeIdentifiers.size(); identifierIndex++) {
+        if (this->mazeIdentifiers[identifierIndex] == mazeIdentifier) {
             return true;
         }
     }
@@ -83,7 +85,7 @@ std::vector<std::string> Experiment::getMazeIdentifiers() {
     std::vector<std::string> mazeIdentifiers;
     for (datumIndex = 0; datumIndex < (int)this->data.size(); datumIndex++) {
         current = this->data[datumIndex].getMazeIdentifier();
-        if (!this->mazeIdentifierAlreadyPresent(&mazeIdentifiers, current)) {
+        if (!this->mazeIdentifierAlreadyPresent(current)) {
             mazeIdentifiers.push_back(current);
         }
     }
@@ -124,11 +126,53 @@ std::map<State*, std::vector<double>> Experiment::convertedPolicy(Maze *m, Playe
 }
 
 void Experiment::evaluateAveragePolicy(int mazeIdentifierIndex, Player::Types type) {
+    int evaluationIndex;
     std::string mazeIdentifier = this->mazeIdentifiers[mazeIdentifierIndex];
     Maze maze = Maze(mazeIdentifier);
-    ExploitPlayer p = ExploitPlayer(&maze, this->convertedPolicy(&maze, type));
-    p.solveMaze();
+    std::vector<double> rewards;
+    std::map<State*, std::vector<double>> m;
+    for (evaluationIndex = 0; evaluationIndex < EVALUATION_RUNS; evaluationIndex++) {
+        m = this->convertedPolicy(&maze, type);
+        ExploitPlayer p = ExploitPlayer(&maze, m);
+        p.solveMaze();
+        rewards.push_back(p.getRewardTotal());
+    }
+    this->averagePolicyRewards[std::make_tuple(maze.getMazeIdentifier(), type)] = rewards;
+}
 
+void Experiment::evaluateAveragePolicies() {
+    int mazeIdentifierIndex, playerIndex;
+    for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
+        for (playerIndex = 0; playerIndex < (int)this->selectedPlayers.size(); playerIndex++) {
+            this->evaluateAveragePolicy(mazeIdentifierIndex, this->selectedPlayers[playerIndex]);
+        }
+    }
+}
+
+std::string Experiment::averagePolicyRewardAsString(std::string mazeIdentifier, Player::Types type) {
+    int rewardsIndex;
+    std::vector<double> *rewards;
+    std::string s;
+    rewards = &(this->averagePolicyRewards[std::make_tuple(mazeIdentifier, type)]);
+    for (rewardsIndex = 0; rewardsIndex < (int)rewards->size(); rewardsIndex++) {
+        s.append("\"" + mazeIdentifier + "\",");
+        s.append("\"" + Player::playerTypeAsString(type) + "\",");
+        s.append("\"" + std::to_string((*rewards)[rewardsIndex]) + "\"\n");
+    }
+    return s;
+}
+
+void Experiment::writeAveragePoliciesRewards() {
+    int mazeIdentifierIndex, playerIndex;
+    std::ofstream output;
+    output.open("output/data/policy-rewards.csv");
+    for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
+        for (playerIndex = 0; playerIndex < (int)this->selectedPlayers.size(); playerIndex++) {
+            output << this->averagePolicyRewardAsString(this->mazeIdentifiers[mazeIdentifierIndex],
+                    this->selectedPlayers[playerIndex]);
+        }
+    }
+    output.close();
 }
 
 /**
@@ -162,6 +206,8 @@ void Experiment::conductExperiment() {
     }
     this->mazeIdentifiers = this->getMazeIdentifiers();
     this->getAveragePolicies();
+    this->evaluateAveragePolicies();
+    this->writeAveragePoliciesRewards();
     this->writeData();
 }
 
