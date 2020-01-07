@@ -1,6 +1,11 @@
 #include <RandomServices.hpp>
 #include "UserInput.hpp"
 
+/**
+ * Asks the user whether he wants to use random mazes from "input/". Returns true if that is the case.
+ * 
+ * @return a boolean; true when the user wants to randomly add mazes, false when he does not
+ */
 bool UserInput::useRandomPreBuiltMazes() {
     int input;
     printf("Should we use random, pre-built mazes?\n");
@@ -11,6 +16,11 @@ bool UserInput::useRandomPreBuiltMazes() {
     return input == 1;
 }
 
+/**
+ * If you chose the option to add random mazes from "input/". This function asks how many mazes you whish to add.
+ * 
+ * @return the amount of random mazes you whish to add
+ */
 int UserInput::randomPreBuiltMazesAmount() {
     int input;
     printf("How many runs should be performed? Each run has a random maze assigned to it.\n");
@@ -21,6 +31,11 @@ int UserInput::randomPreBuiltMazesAmount() {
     return input;
 }
 
+/**
+ * This adds randomAmount amount of mazes which are randomly chosen from the "input/" folder.
+ * 
+ * @return a vector of strings representing mazes
+ */
 std::vector<std::string> UserInput::randomMazeSelection() {
     int mazeIndex, randomMaze, mazeAmount;
     std::string current;
@@ -33,6 +48,11 @@ std::vector<std::string> UserInput::randomMazeSelection() {
     return mazes;
 }
 
+/**
+ * Creates a vector of strings which represents the chosen/created mazes as selected by the user.
+ * 
+ * @return a vector of strings representing mazes
+ */
 std::vector<std::string> UserInput::selectedMazes() {
     std::string currentString;
     std::vector<std::string> mazes;
@@ -57,6 +77,11 @@ std::vector<std::string> UserInput::selectedMazes() {
     return mazes;
 }
 
+/**
+ * Asks the user whether he wants to add all players to the experiment. Returns true if that is the case.
+ * 
+ * @return a boolean; true when the user wants to use all players, false when he does not
+ */
 bool UserInput::useAllPlayers() {
     int input;
     printf("Use all available algorithms?\n");
@@ -67,6 +92,12 @@ bool UserInput::useAllPlayers() {
     return input == 1;
 }
 
+/**
+ * Returns a player type based on the provided integer parameter. The parameter corresponds to the user menu.
+ * 
+ * @param i integer the user chose that corresponds with a certain type of player
+ * @return player type according to the provided parameter
+ */
 Player::Types UserInput::playerTypeFromInteger(int i) {
     switch (i) {
         case 0:
@@ -86,6 +117,11 @@ Player::Types UserInput::playerTypeFromInteger(int i) {
     }
 }
 
+/**
+ * Creates a vector of player types as selected by the user.
+ * 
+ * @return a vector of player types
+ */
 std::vector<Player::Types> UserInput::selectedPlayers() {
     int input, playerTypeIndex;
     std::vector<Player::Types> selection;
@@ -115,6 +151,11 @@ std::vector<Player::Types> UserInput::selectedPlayers() {
     return selection;
 }
 
+/**
+ * Creates Experiment object with the players and mazes as selected by the user.
+ * 
+ * @return an Experiment with selected players and mazes
+ */
 Experiment UserInput::experimentFromUserInput() {
     return Experiment(UserInput::selectedPlayers(), UserInput::selectedMazes());
 }
