@@ -13,23 +13,50 @@ include_directories(includes)
 
 set(SOURCES
         sources/RandomServices.cpp
-        sources/InvalidWidthException.cpp
-        sources/Position.cpp
         sources/State.cpp
         sources/Maze.cpp
         sources/Player.cpp
-        sources/RandomPlayer.cpp
+        sources/LearningPlayer.cpp
+        sources/DynamicProgrammingPlayer.cpp
+        sources/MonteCarloPlayer.cpp
+        sources/TimeDifferencePlayer.cpp
+        sources/PolicyIterationPlayer.cpp
+        sources/ValueIterationPlayer.cpp
+        sources/SynchronousPolicyIterationPlayer.cpp
+        sources/AsynchronousPolicyIterationPlayer.cpp
+        sources/SynchronousValueIterationPlayer.cpp
+        sources/AsynchronousValueIterationPlayer.cpp
+        sources/MonteCarloExploringStartsPlayer.cpp
+        sources/MonteCarloFirstVisitPlayer.cpp
+        sources/MonteCarloEveryVisitPlayer.cpp
+        sources/Datum.cpp
         sources/Run.cpp
+        sources/Experiment.cpp
+        sources/UserInput.cpp
         sources/Main.cpp)
 
 set(INCLUDES
         includes/RandomServices.hpp
-        includes/InvalidWidthException.hpp
-        includes/Position.hpp
         includes/State.hpp
+        includes/Maze.hpp
         includes/Player.hpp
-        includes/RandomPlayer.hpp
+        includes/LearningPlayer.hpp
+        includes/DynamicProgrammingPlayer.hpp
+        includes/MonteCarloPlayer.hpp
+        includes/TimeDifferencePlayer.hpp
+        includes/PolicyIterationPlayer.hpp
+        includes/ValueIterationPlayer.hpp
+        includes/SynchronousPolicyIterationPlayer.hpp
+        includes/AsynchronousPolicyIterationPlayer.hpp
+        includes/SynchronousValueIterationPlayer.hpp
+        includes/AsynchronousValueIterationPlayer.hpp
+        includes/MonteCarloExploringStartsPlayer.hpp
+        includes/MonteCarloFirstVisitPlayer.hpp
+        includes/MonteCarloEveryVisitPlayer.hpp
+        includes/Datum.hpp
         includes/Run.hpp
+        includes/Experiment.hpp
+        includes/UserInput.hpp
         includes/Maze.hpp
 )
 

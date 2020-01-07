@@ -1,181 +1,340 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <utility>
+#include "RandomServices.hpp"
 #include "Maze.hpp"
-#include "InvalidWidthException.hpp"
 
-/**
- * Determines whether an entry to the maze is a valid tile.
- *
- * @param entry The symbol of the entry in the maze.
- * @return The question's answer.
- */
-bool Maze::isValidTile(char entry) {
-    switch (entry) {
-        case ValidTiles::Hedge:
-        case ValidTiles::Path:
-        case ValidTiles::Exit:
-            return true;
+State::Types Maze::typeFromInput(char input) {
+    switch (input) {
+        case '.':
+            return State::Types::path;
+        case '*':
+            return State::Types::start;
+        case '1':
+            return State::Types::goal;
+        case '0':
+            return State::Types::warp;
+        case ':':
+            return State::Types::lever;
+        case '|':
+            return State::Types::gate;
+        case '%':
+            return State::Types::snack;
+        case '#':
+            return State::Types::pit;
         default:
-            return false;
+            return State::Types::none;
     }
 }
 
-/**
- * Determines whether an entry to the maze is traversible.
- *
- * @param entry The entry to evaluate.
- * @return The question's answer.
- */
-bool Maze::isTraversableTile(char entry) {
-    switch (entry) {
-        case ValidTiles::Hedge:
-            return false;
-        default:
-            return true;
+void Maze::getMazeDimensionsFromInput() {
+    scanf("%d %d", &(this->width), &(this->height));
+}
+
+void Maze::getMazeDimensionsFromFile(std::ifstream *inputStream) {
+    int w, h;
+    std::string line;
+    std::getline(*inputStream, line);
+    std::istringstream stream(line);
+    if (!(stream >> w >> h)) {
+        printf("[Maze] Error: Could not read width and height. Aborting.\n");
+    } else {
+        this->width = w;
+        this->height = h;
     }
 }
 
-/**
- * Determines whether the given maze entry is a valid one.
- *
- * A maze entry is valid if it uses a legal symbol and it is not a
- * line-terminating character.
- *
- * @param entry The entry in the maze's map.
- * @return The question's answer.
- */
-bool Maze::isValidEntry(char *entry) {
-    return scanf("%c", entry) && *entry != '\n' && isValidTile(*entry);
-}
-
-/**
- * Ensures the maze is kept at a constant width.
- *
- * @param current The width implied by the input of the current row.
- */
-void Maze::ensureConstantWidth(int current) {
-    if (this->getWidth() == 0) {
-        this->setWidth(current);
-    } else if (this->getWidth() != current && current != 0) {
-        throw InvalidWidthException("A maze row must match in length to all previous rows.");
+void Maze::getMazeStatesFromInput() {
+    int x, y;
+    char input;
+    getchar();
+    for (y = 0; y < this->height; y++) {
+        for (x = 0; x < (this->width + 1); x++) {
+            scanf("%c", &input);
+            if (x != this->width) {
+                this->states.emplace_back(x, y, this->typeFromInput(input));
+            }
+        }
     }
 }
 
-/**
- * Reads an entry field of the maze from input, and stores it if it is valid.
- *
- * @param p The position of the entry in the maze.
- * @return A signal indicating whether the read was successful.
- */
-bool Maze::readMazeEntryFromInput(Position p) {
-    char entry;
-    if (this->isValidEntry(&entry)) {
-        this->entries.insert(std::pair<Position, char>(p, entry));
+void Maze::getMazeStatesFromFile(std::ifstream *inputStream) {
+    int x, y;
+    char input;
+    for (y = 0; y < this->height; y++) {
+        for (x = 0; x < (this->width + 1); x++) {
+            input = inputStream->get();
+            if (x != this->width) {
+                this->states.emplace_back(x, y, this->typeFromInput(input));
+            }
+        }
+    }
+}
+
+void Maze::getMazeSpecialStates() {
+    int i;
+    State *s = nullptr;
+    for (i = 0; i < (int)this->states.size(); i++) {
+        s = &(this->states[i]);
+        switch (s->getType()) {
+            case State::Types::start:
+                this->startingStates.push_back(s);
+                break;
+            case State::Types::gate:
+                this->gateStates.push_back(s);
+                break;
+            case State::Types::goal:
+                this->goalStates.push_back(s);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+Maze::Maze(std::tuple<double, double, double, double> mps, std::string inputFile) : mazeIdentifier(inputFile) {
+    if (inputFile.empty()) {
+        this->getMazeDimensionsFromInput();
+        this->getMazeStatesFromInput();
+    } else {
+        std::ifstream inputStream(inputFile);
+        this->getMazeDimensionsFromFile(&inputStream);
+        this->getMazeStatesFromFile(&inputStream);
+    }
+    this->getMazeSpecialStates();
+    this->moveProbabilities = mps;
+}
+
+Maze::Maze(std::string inputFile) : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1), std::move(inputFile)) {}
+
+bool Maze::shouldStartAtRandomPosition() {
+    return this->startingStates.empty();
+}
+
+int Maze::indexFromCoordinates(int x, int y) {
+    return y * this->width + x;
+}
+
+std::tuple<int, int> Maze::coordinatesFromIndex(int i) {
+    return std::make_tuple(i % this->width, i / this->width);
+}
+
+std::vector<State>* Maze::getStates() {
+    return &(this->states);
+}
+
+State* Maze::getState(int index) {
+    return &(this->states[index]);
+}
+
+State* Maze::getStartingState() {
+    int randomIndex;
+    State *s;
+    if (this->shouldStartAtRandomPosition()) {
+        do {
+            randomIndex = RandomServices::discreteUniformSample((int)this->states.size() - 1);
+            s = &(this->states[randomIndex]);
+        } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
+    } else {
+        /* Todo: Does a uniform distribution work with one sample? */
+        do {
+            randomIndex = RandomServices::discreteUniformSample((int)this->startingStates.size() - 1);
+            s = this->startingStates[randomIndex];
+        } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
+    }
+    return s;
+}
+
+Maze::Actions Maze::actionFromIndex(int index) {
+    /* Todo: This cast works successfully? */
+    return (Actions)index;
+}
+
+Maze::Actions Maze::actualAction(Maze::Actions chosenAction) {
+    int a;
+    double bar, current;
+    bar = RandomServices::continuousUniformSample(1.0);
+    current = this->getActionProbability(0);
+    for (a = 0; a < ACTION_NUMBER; a++) {
+        if (bar <= current) {
+            return this->actionFromIndex((chosenAction + a) % ACTION_NUMBER);
+        }
+        /* Todo: May potentially crash when having number under- or overflow. */
+        current += this->getActionProbability(a + 1);
+    }
+    return this->actionFromIndex(ACTION_NUMBER - 1);
+}
+
+bool Maze::moveIsOutOfBounds(int x, int y) {
+    return (x < 0 || x >= this->width) || (y < 0 || y >= this->height);
+}
+
+bool Maze::stateIsIntraversible(State *s) {
+    State::Types t;
+    t = s->getType();
+    return (t == State::Types::none) || (t == State::Types::gate);
+}
+
+bool Maze::stateIsTerminal(State *s) {
+    State::Types t;
+    t = s->getType();
+    return (t == State::Types::goal) || (t == State::Types::pit);
+}
+
+bool Maze::moveShouldFail(int x, int y) {
+    if (this->moveIsOutOfBounds(x, y)) {
         return true;
+    } else {
+        State *s = &(this->states[this->indexFromCoordinates(x, y)]);
+        return this->stateIsIntraversible(s);
     }
-    return false;
 }
 
-/**
- * Reads and stores a row of the maze given by input.
- *
- * @param row The index of the row on which entries are attempted to be put.
- * @return An exit signal specifying whether the row could be read.
- */
-bool Maze::readMazeRowFromInput(int row) {
-    int col;
-    col = 0;
-    Position p = Position(col, row);
-    while (this->readMazeEntryFromInput(p)) {
-        col++;
-        p = Position(col, row);
+State* Maze::getNextStateDeterministic(class State * state, enum Maze::Actions action) {
+    int x, y, deltas[ACTION_NUMBER][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
+    x = state->getX();
+    y = state->getY();
+    switch (action) {
+        case moveUp:
+            x += deltas[0][0];
+            y += deltas[0][1];
+            break;
+        case moveRight:
+            x += deltas[1][0];
+            y += deltas[1][1];
+            break;
+        case moveDown:
+            x += deltas[2][0];
+            y += deltas[2][1];
+            break;
+        case moveLeft:
+            x += deltas[3][0];
+            y += deltas[3][1];
+            break;
+        default:
+            break;
     }
-    this->ensureConstantWidth(col);
-    return col > 0;
-}
-
-/**
- *  Reads and stores a maze supplied by input.
- */
-void Maze::readMazeFromInput() {
-    int row;
-    row = 0;
-    while (this->readMazeRowFromInput(row)) {
-        row++;
+//    printf("\t\tIn (%d, %d) and should move %s.\n", state->getX(), state->getY(), actionAsString(action).c_str());
+    if (this->moveShouldFail(x, y)) {
+        /* Maneuver failed. Remain in the current state.  */
+//        printf("\t\tAction failed. Remaining in current state.\n");
+        return state;
+    } else {
+//        printf("\t\tSuccessfully moved.\n");
+        return &(this->states[this->indexFromCoordinates(x, y)]);
     }
-    this->height = row;
+}
+
+State* Maze::getNextState(State *s, Actions action) {
+    return this->getNextStateDeterministic(s, this->actualAction(action));
 }
 
 /**
- * Constructs a new maze.
- */
-Maze::Maze(bool shouldStartRandomly) {
-    this->width = 0;
-    this->height = 0;
-    this->randomStarts = shouldStartRandomly;
-}
-
-/**
- * Destructs the maze.
- */
-Maze::~Maze() = default;
-
-/**
- * Determines whether the specified location is within the bounds of this maze.
+ * Obtains the probability of performing an action given some action.
  *
- * @param x The X-coordinate of the proposed position.
- * @param y The Y-coordinate of the proposed position.
- * @return The question's answer.
+ * @param relativeIndex The rotation from the action under consideration.
+ * @return The probability of performing the given action.
  */
-bool Maze::isWithinBounds(Position p) {
-    return (p.getXCoordinate() >= 0 && p.getXCoordinate() < this->getWidth() &&
-            p.getYCoordinate() >= 0 && p.getYCoordinate() < this->getHeight());
+double Maze::getActionProbability(int relativeIndex) {
+    switch (relativeIndex) {
+        case Rotations::Zero:
+            return std::get<0>(this->moveProbabilities);
+        case Rotations::Quarter:
+            return std::get<1>(this->moveProbabilities);
+        case Rotations::Half:
+            return std::get<2>(this->moveProbabilities);
+        default:
+            return std::get<3>(this->moveProbabilities);
+    }
 }
 
-/**
- * Obtains the width of the maze.
- *
- * @return The maze's width.
- */
-int Maze::getWidth() {
+State* Maze::getWarpStateResult(State *s) {
+    int i, x, y, deltas[ACTION_NUMBER][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
+    State *randomGoal;
+    randomGoal = this->goalStates[RandomServices::discreteUniformSample((int)this->goalStates.size() - 1)];
+    for (i = 0; i < ACTION_NUMBER; i++) {
+        x = randomGoal->getX() + deltas[i][0];
+        y = randomGoal->getY() + deltas[i][1];
+        if (!this->moveShouldFail(x, y)) {
+            return &(this->states[this->indexFromCoordinates(x, y)]);
+        }
+    }
+    /* Theoretically impossible: Warp fails, so act as if it's a normal tile. */
+    return s;
+}
+
+void Maze::openGates() {
+    State *s;
+    while (!this->gateStates.empty()) {
+        s = this->gateStates.back();
+        s->setType(State::Types::path);
+        this->gateStates.pop_back();
+    }
+}
+
+void Maze::removeSnack(State *s) {
+    s->setType(State::Types::path);
+}
+
+State* Maze::getSpecialStateResult(State *s) {
+    switch (s->getType()) {
+        case State::Types::warp:
+            return this->getWarpStateResult(s);
+        case State::Types::lever:
+            this->openGates();
+            break;
+        case State::Types::snack:
+            this->removeSnack(s);
+            break;
+        default:
+            return s;
+    }
+    return s;
+}
+
+double Maze::getReward(State *state) {
+    /* Todo: Snack state is shared among all players? */
+    switch (state->getType()) {
+        case State::Types::goal:
+            return GOAL_REWARD;
+        case State::Types::snack:
+            return POSITIVE_REWARD;
+        case State::Types::pit:
+            return NEGATIVE_REWARD;
+        default:
+            return NORMAL_REWARD;
+    }
+}
+
+std::tuple<State*, double> Maze::getStateTransitionResult(State *s, Actions a) {
+    State *newState = this->getNextState(s, a);
+    double reward = this->getReward(newState);
+    newState = this->getSpecialStateResult(newState);
+    return std::make_tuple(newState, reward);
+}
+
+std::string Maze::actionAsString(enum Maze::Actions a) {
+    switch (a) {
+        case Actions::moveUp:
+            return "UP";
+        case Actions::moveRight:
+            return "RIGHT";
+        case Actions::moveDown:
+            return "DOWN";
+        default:
+            return "LEFT";
+    }
+}
+
+std::string Maze::getMazeIdentifier() {
+    return this->mazeIdentifier;
+}
+
+int Maze::getMazeWidth() {
     return this->width;
 }
 
-/**
- * Sets the width of the maze.
- *
- * @param width The width to assign to the maze.
- */
-void Maze::setWidth(int newWidth) {
-    this->width = newWidth;
-}
-
-/**
- * Obtains the height of the maze.
- *
- * @return The maze's height.
- */
-int Maze::getHeight() {
+int Maze::getMazeHeight() {
     return this->height;
-}
-
-/**
- * Obtains the entry in the maze at the specified location.
- *
- * If an invalid address is given, an exclamation mark '!' is returned.
- *
- * @param x The X-coordinate of the address.
- * @param y The Y-coordinate of the address.
- * @return The entry, if available.
- * @throws out_of_range If the position is out of range.
- */
-char Maze::getEntry(Position p) {
-    if (this->isWithinBounds(p)) {
-        return this->entries.at(p);
-    } else {
-        throw std::out_of_range("This maze position is out of range!\n");
-    }
-}
-
-State Maze::getStartingState() {
-    return State(Position(0, 0), &this);
 }

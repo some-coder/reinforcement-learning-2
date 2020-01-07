@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = /snap/clion/97/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
+RM = /snap/clion/97/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/niels/Documents/university/3rd-year/reinforcement-learning-practical/assignments/assignment-2/code
+CMAKE_SOURCE_DIR = /home/niels/Documents/university/third-year/reinforcement-learning/assignments/assignment-2/code
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/niels/Documents/university/3rd-year/reinforcement-learning-practical/assignments/assignment-2/code/cmake-build-debug
+CMAKE_BINARY_DIR = /home/niels/Documents/university/third-year/reinforcement-learning/assignments/assignment-2/code/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/niels/Documents/university/3rd-year/reinforcement-lear
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/snap/clion/97/bin/cmake/linux/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/snap/clion/97/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/niels/Documents/university/3rd-year/reinforcement-learning-practical/assignments/assignment-2/code/cmake-build-debug/CMakeFiles /Users/niels/Documents/university/3rd-year/reinforcement-learning-practical/assignments/assignment-2/code/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/niels/Documents/university/third-year/reinforcement-learning/assignments/assignment-2/code/cmake-build-debug/CMakeFiles /home/niels/Documents/university/third-year/reinforcement-learning/assignments/assignment-2/code/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/niels/Documents/university/3rd-year/reinforcement-learning-practical/assignments/assignment-2/code/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/niels/Documents/university/third-year/reinforcement-learning/assignments/assignment-2/code/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,6 +123,60 @@ maze/fast:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/build
 .PHONY : maze/fast
 
+sources/DynamicProgrammingPlayer.o: sources/DynamicProgrammingPlayer.cpp.o
+
+.PHONY : sources/DynamicProgrammingPlayer.o
+
+# target to build an object file
+sources/DynamicProgrammingPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/DynamicProgrammingPlayer.cpp.o
+.PHONY : sources/DynamicProgrammingPlayer.cpp.o
+
+sources/DynamicProgrammingPlayer.i: sources/DynamicProgrammingPlayer.cpp.i
+
+.PHONY : sources/DynamicProgrammingPlayer.i
+
+# target to preprocess a source file
+sources/DynamicProgrammingPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/DynamicProgrammingPlayer.cpp.i
+.PHONY : sources/DynamicProgrammingPlayer.cpp.i
+
+sources/DynamicProgrammingPlayer.s: sources/DynamicProgrammingPlayer.cpp.s
+
+.PHONY : sources/DynamicProgrammingPlayer.s
+
+# target to generate assembly for a file
+sources/DynamicProgrammingPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/DynamicProgrammingPlayer.cpp.s
+.PHONY : sources/DynamicProgrammingPlayer.cpp.s
+
+sources/LearningPlayer.o: sources/LearningPlayer.cpp.o
+
+.PHONY : sources/LearningPlayer.o
+
+# target to build an object file
+sources/LearningPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/LearningPlayer.cpp.o
+.PHONY : sources/LearningPlayer.cpp.o
+
+sources/LearningPlayer.i: sources/LearningPlayer.cpp.i
+
+.PHONY : sources/LearningPlayer.i
+
+# target to preprocess a source file
+sources/LearningPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/LearningPlayer.cpp.i
+.PHONY : sources/LearningPlayer.cpp.i
+
+sources/LearningPlayer.s: sources/LearningPlayer.cpp.s
+
+.PHONY : sources/LearningPlayer.s
+
+# target to generate assembly for a file
+sources/LearningPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/LearningPlayer.cpp.s
+.PHONY : sources/LearningPlayer.cpp.s
+
 sources/Main.o: sources/Main.cpp.o
 
 .PHONY : sources/Main.o
@@ -150,6 +204,195 @@ sources/Main.cpp.s:
 	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Main.cpp.s
 .PHONY : sources/Main.cpp.s
 
+sources/Maze.o: sources/Maze.cpp.o
+
+.PHONY : sources/Maze.o
+
+# target to build an object file
+sources/Maze.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.o
+.PHONY : sources/Maze.cpp.o
+
+sources/Maze.i: sources/Maze.cpp.i
+
+.PHONY : sources/Maze.i
+
+# target to preprocess a source file
+sources/Maze.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.i
+.PHONY : sources/Maze.cpp.i
+
+sources/Maze.s: sources/Maze.cpp.s
+
+.PHONY : sources/Maze.s
+
+# target to generate assembly for a file
+sources/Maze.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Maze.cpp.s
+.PHONY : sources/Maze.cpp.s
+
+sources/MonteCarloPlayer.o: sources/MonteCarloPlayer.cpp.o
+
+.PHONY : sources/MonteCarloPlayer.o
+
+# target to build an object file
+sources/MonteCarloPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloPlayer.cpp.o
+.PHONY : sources/MonteCarloPlayer.cpp.o
+
+sources/MonteCarloPlayer.i: sources/MonteCarloPlayer.cpp.i
+
+.PHONY : sources/MonteCarloPlayer.i
+
+# target to preprocess a source file
+sources/MonteCarloPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloPlayer.cpp.i
+.PHONY : sources/MonteCarloPlayer.cpp.i
+
+sources/MonteCarloPlayer.s: sources/MonteCarloPlayer.cpp.s
+
+.PHONY : sources/MonteCarloPlayer.s
+
+# target to generate assembly for a file
+sources/MonteCarloPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/MonteCarloPlayer.cpp.s
+.PHONY : sources/MonteCarloPlayer.cpp.s
+
+sources/Player.o: sources/Player.cpp.o
+
+.PHONY : sources/Player.o
+
+# target to build an object file
+sources/Player.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.o
+.PHONY : sources/Player.cpp.o
+
+sources/Player.i: sources/Player.cpp.i
+
+.PHONY : sources/Player.i
+
+# target to preprocess a source file
+sources/Player.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.i
+.PHONY : sources/Player.cpp.i
+
+sources/Player.s: sources/Player.cpp.s
+
+.PHONY : sources/Player.s
+
+# target to generate assembly for a file
+sources/Player.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/Player.cpp.s
+.PHONY : sources/Player.cpp.s
+
+sources/PolicyIterationPlayer.o: sources/PolicyIterationPlayer.cpp.o
+
+.PHONY : sources/PolicyIterationPlayer.o
+
+# target to build an object file
+sources/PolicyIterationPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/PolicyIterationPlayer.cpp.o
+.PHONY : sources/PolicyIterationPlayer.cpp.o
+
+sources/PolicyIterationPlayer.i: sources/PolicyIterationPlayer.cpp.i
+
+.PHONY : sources/PolicyIterationPlayer.i
+
+# target to preprocess a source file
+sources/PolicyIterationPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/PolicyIterationPlayer.cpp.i
+.PHONY : sources/PolicyIterationPlayer.cpp.i
+
+sources/PolicyIterationPlayer.s: sources/PolicyIterationPlayer.cpp.s
+
+.PHONY : sources/PolicyIterationPlayer.s
+
+# target to generate assembly for a file
+sources/PolicyIterationPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/PolicyIterationPlayer.cpp.s
+.PHONY : sources/PolicyIterationPlayer.cpp.s
+
+sources/RandomServices.o: sources/RandomServices.cpp.o
+
+.PHONY : sources/RandomServices.o
+
+# target to build an object file
+sources/RandomServices.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.o
+.PHONY : sources/RandomServices.cpp.o
+
+sources/RandomServices.i: sources/RandomServices.cpp.i
+
+.PHONY : sources/RandomServices.i
+
+# target to preprocess a source file
+sources/RandomServices.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.i
+.PHONY : sources/RandomServices.cpp.i
+
+sources/RandomServices.s: sources/RandomServices.cpp.s
+
+.PHONY : sources/RandomServices.s
+
+# target to generate assembly for a file
+sources/RandomServices.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/RandomServices.cpp.s
+.PHONY : sources/RandomServices.cpp.s
+
+sources/State.o: sources/State.cpp.o
+
+.PHONY : sources/State.o
+
+# target to build an object file
+sources/State.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/State.cpp.o
+.PHONY : sources/State.cpp.o
+
+sources/State.i: sources/State.cpp.i
+
+.PHONY : sources/State.i
+
+# target to preprocess a source file
+sources/State.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/State.cpp.i
+.PHONY : sources/State.cpp.i
+
+sources/State.s: sources/State.cpp.s
+
+.PHONY : sources/State.s
+
+# target to generate assembly for a file
+sources/State.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/State.cpp.s
+.PHONY : sources/State.cpp.s
+
+sources/TimeDifferencePlayer.o: sources/TimeDifferencePlayer.cpp.o
+
+.PHONY : sources/TimeDifferencePlayer.o
+
+# target to build an object file
+sources/TimeDifferencePlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/TimeDifferencePlayer.cpp.o
+.PHONY : sources/TimeDifferencePlayer.cpp.o
+
+sources/TimeDifferencePlayer.i: sources/TimeDifferencePlayer.cpp.i
+
+.PHONY : sources/TimeDifferencePlayer.i
+
+# target to preprocess a source file
+sources/TimeDifferencePlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/TimeDifferencePlayer.cpp.i
+.PHONY : sources/TimeDifferencePlayer.cpp.i
+
+sources/TimeDifferencePlayer.s: sources/TimeDifferencePlayer.cpp.s
+
+.PHONY : sources/TimeDifferencePlayer.s
+
+# target to generate assembly for a file
+sources/TimeDifferencePlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/maze.dir/build.make CMakeFiles/maze.dir/sources/TimeDifferencePlayer.cpp.s
+.PHONY : sources/TimeDifferencePlayer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -157,11 +400,38 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... edit_cache"
 	@echo "... maze"
+	@echo "... edit_cache"
+	@echo "... sources/DynamicProgrammingPlayer.o"
+	@echo "... sources/DynamicProgrammingPlayer.i"
+	@echo "... sources/DynamicProgrammingPlayer.s"
+	@echo "... sources/LearningPlayer.o"
+	@echo "... sources/LearningPlayer.i"
+	@echo "... sources/LearningPlayer.s"
 	@echo "... sources/Main.o"
 	@echo "... sources/Main.i"
 	@echo "... sources/Main.s"
+	@echo "... sources/Maze.o"
+	@echo "... sources/Maze.i"
+	@echo "... sources/Maze.s"
+	@echo "... sources/MonteCarloPlayer.o"
+	@echo "... sources/MonteCarloPlayer.i"
+	@echo "... sources/MonteCarloPlayer.s"
+	@echo "... sources/Player.o"
+	@echo "... sources/Player.i"
+	@echo "... sources/Player.s"
+	@echo "... sources/PolicyIterationPlayer.o"
+	@echo "... sources/PolicyIterationPlayer.i"
+	@echo "... sources/PolicyIterationPlayer.s"
+	@echo "... sources/RandomServices.o"
+	@echo "... sources/RandomServices.i"
+	@echo "... sources/RandomServices.s"
+	@echo "... sources/State.o"
+	@echo "... sources/State.i"
+	@echo "... sources/State.s"
+	@echo "... sources/TimeDifferencePlayer.o"
+	@echo "... sources/TimeDifferencePlayer.i"
+	@echo "... sources/TimeDifferencePlayer.s"
 .PHONY : help
 
 

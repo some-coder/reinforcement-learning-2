@@ -1,22 +1,37 @@
 #ifndef RUN_HPP
 #define RUN_HPP
 
-#include <vector>
-#include "Maze.hpp"
 #include "Player.hpp"
+#include "SynchronousPolicyIterationPlayer.hpp"
+#include "AsynchronousPolicyIterationPlayer.hpp"
+#include "SynchronousValueIterationPlayer.hpp"
+#include "AsynchronousValueIterationPlayer.hpp"
+#include "MonteCarloExploringStartsPlayer.hpp"
+#include "MonteCarloFirstVisitPlayer.hpp"
+#include "MonteCarloEveryVisitPlayer.hpp"
+#include "Datum.hpp"
+
+/* Todo: Make maze state separate for all algorithms. */
 
 class Run {
-    public:
-        enum PlayerTypes {random};
-
     private:
-        std::vector<PlayerTypes> participantTypes;
-        std::vector<Player*> participants;
+        int id;
         Maze maze;
-        void
+        std::vector<Player::Types> playerSelection;
+        std::vector<Player*> players;
+        Datum results;
+        std::map<Player::Types, std::vector<double>> prepareTimings();
+        std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> preparePolicies();
+        void allocatePlayer(Player::Types type);
+        void allocatePlayers();
+        void runAlgorithms();
+        Datum datumFromRun();
+        void deallocatePlayers();
 
     public:
-        Run(std::vector<PlayerTypes> types);
+        Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSelection);
+        ~Run();
+        Datum conductRun();
 };
 
 #endif

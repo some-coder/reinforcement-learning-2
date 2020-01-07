@@ -1,25 +1,21 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include <vector>
-#include "Position.hpp"
-#include "Maze.hpp"
-
 class State {
     public:
-        enum direction {Up, Right, Down, Left};
+        enum Types {path, start, goal, warp, lever, gate, snack, pit, none};
 
     private:
-        Position p;
-        std::vector<direction> actions;
-        void determineLegalActions(Maze *m);
-        /* Agents map states to values */
+        int x;
+        int y;
+        Types type;
 
     public:
-        State(Position pos, Maze *m);
-        bool operator<(const State & other) const;
-        Position getPosition();
-        std::vector<State::direction> getActions();
+        State(int x, int y, Types type);
+        int getX();
+        int getY();
+        Types getType();
+        void setType(Types t);
 };
 
 #endif
