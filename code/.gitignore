@@ -2,7 +2,8 @@
 *
 !*.*
 !*/
-!makefile
+makefile
+Makefile
 
 # Ignore LaTeX outputs 
 *.aux
