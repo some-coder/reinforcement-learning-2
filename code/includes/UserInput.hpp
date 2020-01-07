@@ -9,8 +9,11 @@
 class UserInput {
     private:
         static bool useRandomPreBuiltMazes();
-        static std::vector<Maze> selectedMazes();
+        static int randomPreBuiltMazesAmount();
+        static std::vector<std::string> randomMazeSelection();
+        static std::vector<std::string> selectedMazes();
         static bool useAllPlayers();
+        static Player::Types playerTypeFromInteger(int i);
         static std::vector<Player::Types> selectedPlayers();
 
     public:
