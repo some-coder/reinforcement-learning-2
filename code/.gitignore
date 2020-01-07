@@ -45,3 +45,6 @@ cmake_install.cmake
 
 # Ignore swap files (Vim)
 *.swp
+
+!output/data/timings.csv
+!output/data/policies.csv
