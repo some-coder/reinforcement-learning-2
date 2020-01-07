@@ -27,6 +27,8 @@ class Datum {
         std::string singlePlayerPolicy(Player::Types type);
         std::string playerPolicies();
         void writeDatumToFiles();
+        std::string getMazeIdentifier();
+        std::map<std::tuple<int, int, Maze::Actions>, double> getPolicy(Player::Types type);
 };
 
 #endif

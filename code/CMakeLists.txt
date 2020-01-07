@@ -31,6 +31,7 @@ set(SOURCES
         sources/MonteCarloEveryVisitPlayer.cpp
         sources/Datum.cpp
         sources/Run.cpp
+        sources/ExploitPlayer.cpp
         sources/Experiment.cpp
         sources/UserInput.cpp
         sources/Main.cpp)
@@ -55,6 +56,7 @@ set(INCLUDES
         includes/MonteCarloEveryVisitPlayer.hpp
         includes/Datum.hpp
         includes/Run.hpp
+        includes/ExploitPlayer.hpp
         includes/Experiment.hpp
         includes/UserInput.hpp
         includes/Maze.hpp

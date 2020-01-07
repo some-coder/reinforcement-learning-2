@@ -107,3 +107,11 @@ void Datum::writeDatumToFiles() {
     output << this->playerPolicies();
     output.close();
 }
+
+std::string Datum::getMazeIdentifier() {
+    return this->mazeIdentifier;
+}
+
+std::map<std::tuple<int, int, Maze::Actions>, double> Datum::getPolicy(Player::Types type) {
+    return this->policies[type];
+}

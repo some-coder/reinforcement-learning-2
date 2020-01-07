@@ -162,3 +162,7 @@ std::string Player::playerTypeAsString(Player::Types type) {
             return "Unknown Algorithm";
     }
 }
+
+bool Player::maximumIterationReached() {
+    return this->currentEpoch >= this->timeoutEpoch;
+}

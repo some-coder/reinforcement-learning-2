@@ -38,6 +38,73 @@ void Experiment::clearOldData() {
     output.close();
 }
 
+std::map<std::tuple<int, int, Maze::Actions>, double> Experiment::averagePolicy(const std::string& mazeIdentifier,
+        Player::Types type) {
+    int datumIndex, count;
+    std::map<std::tuple<int, int, Maze::Actions>, double> policy;
+    std::map<std::tuple<int, int, Maze::Actions>, double> average;
+    count = 0;
+    for (datumIndex = 0; datumIndex < (int)this->data.size(); datumIndex++) {
+        policy = this->data[datumIndex].getPolicy(type);
+        if (this->data[datumIndex].getMazeIdentifier() == mazeIdentifier) {
+            count++;
+            if (average.empty()) {
+                /* Simply copy the policy. */
+                average = policy;
+            } else {
+                /* Add to the probability sum for the state action pairs. */
+                for (auto const& a : average) {
+                    average[a.first] += policy[a.first];
+                }
+            }
+        }
+    }
+    for (auto const& a : average) {
+        /* Correct for the number of times the map was present in the experiment. */
+        average[a.first] /= (double)count;
+    }
+    return average;
+}
+
+bool Experiment::mazeIdentifierAlreadyPresent(std::vector<std::string> *mazeIdentifiers, std::string mazeIdentifier) {
+    int identifierIndex;
+    for (identifierIndex = 0; identifierIndex < (int)mazeIdentifiers->size(); identifierIndex++) {
+        if ((*mazeIdentifiers)[identifierIndex] == mazeIdentifier) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<std::string> Experiment::getMazeIdentifiers() {
+    int datumIndex;
+    std::string current;
+    std::vector<std::string> mazeIdentifiers;
+    for (datumIndex = 0; datumIndex < (int)this->data.size(); datumIndex++) {
+        current = this->data[datumIndex].getMazeIdentifier();
+        if (!this->mazeIdentifierAlreadyPresent(&mazeIdentifiers, current)) {
+            mazeIdentifiers.push_back(current);
+        }
+    }
+    return mazeIdentifiers;
+}
+
+void Experiment::getAveragePolicies() {
+    int mazeIdentifierIndex, playerTypeIndex;
+    std::string mazeIdentifier;
+    Player::Types playerType;
+    std::vector<std::string> mazeIdentifiers;
+    mazeIdentifiers = this->getMazeIdentifiers();
+    for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)mazeIdentifiers.size(); mazeIdentifierIndex++) {
+        mazeIdentifier = mazeIdentifiers[mazeIdentifierIndex];
+        for (playerTypeIndex = 0; playerTypeIndex < (int)this->selectedPlayers.size(); playerTypeIndex++) {
+            playerType = this->selectedPlayers[playerTypeIndex];
+            this->averagePolicies[std::make_tuple(mazeIdentifier, playerType)] = this->averagePolicy(mazeIdentifier,
+                    playerType);
+        }
+    }
+}
+
 /**
  * Writes data of the experiment to "output/data/".
  * 
@@ -67,6 +134,7 @@ void Experiment::conductExperiment() {
         Run run = Run(runIndex, this->runMazeIdentifier(runIndex), this->selectedPlayers);
         this->data.push_back(run.conductRun());
     }
+    this->getAveragePolicies();
     this->writeData();
 }
 

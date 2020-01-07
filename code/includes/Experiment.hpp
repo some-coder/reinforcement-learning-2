@@ -8,9 +8,16 @@ class Experiment {
         int runNumber;
         std::vector<std::string> selectedMazes;
         std::vector<Player::Types> selectedPlayers;
+        std::map<std::tuple<std::string, Player::Types>, std::map<std::tuple<int, int, Maze::Actions>, double>>
+            averagePolicies;
         std::vector<Datum> data;
         std::string runMazeIdentifier(int runIndex);
         static void clearOldData();
+        bool mazeIdentifierAlreadyPresent(std::vector<std::string> *mazeIdentifiers, std::string mazeIdentifier);
+        std::vector<std::string> getMazeIdentifiers();
+        std::map<std::tuple<int, int, Maze::Actions>, double> averagePolicy(const std::string& mazeIdentifier,
+                Player::Types type);
+        void getAveragePolicies();
         void writeData();
 
     public:

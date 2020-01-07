@@ -25,10 +25,6 @@ void LearningPlayer::initialiseStateActionValues() {
     }
 }
 
-bool LearningPlayer::maximumIterationReached() {
-    return this->currentEpoch >= this->timeoutEpoch;
-}
-
 LearningPlayer::~LearningPlayer() = default;
 
 void LearningPlayer::printStateActionValues(State* s) {
