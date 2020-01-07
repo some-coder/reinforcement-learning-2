@@ -26,7 +26,7 @@ std::string Experiment::runMazeIdentifier(int runIndex) {
 
 void Experiment::clearOldData() {
     std::ofstream output;
-    output.open("output/data/timings.csv", std::ofstream::out | std::ofstream::trunc);
+    output.open("output/data/timings.csv", std::ofstream::trunc);
     output.close();
 }
 
