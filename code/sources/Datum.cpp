@@ -19,6 +19,13 @@ Datum::Datum(int id) {
 
 Datum::~Datum() = default;
 
+/**
+ * Creates and returns a string of the timings of a single player.
+ * 
+ * The function loops through all the timings of the specific player and appends its timings to a text (string).
+ * 
+ * @return text with policies of a single player
+ */
 std::string Datum::singlePlayerTimings(Player::Types type) {
     int timingIndex;
     std::string playerTimings;
@@ -32,6 +39,13 @@ std::string Datum::singlePlayerTimings(Player::Types type) {
     return playerTimings;
 }
 
+/**
+ * Creates and returns a string of the timings of all players.
+ * 
+ * The function loops through all players and appends all their timings to one big text (string).
+ * 
+ * @return text with timings of all players
+ */
 std::string Datum::playerTimings() {
     int playerIndex;
     std::string playerTimings;
@@ -62,6 +76,13 @@ std::string Datum::singlePlayerPolicy(Player::Types type) {
     return playerPolicy;
 }
 
+/**
+ * Creates and returns a string of the policies of all players.
+ * 
+ * The function loops through all players and appends all their policies to one big text (string).
+ * 
+ * @return text with policies of all players
+ */
 std::string Datum::playerPolicies() {
     int playerIndex;
     std::string playerPolicies;
@@ -71,6 +92,12 @@ std::string Datum::playerPolicies() {
     return playerPolicies;
 }
 
+/**
+ * Writes the timings and policies of the player for every epoch to "output/data/".
+ * 
+ * Writes the timings of the player for every epoch to "output/data/timings.csv".
+ * Writes the policies of the player for every epoch to "output/data/policies.csv".
+ */
 void Datum::writeDatumToFiles() {
     std::ofstream output;
     output.open("output/data/timings.csv", std::ios_base::app);
