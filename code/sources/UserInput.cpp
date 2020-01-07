@@ -54,6 +54,7 @@ std::vector<std::string> UserInput::randomMazeSelection() {
  * @return a vector of strings representing mazes
  */
 std::vector<std::string> UserInput::selectedMazes() {
+    int repeatIndex;
     std::string currentString;
     std::vector<std::string> mazes;
     if (UserInput::useRandomPreBuiltMazes()) {
@@ -71,7 +72,9 @@ std::vector<std::string> UserInput::selectedMazes() {
             mazes.emplace_back("");
         } else if (currentString != "done") {
             /* Pre-built maze. */
-            mazes.push_back("input/" + currentString + ".in");
+            for (repeatIndex = 0; repeatIndex < UserInput::REPETITION_FACTOR; repeatIndex++) {
+                mazes.push_back("input/" + currentString + ".in");
+            }
         }
     } while (currentString != "done");
     return mazes;

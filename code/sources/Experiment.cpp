@@ -82,14 +82,18 @@ bool Experiment::mazeIdentifierAlreadyPresent(std::string mazeIdentifier) {
 std::vector<std::string> Experiment::getMazeIdentifiers() {
     int datumIndex;
     std::string current;
-    std::vector<std::string> mazeIdentifiers;
+    std::vector<std::string> identifiers;
     for (datumIndex = 0; datumIndex < (int)this->data.size(); datumIndex++) {
         current = this->data[datumIndex].getMazeIdentifier();
         if (!this->mazeIdentifierAlreadyPresent(current)) {
-            mazeIdentifiers.push_back(current);
+            identifiers.push_back(current);
         }
     }
-    return mazeIdentifiers;
+    return identifiers;
+}
+
+void Experiment::reportProgress(int current, int maximum) {
+    std::cout << "\r  [" << ((double)current / (maximum - 1.0)) * 100.0 << "%]" << std::flush;
 }
 
 void Experiment::getAveragePolicies() {
@@ -142,11 +146,14 @@ void Experiment::evaluateAveragePolicy(int mazeIdentifierIndex, Player::Types ty
 
 void Experiment::evaluateAveragePolicies() {
     int mazeIdentifierIndex, playerIndex;
+    std::cout << "Evaluating average policies." << std::endl;
     for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
+        Experiment::reportProgress(mazeIdentifierIndex, (int)this->mazeIdentifiers.size());
         for (playerIndex = 0; playerIndex < (int)this->selectedPlayers.size(); playerIndex++) {
             this->evaluateAveragePolicy(mazeIdentifierIndex, this->selectedPlayers[playerIndex]);
         }
     }
+    std::cout << std::endl;
 }
 
 std::string Experiment::averagePolicyRewardAsString(std::string mazeIdentifier, Player::Types type) {
@@ -200,10 +207,13 @@ void Experiment::writeData() {
 void Experiment::conductExperiment() {
     int runIndex;
     this->clearOldData();
+    std::cout << "Performing runs..." << std::endl;
     for (runIndex = 0; runIndex < this->runNumber; runIndex++) {
+        Experiment::reportProgress(runIndex, this->runNumber);
         Run run = Run(runIndex, this->runMazeIdentifier(runIndex), this->selectedPlayers);
         this->data.push_back(run.conductRun());
     }
+    std::cout << std::endl;
     this->mazeIdentifiers = this->getMazeIdentifiers();
     this->getAveragePolicies();
     this->evaluateAveragePolicies();
