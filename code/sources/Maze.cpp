@@ -294,6 +294,7 @@ State* Maze::getSpecialStateResult(State *s) {
             this->openGates();
             break;
         case State::Types::snack:
+            std::cout << "Removed snack" << std::endl;
             this->removeSnack(s);
             break;
         default:
