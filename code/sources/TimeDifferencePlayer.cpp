@@ -6,7 +6,16 @@ TimeDifferencePlayer::TimeDifferencePlayer(Maze *m, double gamma, int T, double 
 
 TimeDifferencePlayer::~TimeDifferencePlayer() = default;
 
+void TimeDifferencePlayer::solveMaze() {
+    this->initialiseStateValues();
+    this->initialisePolicy(false);
+    
+    
+}
 /*
+State *s = this->maze->getStartingState();
+    Maze::Actions a = this->chooseAction(s);
+
 Evaluate_Policy(policy):
     randomly_initialize_non_terminal_states_values()
 

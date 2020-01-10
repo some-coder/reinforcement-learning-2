@@ -10,6 +10,13 @@ class TimeDifferencePlayer : public LearningPlayer {
     public:
         TimeDifferencePlayer(Maze *m, double gamma, int T, double alpha);
         ~TimeDifferencePlayer() override;
+        void solveMaze() override;
+
+    /*private:
+        void performAction();
+        void evaluateStateValues();
+    */
+        
 };
 
 #endif
