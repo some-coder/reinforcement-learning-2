@@ -2,12 +2,19 @@
 
 MonteCarloPlayer::MonteCarloPlayer(Maze *m, double gamma, int T, bool initialiseStochastic) :
         LearningPlayer(m, gamma, T, initialiseStochastic) {
+    //TODO: this is already done in learning player though, right?
     this->currentEpoch = 0;
     this->timeoutEpoch = T;
 }
 
 MonteCarloPlayer::~MonteCarloPlayer() = default;
 
+/**
+ * Returns the action with the highest stateActionValue in the provided state.
+ * 
+ * @param s the state for which the action has to be chosen
+ * @return an action
+ */
 Maze::Actions MonteCarloPlayer::greedyAction(State *s) {
     int actionIndex;
     std::tuple<State*, Maze::Actions> stateActionPair;

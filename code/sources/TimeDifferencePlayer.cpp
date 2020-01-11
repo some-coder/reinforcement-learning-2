@@ -2,20 +2,56 @@
 
 TimeDifferencePlayer::TimeDifferencePlayer(Maze *m, double gamma, int T, double alpha) : LearningPlayer(m, gamma, T) {
     this->alpha = alpha;
+    this->initialiseQuality();
 }
 
 TimeDifferencePlayer::~TimeDifferencePlayer() = default;
 
-void TimeDifferencePlayer::solveMaze() {
-    this->initialiseStateValues();
-    this->initialisePolicy(false);
-    
-    
+void TimeDifferencePlayer::initialiseQuality() {
+    int i;
+    State *state;
+    std::vector<State>* states;
+    states = this->maze->getStates();
+    for (i = 0; i < (int)states->size(); i++) {
+        state = &(states->at(i));
+        this->setQuality(state, Maze::Actions::moveUp, INITIAL_QUALITY_VALUE);
+        this->setQuality(state, Maze::Actions::moveRight, INITIAL_QUALITY_VALUE);
+        this->setQuality(state, Maze::Actions::moveDown, INITIAL_QUALITY_VALUE);
+        this->setQuality(state, Maze::Actions::moveLeft, INITIAL_QUALITY_VALUE);
+    }
 }
-/*
-State *s = this->maze->getStartingState();
-    Maze::Actions a = this->chooseAction(s);
 
+void TimeDifferencePlayer::setQuality(State *s, Maze::Actions action, double value) {
+    this->quality[std::make_tuple(s, action)] = value;
+}
+
+/**
+ * Returns the action with the highest quality in the provided state.
+ * 
+ * @param s the state for which the action has to be chosen
+ * @return an action
+ */
+Maze::Actions TimeDifferencePlayer::greedyAction(State *s) {
+    int actionIndex;
+    std::tuple<State*, Maze::Actions> stateActionPair;
+    Maze::Actions currentAction, bestAction;
+    double current, best;
+    bestAction = Maze::actionFromIndex(0);
+    stateActionPair = std::make_tuple(s, bestAction);
+    best = this->quality[stateActionPair];
+    for (actionIndex = 1; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+        currentAction = Maze::actionFromIndex(actionIndex);
+        stateActionPair = std::make_tuple(s, currentAction);
+        current = this->quality[stateActionPair];
+        if (current > best) {
+            bestAction = currentAction;
+            best = current;
+        }
+    }
+    return bestAction;
+}
+
+/*
 Evaluate_Policy(policy):
     randomly_initialize_non_terminal_states_values()
 

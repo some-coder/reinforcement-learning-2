@@ -83,7 +83,9 @@ std::vector<double> Player::actionAsActionProbabilityDistribution(Maze::Actions 
 }
 
 /**
- * This function chooses an action for a certain state. The action is chosen based on the action probability.
+ * This function chooses an action for a certain state. The action is chosen based on the policy.
+ * The function looks at the probability of the action according to the policy and returns a randomly chosen
+ * action (in accordance with its probability).
  * 
  * @param s the state the action has to be chosen for
  * @return an action

@@ -113,6 +113,7 @@ void MonteCarloFirstVisitPlayer::performIteration() {
 }
 
 void MonteCarloFirstVisitPlayer::solveMaze() {
+    //TODO: what's the use of calling performInitialisation() if it does nothing?
     this->performInitialisation();
     do {
         auto startTime = std::chrono::high_resolution_clock::now();
