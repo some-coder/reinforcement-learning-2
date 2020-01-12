@@ -294,6 +294,7 @@ State* Maze::getSpecialStateResult(State *s) {
             newState = this->getWarpStateResult(s);
             return newState;
         case State::Types::lever:
+            printf("Standing in (%d, %d) at the lever. Opening gates.\n", s->getX(), s->getY());
             this->openGates();
             break;
         case State::Types::snack:

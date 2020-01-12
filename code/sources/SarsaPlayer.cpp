@@ -26,17 +26,15 @@ void SarsaPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateAc
     int currentIteration, maximumIteration;
     double reward;
     std::tuple<State*, Maze::Actions> stateActionPair, nextStateActionPair;
-    std::tuple<State*, double> result;
     //TODO: is updating the policy like this necessary? Or is it fine with the initial policy values?
     this->updatePolicyUsingQuality();
     currentIteration = -1;
     maximumIteration = std::ceil(EPISODE_TIMEOUT_FRACTION * (double)this->stateValues.size());
     stateActionPair = this->initialStateActionPair();
     do {
-        currentIteration++;        
-        result = this->maze->getStateTransitionResult(std::get<0>(stateActionPair), std::get<1>(stateActionPair));
-        reward = std::get<1>(result);
-        nextStateActionPair = std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
+        currentIteration++;
+        nextStateActionPair = this->nextStateActionPair(stateActionPair);
+        reward = this->rewards.back();
         this->quality[stateActionPair] = this->quality[stateActionPair] + this->alpha * (reward + (this->discountFactor * this->quality[nextStateActionPair]) - this->quality[stateActionPair]);
         this->updatePolicyUsingQuality(std::get<0>(stateActionPair));
     } while (currentIteration < maximumIteration && !Maze::stateIsTerminal(std::get<0>(stateActionPair)));
@@ -97,12 +95,16 @@ std::tuple<State*, Maze::Actions> SarsaPlayer::initialStateActionPair() {
     Maze::Actions a;
     s = this->maze->getStartingState();
     a = this->chooseAction(s);
-//    printf("\t\tAction chosen: %s.\n", Maze::actionAsString(a).c_str());
     return std::make_tuple(s, a);
 }
 
 std::tuple<State*, Maze::Actions> SarsaPlayer::nextStateActionPair(
-        std::tuple<State*, Maze::Actions> currentPair) {}
+        std::tuple<State*, Maze::Actions> currentPair) {
+    std::tuple<State*, double> result;
+    result = this->maze->getStateTransitionResult(std::get<0>(currentPair), std::get<1>(currentPair));
+    this->rewards.push_back(std::get<1>(result));
+    return std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
+}
 
 /*
 Evaluate_Policy(policy):

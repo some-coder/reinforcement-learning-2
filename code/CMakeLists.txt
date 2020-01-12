@@ -29,6 +29,7 @@ set(SOURCES
         sources/MonteCarloExploringStartsPlayer.cpp
         sources/MonteCarloFirstVisitPlayer.cpp
         sources/MonteCarloEveryVisitPlayer.cpp
+        sources/SarsaPlayer.cpp
         sources/Datum.cpp
         sources/Run.cpp
         sources/ExploitPlayer.cpp
@@ -54,6 +55,7 @@ set(INCLUDES
         includes/MonteCarloExploringStartsPlayer.hpp
         includes/MonteCarloFirstVisitPlayer.hpp
         includes/MonteCarloEveryVisitPlayer.hpp
+        includes/SarsaPlayer.hpp
         includes/Datum.hpp
         includes/Run.hpp
         includes/ExploitPlayer.hpp

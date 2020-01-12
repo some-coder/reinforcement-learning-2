@@ -200,14 +200,18 @@ char Player::symbolToCharacter(State::Types symbol) {
     }
 }
 
-void Player::printSituation() {
+void Player::printSituation(State *currentState) {
     int stateIndex;
     State *s;
-    printf("EPOCH %d\n", this->currentEpoch);
     stateIndex = 0;
+    printf("Position: (%d, %d)\n", currentState->getX(), currentState->getY());
     do {
         s = this->maze->getState(stateIndex);
-        printf("%c", Player::symbolToCharacter(this->maze->getState(stateIndex)->getType()));
+        if (s->getX() == currentState->getX() && s->getY() == currentState->getY()) {
+            printf("P");
+        } else {
+            printf("%c", Player::symbolToCharacter(this->maze->getState(stateIndex)->getType()));
+        }
         stateIndex++;
         if (this->maze->getState(stateIndex)->getX() == 0) {
             printf("\n");

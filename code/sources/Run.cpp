@@ -49,7 +49,7 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
             this->players.push_back(new MonteCarloEveryVisitPlayer(&(this->mazes[playerIndex]), 0.9, 1e3));
             break;
         case Player::Types::TDSarsa:
-            this->players.push_back(new SarsaPlayer(&(this->maze), 0.9, 1e3, 0.5, 0.1));
+            this->players.push_back(new SarsaPlayer(&(this->mazes[playerIndex]), 0.9, 1e3, 0.5, 0.1));
             break;
     }
 }

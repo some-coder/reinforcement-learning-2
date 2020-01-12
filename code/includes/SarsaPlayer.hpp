@@ -10,7 +10,7 @@ class SarsaPlayer : public TimeDifferencePlayer {
         void performIteration();
         void updatePolicyUsingQuality();
         void updatePolicyUsingQuality(State *s);
-        std::tuple<State*, Maze::Actions> initialStateActionPair();
+        std::tuple<State*, Maze::Actions> initialStateActionPair() override;
         std::tuple<State*, Maze::Actions> nextStateActionPair(std::tuple<State*, Maze::Actions> currentPair) override;
         void generateEpisode(std::tuple<State*, Maze::Actions> startStateActionPair) override;
 
