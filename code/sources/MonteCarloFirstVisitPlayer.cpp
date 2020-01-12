@@ -13,7 +13,6 @@ std::tuple<State*, Maze::Actions> MonteCarloFirstVisitPlayer::initialStateAction
     Maze::Actions a;
     s = this->maze->getStartingState();
     a = this->chooseAction(s);
-//    printf("\t\tAction chosen: %s.\n", Maze::actionAsString(a).c_str());
     return std::make_tuple(s, a);
 }
 
@@ -38,6 +37,7 @@ void MonteCarloFirstVisitPlayer::generateEpisode(std::tuple<State*, Maze::Action
         stateActionPair = this->nextStateActionPair(stateActionPair);
         this->episode.push_back(stateActionPair);
     } while (currentIteration < maximumIteration && !Maze::stateIsTerminal(std::get<0>(stateActionPair)));
+    this->maze->resetMaze();
 }
 
 double MonteCarloFirstVisitPlayer::episodeReturnComponent(int k, int rewardIndex) {

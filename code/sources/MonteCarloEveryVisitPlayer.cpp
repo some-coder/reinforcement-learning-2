@@ -80,6 +80,7 @@ void MonteCarloEveryVisitPlayer::generateEpisode(std::tuple<State*, Maze::Action
         stateActionPair = this->nextStateActionPair(stateActionPair);
         this->episode.push_back(stateActionPair);
     } while (currentIteration < maximumIteration && !Maze::stateIsTerminal(std::get<0>(stateActionPair)));
+    this->maze->resetMaze();
 }
 
 void MonteCarloEveryVisitPlayer::performInitialisation() {

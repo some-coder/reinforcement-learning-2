@@ -55,6 +55,7 @@ void MonteCarloExploringStartsPlayer::generateEpisode(std::tuple<State *, Maze::
         this->printSituation(std::get<0>(currentStateActionPair));
         this->episode.push_back(currentStateActionPair);
     } while (episodeIteration < episodeTimeout && !Maze::stateIsTerminal(std::get<0>(currentStateActionPair)));
+    this->maze->resetMaze();
 }
 
 double MonteCarloExploringStartsPlayer::episodeReturnComponent(int k, int rewardIndex) {

@@ -9,6 +9,7 @@ class State {
         int x;
         int y;
         Types type;
+        bool activated;
 
     public:
         State(int x, int y, Types type);
@@ -16,6 +17,7 @@ class State {
         int getY();
         Types getType();
         void setType(Types t);
+        void setActivation(bool activation);
 };
 
 #endif

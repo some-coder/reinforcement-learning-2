@@ -49,6 +49,7 @@ class Maze {
         int indexFromCoordinates(int x, int y);
         static Actions actionFromIndex(int index);
         std::tuple<int, int> coordinatesFromIndex(int i);
+        void resetMaze();
         std::vector<State>* getStates();
         static double getReward(State *state);
         State* getState(int index);

@@ -124,6 +124,13 @@ std::tuple<int, int> Maze::coordinatesFromIndex(int i) {
     return std::make_tuple(i % this->width, i / this->width);
 }
 
+void Maze::resetMaze() {
+    int stateIndex;
+    for (stateIndex = 0; stateIndex < (int)this->states.size(); stateIndex++) {
+        this->states[stateIndex].setActivation(false);
+    }
+}
+
 std::vector<State>* Maze::getStates() {
     return &(this->states);
 }
@@ -275,16 +282,16 @@ State* Maze::getWarpStateResult(State *s) {
 }
 
 void Maze::openGates() {
+    int gateStateIndex;
     State *s;
-    while (!this->gateStates.empty()) {
-        s = this->gateStates.back();
-        s->setType(State::Types::path);
-        this->gateStates.pop_back();
+    for (gateStateIndex = 0; gateStateIndex < (int)this->gateStates.size(); gateStateIndex++) {
+        s = this->gateStates[gateStateIndex];
+        s->setActivation(true);
     }
 }
 
 void Maze::removeSnack(State *s) {
-    s->setType(State::Types::path);
+    s->setActivation(true);
 }
 
 State* Maze::getSpecialStateResult(State *s) {

@@ -140,8 +140,8 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Player::getPolicy() {
     std::tuple<int, int, Maze::Actions> stateActionPair;
     std::map<std::tuple<int, int, Maze::Actions>, double> outputPolicy;
     for (stateIndex = 0; stateIndex < (int)this->stateValues.size(); stateIndex++) {
+        s = this->maze->getState(stateIndex);
         for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
-            s = this->maze->getState(stateIndex);
             a = Maze::actionFromIndex(actionIndex);
             stateActionPair = std::make_tuple(s->getX(), s->getY(), a);
             outputPolicy[stateActionPair] = this->policy[s][a];

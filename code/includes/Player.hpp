@@ -19,7 +19,7 @@ class Player {
     protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
         static constexpr int PRESENCE_SCORE_MAXIMUM = 10;
-        static constexpr double EPISODE_TIMEOUT_FRACTION = 1.2;
+        static constexpr double EPISODE_TIMEOUT_FRACTION = 2.0;
         int currentEpoch;
         int timeoutEpoch;
         Maze* maze;
