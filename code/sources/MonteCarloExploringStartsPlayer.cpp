@@ -47,12 +47,9 @@ void MonteCarloExploringStartsPlayer::generateEpisode(std::tuple<State *, Maze::
     currentStateActionPair = startStateActionPair;
     this->episode.push_back(currentStateActionPair);
     this->rewards.push_back(0.0);  /* At the first moment, no rewards are obtained yet. */
-    printf("EPOCH %d\n", this->currentEpoch);
-    this->printSituation(std::get<0>(currentStateActionPair));
     do {
         episodeIteration++;
         currentStateActionPair = this->nextStateActionPair(currentStateActionPair);
-        this->printSituation(std::get<0>(currentStateActionPair));
         this->episode.push_back(currentStateActionPair);
     } while (episodeIteration < episodeTimeout && !Maze::stateIsTerminal(std::get<0>(currentStateActionPair)));
     this->maze->resetMaze();

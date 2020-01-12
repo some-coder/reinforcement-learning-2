@@ -8,7 +8,7 @@
 
 class UserInput {
     public:
-        static constexpr int REPETITION_FACTOR = 1e0;
+        static constexpr int REPETITION_FACTOR = 1e1;
 
     private:
         static bool useRandomPreBuiltMazes();

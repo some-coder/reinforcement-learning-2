@@ -19,9 +19,9 @@ class Player {
     protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
         static constexpr int PRESENCE_SCORE_MAXIMUM = 10;
-        static constexpr double EPISODE_TIMEOUT_FRACTION = 2.0;
+        static constexpr double EPISODE_TIMEOUT_FRACTION = 5.0;
         int currentEpoch;
-        int timeoutEpoch;
+        int timeoutEpoch;  /* Todo: Are timeoutEpoch and maximumIteration confused with one another? */
         Maze* maze;
         double discountFactor;
         std::map<State*, double> stateValues;

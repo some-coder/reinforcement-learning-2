@@ -5,7 +5,7 @@
 
 class Experiment {
     private:
-        static constexpr int EVALUATION_RUNS = 1e1;
+        static constexpr int EVALUATION_RUNS = 1e2;
         int runNumber;
         std::vector<std::string> selectedMazes;
         std::vector<Player::Types> selectedPlayers;

@@ -31,12 +31,9 @@ void SarsaPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateAc
     currentIteration = -1;
     maximumIteration = std::ceil(EPISODE_TIMEOUT_FRACTION * (double)this->stateValues.size());
     stateActionPair = this->initialStateActionPair();
-    printf("EPOCH %d\n", this->currentEpoch);
-    this->printSituation(std::get<0>(stateActionPair));
     do {
         currentIteration++;
         nextStateActionPair = this->nextStateActionPair(stateActionPair);
-        this->printSituation(std::get<0>(stateActionPair));
         reward = this->rewards.back();
         this->quality[stateActionPair] = this->quality[stateActionPair] + this->alpha * (reward + (this->discountFactor * this->quality[nextStateActionPair]) - this->quality[stateActionPair]);
         this->updatePolicyUsingQuality(std::get<0>(stateActionPair));
