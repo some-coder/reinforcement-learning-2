@@ -166,6 +166,8 @@ std::string Player::playerTypeAsString(Player::Types type) {
             return "Monte Carlo First Visit";
         case MonteCarloEveryVisit:
             return "Monte Carlo Every Visit";
+        case TDSarsa:
+            return "TD Sarsa";
         default:
             return "Unknown Algorithm";
     }

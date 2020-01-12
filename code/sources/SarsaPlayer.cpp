@@ -16,10 +16,13 @@ void SarsaPlayer::solveMaze() {
 }
 
 void SarsaPlayer::performIteration() {
-    this->performEpisode();
+    std::tuple<State*, Maze::Actions> startStateActionPair;
+    startStateActionPair = initialStateActionPair();
+    this->generateEpisode(startStateActionPair);
+    this->currentEpoch++;
 }
 
-void SarsaPlayer::performEpisode() {
+void SarsaPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateActionPair) {
     int currentIteration, maximumIteration;
     double reward;
     std::tuple<State*, Maze::Actions> stateActionPair, nextStateActionPair;
@@ -29,12 +32,10 @@ void SarsaPlayer::performEpisode() {
     currentIteration = -1;
     maximumIteration = std::ceil(EPISODE_TIMEOUT_FRACTION * (double)this->stateValues.size());
     stateActionPair = this->initialStateActionPair();
-    this->rewards.push_back(0.0);  /* First iteration has no reward. */
     do {
         currentIteration++;        
         result = this->maze->getStateTransitionResult(std::get<0>(stateActionPair), std::get<1>(stateActionPair));
         reward = std::get<1>(result);
-        this->rewards.push_back(reward);
         nextStateActionPair = std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
         this->quality[stateActionPair] = this->quality[stateActionPair] + this->alpha * (reward + (this->discountFactor * this->quality[nextStateActionPair]) - this->quality[stateActionPair]);
         this->updatePolicyUsingQuality(std::get<0>(stateActionPair));
@@ -99,6 +100,9 @@ std::tuple<State*, Maze::Actions> SarsaPlayer::initialStateActionPair() {
 //    printf("\t\tAction chosen: %s.\n", Maze::actionAsString(a).c_str());
     return std::make_tuple(s, a);
 }
+
+std::tuple<State*, Maze::Actions> SarsaPlayer::nextStateActionPair(
+        std::tuple<State*, Maze::Actions> currentPair) {}
 
 /*
 Evaluate_Policy(policy):
