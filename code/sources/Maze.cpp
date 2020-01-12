@@ -147,6 +147,7 @@ State* Maze::getStartingState() {
             s = this->startingStates[randomIndex];
         } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
     }
+    printf("Starting in (%d, %d)!\n", s->getX(), s->getY());
     return s;
 }
 
@@ -282,9 +283,11 @@ void Maze::removeSnack(State *s) {
 }
 
 State* Maze::getSpecialStateResult(State *s) {
+    State *newState;
     switch (s->getType()) {
         case State::Types::warp:
-            return this->getWarpStateResult(s);
+            newState = this->getWarpStateResult(s);
+            return newState;
         case State::Types::lever:
             this->openGates();
             break;

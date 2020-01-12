@@ -166,3 +166,41 @@ std::string Player::playerTypeAsString(Player::Types type) {
 bool Player::maximumIterationReached() {
     return this->currentEpoch >= this->timeoutEpoch;
 }
+
+char Player::symbolToCharacter(State::Types symbol) {
+    switch (symbol) {
+        case State::Types::path:
+            return '.';
+        case State::Types::start:
+            return '*';
+        case State::Types::goal:
+            return '1';
+        case State::Types::warp:
+            return '0';
+        case State::Types::lever:
+            return ':';
+        case State::Types::gate:
+            return '|';
+        case State::Types::snack:
+            return '%';
+        case State::Types::pit:
+            return '#';
+        case State::Types::none:
+            return ' ';
+    }
+}
+
+void Player::printSituation() {
+    int stateIndex;
+    State *s;
+    printf("EPOCH %d\n", this->currentEpoch);
+    stateIndex = 0;
+    do {
+        s = this->maze->getState(stateIndex);
+        printf("%c", Player::symbolToCharacter(this->maze->getState(stateIndex)->getType()));
+        stateIndex++;
+        if (this->maze->getState(stateIndex)->getX() == 0) {
+            printf("\n");
+        }
+    } while (stateIndex < this->maze->getStates()->size());
+}

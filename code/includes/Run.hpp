@@ -16,13 +16,14 @@
 class Run {
     private:
         int id;
-        Maze maze;
+        std::vector<Maze> mazes;
         std::vector<Player::Types> playerSelection;
         std::vector<Player*> players;
         Datum results;
+        void buildMazes(const std::string& mazeIdentifier);
         std::map<Player::Types, std::vector<double>> prepareTimings();
         std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> preparePolicies();
-        void allocatePlayer(Player::Types type);
+        void allocatePlayer(int playerIndex, Player::Types type);
         void allocatePlayers();
         void runAlgorithms();
         Datum datumFromRun();

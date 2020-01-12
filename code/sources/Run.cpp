@@ -1,10 +1,18 @@
 #include <utility>
 #include "Run.hpp"
 
+void Run::buildMazes(const std::string& mazeIdentifier) {
+    int mazeIndex;
+    for (mazeIndex = 0; mazeIndex < (int)this->playerSelection.size(); mazeIndex++) {
+        this->mazes.emplace_back(mazeIdentifier);
+    }
+}
+
 Run::Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSelection) :
-        maze(std::move(mazeIdentifier)), results(id) {
+        results(id) {
     this->id = id;
     this->playerSelection = std::move(playerSelection);
+    this->buildMazes(mazeIdentifier);
 }
 
 Run::~Run() = default;
@@ -15,30 +23,30 @@ Run::~Run() = default;
  * @param type the type of player that has to be created
  * @return the created player
  */
-void Run::allocatePlayer(Player::Types type) {
+void Run::allocatePlayer(int playerIndex, Player::Types type) {
     switch (type) {
         case Player::Types::SynchronousPolicyIteration:
-            this->players.push_back(new SynchronousPolicyIterationPlayer(&(this->maze), 0.9, 1e-3));
+            this->players.push_back(new SynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3));
             break;
         case Player::Types::AsynchronousPolicyIteration:
-            this->players.push_back(new AsynchronousPolicyIterationPlayer(&(this->maze), 0.9, 1e-3,
+            this->players.push_back(new AsynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3,
                     1e3));
             break;
         case Player::Types::SynchronousValueIteration:
-            this->players.push_back(new SynchronousValueIterationPlayer(&(this->maze), 0.9, 1e-3));
+            this->players.push_back(new SynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3));
             break;
         case Player::Types::AsynchronousValueIteration:
-            this->players.push_back(new AsynchronousValueIterationPlayer(&(this->maze), 0.9, 1e-3,
+            this->players.push_back(new AsynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3,
                     1e3));
             break;
         case Player::Types::MonteCarloExploringStarts:
-            this->players.push_back(new MonteCarloExploringStartsPlayer(&(this->maze), 0.9, 1e3));
+            this->players.push_back(new MonteCarloExploringStartsPlayer(&(this->mazes[playerIndex]), 0.9, 1e3));
             break;
         case Player::Types::MonteCarloFirstVisit:
-            this->players.push_back(new MonteCarloFirstVisitPlayer(&(this->maze), 0.9, 1e3, 0.1));
+            this->players.push_back(new MonteCarloFirstVisitPlayer(&(this->mazes[playerIndex]), 0.9, 1e3, 0.1));
             break;
         case Player::Types::MonteCarloEveryVisit:
-            this->players.push_back(new MonteCarloEveryVisitPlayer(&(this->maze), 0.9, 1e3));
+            this->players.push_back(new MonteCarloEveryVisitPlayer(&(this->mazes[playerIndex]), 0.9, 1e3));
             break;
     }
 }
@@ -50,7 +58,7 @@ void Run::allocatePlayer(Player::Types type) {
 void Run::allocatePlayers() {
     int selectedPlayerIndex;
     for (selectedPlayerIndex = 0; selectedPlayerIndex < (int)this->playerSelection.size(); selectedPlayerIndex++) {
-        this->allocatePlayer(this->playerSelection[selectedPlayerIndex]);
+        this->allocatePlayer(selectedPlayerIndex, this->playerSelection[selectedPlayerIndex]);
     }
 }
 
@@ -106,8 +114,8 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
  * @return A Datum with the results of this run
  */
 Datum Run::datumFromRun() {
-    return Datum(this->id, this->maze.getMazeWidth(), this->maze.getMazeHeight(),
-            this->maze.getMazeIdentifier(), this->playerSelection,
+    return Datum(this->id, this->mazes[0].getMazeWidth(), this->mazes[0].getMazeHeight(),
+            this->mazes[0].getMazeIdentifier(), this->playerSelection,
             this->prepareTimings(), this->preparePolicies());
 }
 

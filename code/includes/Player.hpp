@@ -35,6 +35,7 @@ class Player {
         virtual double actionProbability(State *s, Maze::Actions a);
         static std::vector<double> actionAsActionProbabilityDistribution(Maze::Actions a);
         bool maximumIterationReached();
+        static char symbolToCharacter(State::Types symbol);
 
     public:
         Player(Maze* m, double gamma = 0.0, bool initialiseStochastic = false);
@@ -46,6 +47,7 @@ class Player {
         std::vector<double> getEpochTimings();
         std::map<std::tuple<int, int, Maze::Actions>, double> getPolicy();
         static std::string playerTypeAsString(Player::Types type);
+        void printSituation();
 };
 
 #endif

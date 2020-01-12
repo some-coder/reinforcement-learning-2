@@ -4,7 +4,11 @@
 void MonteCarloExploringStartsPlayer::performInitialisation() {}
 
 State *MonteCarloExploringStartsPlayer::randomState() {
-    return this->maze->getState(RandomServices::discreteUniformSample((int)this->stateValues.size() - 1));
+    State *s;
+    do {
+        s = this->maze->getState(RandomServices::discreteUniformSample((int)this->stateValues.size() - 1));
+    } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
+    return s;
 }
 
 Maze::Actions MonteCarloExploringStartsPlayer::randomAction() {
