@@ -151,6 +151,11 @@ State* Maze::getStartingState() {
     return s;
 }
 
+/**
+ * Returns the action according to the provided index. The index corresponds with an action in the Actions enum.
+ * 
+ * @return an action
+ */
 Maze::Actions Maze::actionFromIndex(int index) {
     /* Todo: This cast works successfully? */
     return (Actions)index;
@@ -292,6 +297,7 @@ State* Maze::getSpecialStateResult(State *s) {
             this->openGates();
             break;
         case State::Types::snack:
+            std::cout << "Removed snack" << std::endl;
             this->removeSnack(s);
             break;
         default:

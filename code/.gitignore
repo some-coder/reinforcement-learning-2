@@ -51,6 +51,7 @@ cmake_install.cmake
 
 # Ignore Visual Studio Code configuration data 
 .vscode/
+compile_commands.json
 
 # Exception, do not ignore the output
 output/

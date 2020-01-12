@@ -82,6 +82,14 @@ std::vector<double> Player::actionAsActionProbabilityDistribution(Maze::Actions 
     return distribution;
 }
 
+/**
+ * This function chooses an action for a certain state. The action is chosen based on the policy.
+ * The function looks at the probability of the action according to the policy and returns a randomly chosen
+ * action (in accordance with its probability).
+ * 
+ * @param s the state the action has to be chosen for
+ * @return an action
+ */
 Maze::Actions Player::chooseAction(State *s) {
     int i;
     double bar, current;
@@ -158,6 +166,8 @@ std::string Player::playerTypeAsString(Player::Types type) {
             return "Monte Carlo First Visit";
         case MonteCarloEveryVisit:
             return "Monte Carlo Every Visit";
+        case TDSarsa:
+            return "TD Sarsa";
         default:
             return "Unknown Algorithm";
     }

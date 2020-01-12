@@ -9,6 +9,7 @@
 #include "MonteCarloExploringStartsPlayer.hpp"
 #include "MonteCarloFirstVisitPlayer.hpp"
 #include "MonteCarloEveryVisitPlayer.hpp"
+#include "SarsaPlayer.hpp"
 #include "Datum.hpp"
 
 /* Todo: Make maze state separate for all algorithms. */

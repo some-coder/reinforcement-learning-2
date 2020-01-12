@@ -40,7 +40,13 @@ Maze::Actions PolicyIterationPlayer::greedyActionForState(State *s) {
     return Maze::actionFromIndex(bestIndex);
 }
 
+/**
+ * This function is called when the player is asked to solve the maze, i.e. start from your starting position and
+ * try to move towards the end of the maze. It does this by repeating the steps of performing evaluation of the
+ * policy and then improving the policy where needed.
+ */
 void PolicyIterationPlayer::solveMaze() {
+    //TODO: why is there a variable i?
     int i = 0;
     do {
         auto startTime = std::chrono::high_resolution_clock::now();

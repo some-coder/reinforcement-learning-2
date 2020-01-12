@@ -115,8 +115,10 @@ Player::Types UserInput::playerTypeFromInteger(int i) {
             return Player::Types::MonteCarloExploringStarts;
         case 5:
             return Player::Types::MonteCarloFirstVisit;
-        default:
+        case 6:
             return Player::Types::MonteCarloEveryVisit;
+        default:
+            return Player::Types::TDSarsa;
     }
 }
 
@@ -144,6 +146,7 @@ std::vector<Player::Types> UserInput::selectedPlayers() {
     printf("    (4) Monte Carlo Exploring Starts.\n");
     printf("    (5) Monte Carlo First Visit Control (yields soft policy).\n");
     printf("    (6) Monte Carlo Every Visit Control (yields soft policy).\n");
+    printf("    (7) Temporal Difference SARSA.\n");
     printf("  Multiple entries possible. Stop by typing '-1'.\n");
     do {
         printf("  Choice: "), scanf("%d", &input);

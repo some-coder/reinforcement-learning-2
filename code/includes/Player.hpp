@@ -13,8 +13,8 @@
 class Player {
     public:
         enum Types {SynchronousPolicyIteration, AsynchronousPolicyIteration, SynchronousValueIteration,
-                AsynchronousValueIteration, MonteCarloExploringStarts, MonteCarloFirstVisit, MonteCarloEveryVisit};
-        static constexpr int PLAYER_TYPE_AMOUNT = 7;
+                AsynchronousValueIteration, MonteCarloExploringStarts, MonteCarloFirstVisit, MonteCarloEveryVisit, TDSarsa};
+        static constexpr int PLAYER_TYPE_AMOUNT = 8;
 
     protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
