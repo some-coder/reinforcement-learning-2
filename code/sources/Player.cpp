@@ -167,7 +167,7 @@ std::string Player::playerTypeAsString(Player::Types type) {
         case MonteCarloEveryVisit:
             return "Monte Carlo Every Visit";
         case TDSarsa:
-            return "TD Sarsa";
+            return "Time-difference SARSA";
         default:
             return "Unknown Algorithm";
     }
@@ -195,7 +195,7 @@ char Player::symbolToCharacter(State::Types symbol) {
             return '%';
         case State::Types::pit:
             return '#';
-        case State::Types::none:
+        default:
             return ' ';
     }
 }
@@ -216,5 +216,5 @@ void Player::printSituation(State *currentState) {
         if (this->maze->getState(stateIndex)->getX() == 0) {
             printf("\n");
         }
-    } while (stateIndex < this->maze->getStates()->size());
+    } while (stateIndex < (int)this->maze->getStates()->size());
 }

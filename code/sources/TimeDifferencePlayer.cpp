@@ -5,6 +5,8 @@ TimeDifferencePlayer::TimeDifferencePlayer(Maze *m, double gamma, int T, double 
     this->initialiseQuality();
 }
 
+/* Todo: We use qualities instead of stateActionValues. But are these used in writing to output? */
+
 TimeDifferencePlayer::~TimeDifferencePlayer() = default;
 
 void TimeDifferencePlayer::initialiseQuality() {
