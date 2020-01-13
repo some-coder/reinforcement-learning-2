@@ -2,6 +2,7 @@
 
 SarsaPlayer::SarsaPlayer(Maze *m, double gamma, int T, double alpha, double epsilon) : TimeDifferencePlayer(m, gamma, T, alpha) {
     this-> epsilon = epsilon;
+    this->updatePolicyUsingQuality();   /* Overwrite parent's policy construction, which was arbitrary. */
 }
 
 SarsaPlayer::~SarsaPlayer() = default;
@@ -17,7 +18,7 @@ void SarsaPlayer::solveMaze() {
 
 void SarsaPlayer::performIteration() {
     std::tuple<State*, Maze::Actions> startStateActionPair;
-    startStateActionPair = initialStateActionPair();
+    startStateActionPair = this->initialStateActionPair();
     this->generateEpisode(startStateActionPair);
     this->currentEpoch++;
 }
@@ -26,16 +27,15 @@ void SarsaPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateAc
     int currentIteration, maximumIteration;
     double reward;
     std::tuple<State*, Maze::Actions> stateActionPair, nextStateActionPair;
-    //TODO: is updating the policy like this necessary? Or is it fine with the initial policy values?
-    this->updatePolicyUsingQuality();
     currentIteration = -1;
     maximumIteration = std::ceil(EPISODE_TIMEOUT_FRACTION * (double)this->stateValues.size());
-    stateActionPair = this->initialStateActionPair();
+    stateActionPair = startStateActionPair;
     do {
         currentIteration++;
         nextStateActionPair = this->nextStateActionPair(stateActionPair);
         reward = this->rewards.back();
-        this->quality[stateActionPair] = this->quality[stateActionPair] + this->alpha * (reward + (this->discountFactor * this->quality[nextStateActionPair]) - this->quality[stateActionPair]);
+        this->quality[stateActionPair] += this->alpha *
+                (reward + (this->discountFactor * this->quality[nextStateActionPair]) - this->quality[stateActionPair]);
         this->updatePolicyUsingQuality(std::get<0>(stateActionPair));
         stateActionPair = nextStateActionPair;
     } while (currentIteration < maximumIteration && !Maze::stateIsTerminal(std::get<0>(stateActionPair)));
@@ -44,7 +44,7 @@ void SarsaPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateAc
 
 /**
  * This function loops through all states and updates for every state the policy using an epsilon-greedy approach.
- * It is epsilon-greedy for the quality of the action.
+ * It is epsilon-greedy with respect to the quality of the action.
  */
 void SarsaPlayer::updatePolicyUsingQuality() {
     State *state;

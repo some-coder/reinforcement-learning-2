@@ -26,30 +26,36 @@ Run::~Run() = default;
 void Run::allocatePlayer(int playerIndex, Player::Types type) {
     switch (type) {
         case Player::Types::SynchronousPolicyIteration:
-            this->players.push_back(new SynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3));
+            this->players.push_back(new SynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+                    1e-3));
             break;
         case Player::Types::AsynchronousPolicyIteration:
-            this->players.push_back(new AsynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3,
-                    1e3));
+            this->players.push_back(new AsynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+                    1e-3, 1e3));
             break;
         case Player::Types::SynchronousValueIteration:
-            this->players.push_back(new SynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3));
+            this->players.push_back(new SynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+                    1e-3));
             break;
         case Player::Types::AsynchronousValueIteration:
-            this->players.push_back(new AsynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9, 1e-3,
-                    1e3));
+            this->players.push_back(new AsynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+                    1e-3, 1e3));
             break;
         case Player::Types::MonteCarloExploringStarts:
-            this->players.push_back(new MonteCarloExploringStartsPlayer(&(this->mazes[playerIndex]), (double)1e0 - (double)1e-4, 1e3));
+            this->players.push_back(new MonteCarloExploringStartsPlayer(&(this->mazes[playerIndex]),
+                    (double)1e0 - (double)1e-4, 1e3));
             break;
         case Player::Types::MonteCarloFirstVisit:
-            this->players.push_back(new MonteCarloFirstVisitPlayer(&(this->mazes[playerIndex]), (double)1e0 - (double)1e-4, 1e3, 0.1));
+            this->players.push_back(new MonteCarloFirstVisitPlayer(&(this->mazes[playerIndex]),
+                    (double)1e0 - (double)1e-4, 1e3, 0.1));
             break;
         case Player::Types::MonteCarloEveryVisit:
-            this->players.push_back(new MonteCarloEveryVisitPlayer(&(this->mazes[playerIndex]), 0.9, 1e3));
+            this->players.push_back(new MonteCarloEveryVisitPlayer(&(this->mazes[playerIndex]), 0.9,
+                    1e3));
             break;
         case Player::Types::TDSarsa:
-            this->players.push_back(new SarsaPlayer(&(this->mazes[playerIndex]), 0.9, 1e3, 0.5, 0.1));
+            this->players.push_back(new SarsaPlayer(&(this->mazes[playerIndex]), 0.9, 2e3, 0.3,
+                    0.1));
             break;
     }
 }
