@@ -53,9 +53,6 @@ cmake_install.cmake
 .vscode/
 compile_commands.json
 
-# Exception, do not ignore the output
-output/
-!output/scripts/r-script.r
-!output/data/timings.csv
-!output/data/policies.csv
-!output/data/policy-rewards.csv
+# Project-specific ignores
+*.eps
+*.csv
