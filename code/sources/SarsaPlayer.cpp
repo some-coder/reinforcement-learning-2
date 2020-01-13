@@ -37,7 +37,7 @@ void SarsaPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateAc
         reward = this->rewards.back();
         this->quality[stateActionPair] = this->quality[stateActionPair] + this->alpha * (reward + (this->discountFactor * this->quality[nextStateActionPair]) - this->quality[stateActionPair]);
         this->updatePolicyUsingQuality(std::get<0>(stateActionPair));
-        nextStateActionPair = stateActionPair;
+        stateActionPair = nextStateActionPair;
     } while (currentIteration < maximumIteration && !Maze::stateIsTerminal(std::get<0>(stateActionPair)));
     this->maze->resetMaze();
 }
