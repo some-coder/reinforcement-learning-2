@@ -168,6 +168,8 @@ std::string Player::playerTypeAsString(Player::Types type) {
             return "Monte Carlo Every Visit";
         case TDSarsa:
             return "Time-difference SARSA";
+        case TDQLearning:
+            return "Time-difference Q-learning";
         default:
             return "Unknown Algorithm";
     }

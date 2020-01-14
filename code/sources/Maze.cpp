@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <Player.hpp>
 #include "RandomServices.hpp"
 #include "Maze.hpp"
 
@@ -143,17 +144,26 @@ State* Maze::getStartingState() {
     int randomIndex;
     State *s;
     if (this->shouldStartAtRandomPosition()) {
+        printf("Got random position!\n");
         do {
             randomIndex = RandomServices::discreteUniformSample((int)this->states.size() - 1);
             s = &(this->states[randomIndex]);
         } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
     } else {
+        printf("Got nonrandom position!\n");
+        /* Works 'till here (X, Y, Type). */
         /* Todo: Does a uniform distribution work with one sample? */
         do {
             randomIndex = RandomServices::discreteUniformSample((int)this->startingStates.size() - 1);
             s = this->startingStates[randomIndex];
         } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
     }
+    printf("(%d, %d): %c.\n", this->getState(14)->getX(), this->getState(14)->getY(),
+           Player::symbolToCharacter(this->getState(14)->getType()));
+    printf("(%d, %d): %c.\n", s->getX(), s->getY(),
+           Player::symbolToCharacter(s->getType()));
+    printf("(%d, %d): %c.\n", this->startingStates[0]->getX(), this->startingStates[0]->getY(),
+            Player::symbolToCharacter(this->startingStates[0]->getType()));
     return s;
 }
 

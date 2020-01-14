@@ -35,7 +35,8 @@ algorithm.abbreviation <- function(algorithm.name) {
             "Synchronous Policy Iteration"  = "SPI",
             "Synchronous Value Iteration"   = "SVI",
             "Monte Carlo Exploring Starts"  = "MES",
-            "Time-difference SARSA"         = "TDS");
+            "Time-difference SARSA"         = "TDS",
+            "Time-difference Q-learning"    = "TDQ");
 }
 
 algorithm.abbreviations <- function(algorithm.names) {
@@ -129,7 +130,7 @@ reward.test <- function(rewards, maze, a1, a2) {
     type   <- c(a1.sub$algorithm, a2.sub$algorithm);
     d      <- data.frame("total.reward" = reward, "type" = type);
     test   <- wilcox.test(total.reward ~ type, data = d);
-    return(test$p.value < 0.01);
+    return(test$p.value < 1e-2);
 }
 
 rewards.tests <- function(rewards, maze.id) {

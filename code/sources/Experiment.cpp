@@ -148,8 +148,8 @@ void Experiment::evaluateAveragePolicies() {
     int mazeIdentifierIndex, playerIndex;
     std::cout << "Evaluating average policies." << std::endl;
     for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
-        Experiment::reportProgress(mazeIdentifierIndex, (int)this->mazeIdentifiers.size());
-        for (playerIndex = 0; playerIndex < (int)this->selectedPlayers.size(); playerIndex++) {
+        Experiment::reportProgress(mazeIdentifierIndex, (int) this->mazeIdentifiers.size());
+        for (playerIndex = 0; playerIndex < (int) this->selectedPlayers.size(); playerIndex++) {
             this->evaluateAveragePolicy(mazeIdentifierIndex, this->selectedPlayers[playerIndex]);
         }
     }

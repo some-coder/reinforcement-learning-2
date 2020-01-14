@@ -12,10 +12,10 @@ class Maze {
         enum Rotations {Zero, Quarter, Half, ThreeQuarters};
         static constexpr int ACTION_NUMBER = 4;
         static constexpr double NORMAL_REWARD = -0.04;
-        static constexpr double POSITIVE_REWARD = 1.0;
+        static constexpr double POSITIVE_REWARD = 10.0;
         static constexpr double NEGATIVE_REWARD = -1.0;
-        static constexpr double GOAL_REWARD = 100.0;
-        static constexpr int MAZES_AVAILABLE = 1;
+        static constexpr double GOAL_REWARD = 30.0;
+        static constexpr int MAZES_AVAILABLE = 4;
 
     private:
         std::tuple<double, double, double, double> moveProbabilities;
@@ -23,7 +23,6 @@ class Maze {
         int height;
         const std::string mazeIdentifier;
         std::vector<State> states;
-        std::vector<State*> startingStates;
         std::vector<State*> gateStates;
         std::vector<State*> goalStates;
         static State::Types typeFromInput(char input);
@@ -42,6 +41,7 @@ class Maze {
         State* getSpecialStateResult(State *s);
 
     public:
+        std::vector<State*> startingStates;
         explicit Maze(std::tuple<double, double, double, double> mps, const std::string& inputFile = "");
         explicit Maze(const std::string& inputFile = "");
         static bool stateIsIntraversible(State *s);

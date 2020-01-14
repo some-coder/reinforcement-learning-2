@@ -13,8 +13,9 @@
 class Player {
     public:
         enum Types {SynchronousPolicyIteration, AsynchronousPolicyIteration, SynchronousValueIteration,
-                AsynchronousValueIteration, MonteCarloExploringStarts, MonteCarloFirstVisit, MonteCarloEveryVisit, TDSarsa};
-        static constexpr int PLAYER_TYPE_AMOUNT = 8;
+                AsynchronousValueIteration, MonteCarloExploringStarts, MonteCarloFirstVisit, MonteCarloEveryVisit,
+                TDSarsa, TDQLearning};
+        static constexpr int PLAYER_TYPE_AMOUNT = 9;
 
     protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
@@ -22,7 +23,6 @@ class Player {
         static constexpr double EPISODE_TIMEOUT_FRACTION = 5.0;
         int currentEpoch;
         int timeoutEpoch;
-        Maze* maze;
         double discountFactor;
         std::map<State*, double> stateValues;
         std::map<State*, std::vector<double>> policy;
@@ -35,9 +35,9 @@ class Player {
         virtual double actionProbability(State *s, Maze::Actions a);
         static std::vector<double> actionAsActionProbabilityDistribution(Maze::Actions a);
         bool maximumIterationReached();
-        static char symbolToCharacter(State::Types symbol);
 
     public:
+        Maze* maze;
         Player(Maze* m, double gamma = 0.0, bool initialiseStochastic = false);
         virtual ~Player();
         virtual Maze::Actions chooseAction(State *s);
@@ -47,6 +47,7 @@ class Player {
         std::vector<double> getEpochTimings();
         std::map<std::tuple<int, int, Maze::Actions>, double> getPolicy();
         static std::string playerTypeAsString(Player::Types type);
+        static char symbolToCharacter(State::Types symbol);
         void printSituation(State *currentState);
 };
 

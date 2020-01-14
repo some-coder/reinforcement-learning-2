@@ -24,7 +24,7 @@ Run::~Run() = default;
  * @return the created player
  */
 void Run::allocatePlayer(int playerIndex, Player::Types type) {
-
+    printf("%s\n", Player::playerTypeAsString(type).c_str());
     switch (type) {
         case Player::Types::SynchronousPolicyIteration:
             this->players.push_back(new SynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9,
@@ -55,8 +55,20 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
                     1e3));
             break;
         case Player::Types::TDSarsa:
+            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
+                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
             this->players.push_back(new SarsaPlayer(&(this->mazes[playerIndex]), 0.9, 1e2, 0.3,
                     0.1));
+            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
+                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
+            break;
+        case Player::Types::TDQLearning:
+            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
+                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
+            this->players.push_back(new QLearningPlayer(&(this->mazes[playerIndex]), 0.9, 1e2, 0.3,
+                                                        0.1));
+            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
+                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
             break;
     }
 }
@@ -78,6 +90,9 @@ void Run::allocatePlayers() {
 void Run::runAlgorithms() {
     int playerIndex;
     for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
+        printf("Algorithm: %s.\n", Player::playerTypeAsString(this->playerSelection[playerIndex]).c_str());
+        printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
+               this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
         this->players[playerIndex]->solveMaze();
     }
 }
@@ -149,9 +164,14 @@ void Run::deallocatePlayers() {
  * @return results of the run (all players) as a Datum
  */
 Datum Run::conductRun() {
+    printf("Allocating players.\n");
     this->allocatePlayers();
+    printf("Running algorithms.\n");
     this->runAlgorithms();
+    printf("Saving results.\n");
     this->results = this->datumFromRun();
+    printf("Deallocating players.\n");
     this->deallocatePlayers();
+    printf("Returning.\n");
     return this->results;
 }
