@@ -30,6 +30,7 @@ set(SOURCES
         sources/MonteCarloFirstVisitPlayer.cpp
         sources/MonteCarloEveryVisitPlayer.cpp
         sources/SarsaPlayer.cpp
+        sources/QLearningPlayer.cpp
         sources/Datum.cpp
         sources/Run.cpp
         sources/ExploitPlayer.cpp
@@ -56,6 +57,7 @@ set(INCLUDES
         includes/MonteCarloFirstVisitPlayer.hpp
         includes/MonteCarloEveryVisitPlayer.hpp
         includes/SarsaPlayer.hpp
+        includes/QLearningPlayer.hpp
         includes/Datum.hpp
         includes/Run.hpp
         includes/ExploitPlayer.hpp

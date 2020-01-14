@@ -1,7 +1,9 @@
 #include "TimeDifferencePlayer.hpp"
 
-TimeDifferencePlayer::TimeDifferencePlayer(Maze *m, double gamma, int T, double alpha) : LearningPlayer(m, gamma, T) {
+TimeDifferencePlayer::TimeDifferencePlayer(Maze *m, double gamma, int T, double alpha, double epsilon) :
+        LearningPlayer(m, gamma, T) {
     this->alpha = alpha;
+    this->epsilon = epsilon;
     this->initialiseQuality();
 }
 
@@ -25,32 +27,6 @@ void TimeDifferencePlayer::initialiseQuality() {
 
 void TimeDifferencePlayer::setQuality(State *s, Maze::Actions action, double value) {
     this->quality[std::make_tuple(s, action)] = value;
-}
-
-/**
- * Returns the action with the highest quality in the provided state.
- * 
- * @param s the state for which the action has to be chosen
- * @return an action
- */
-Maze::Actions TimeDifferencePlayer::greedyAction(State *s) {
-    int actionIndex;
-    std::tuple<State*, Maze::Actions> stateActionPair;
-    Maze::Actions currentAction, bestAction;
-    double current, best;
-    bestAction = Maze::actionFromIndex(0);
-    stateActionPair = std::make_tuple(s, bestAction);
-    best = this->quality[stateActionPair];
-    for (actionIndex = 1; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
-        currentAction = Maze::actionFromIndex(actionIndex);
-        stateActionPair = std::make_tuple(s, currentAction);
-        current = this->quality[stateActionPair];
-        if (current > best) {
-            bestAction = currentAction;
-            best = current;
-        }
-    }
-    return bestAction;
 }
 
 /*

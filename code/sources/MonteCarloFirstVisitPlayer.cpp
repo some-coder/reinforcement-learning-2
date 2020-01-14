@@ -1,4 +1,5 @@
 #include "MonteCarloFirstVisitPlayer.hpp"
+#include "LearningPlayer.hpp"
 
 MonteCarloFirstVisitPlayer::MonteCarloFirstVisitPlayer(Maze *m, double gamma, int T, double epsilon) :
         MonteCarloPlayer(m, gamma, T, true) {

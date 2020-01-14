@@ -1,7 +1,6 @@
 #include "SarsaPlayer.hpp"
 
-SarsaPlayer::SarsaPlayer(Maze *m, double gamma, int T, double alpha, double epsilon) : TimeDifferencePlayer(m, gamma, T, alpha) {
-    this-> epsilon = epsilon;
+SarsaPlayer::SarsaPlayer(Maze *m, double gamma, int T, double alpha, double epsilon) : TimeDifferencePlayer(m, gamma, T, alpha, epsilon) {
     this->updatePolicyUsingQuality();   /* Overwrite parent's policy construction, which was arbitrary. */
 }
 
@@ -106,6 +105,32 @@ std::tuple<State*, Maze::Actions> SarsaPlayer::nextStateActionPair(
     result = this->maze->getStateTransitionResult(std::get<0>(currentPair), std::get<1>(currentPair));
     this->rewards.push_back(std::get<1>(result));
     return std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
+}
+
+/**
+ * Returns the action with the highest quality in the provided state.
+ *
+ * @param s the state for which the action has to be chosen
+ * @return an action
+ */
+Maze::Actions SarsaPlayer::greedyAction(State *s) {
+    int actionIndex;
+    std::tuple<State*, Maze::Actions> stateActionPair;
+    Maze::Actions currentAction, bestAction;
+    double current, best;
+    bestAction = Maze::actionFromIndex(0);
+    stateActionPair = std::make_tuple(s, bestAction);
+    best = this->quality[stateActionPair];
+    for (actionIndex = 1; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+        currentAction = Maze::actionFromIndex(actionIndex);
+        stateActionPair = std::make_tuple(s, currentAction);
+        current = this->quality[stateActionPair];
+        if (current > best) {
+            bestAction = currentAction;
+            best = current;
+        }
+    }
+    return bestAction;
 }
 
 /*

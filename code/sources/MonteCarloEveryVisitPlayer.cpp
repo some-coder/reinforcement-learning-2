@@ -1,5 +1,6 @@
 #include <RandomServices.hpp>
 #include "MonteCarloEveryVisitPlayer.hpp"
+#include "LearningPlayer.hpp"
 
 MonteCarloEveryVisitPlayer::MonteCarloEveryVisitPlayer(Maze *m, double gamma, int T) : MonteCarloPlayer(m, gamma, T) {
     this->temperature = STARTING_TEMPERATURE;

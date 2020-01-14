@@ -6,14 +6,12 @@
 class TimeDifferencePlayer : public LearningPlayer {
     protected:
         static constexpr double INITIAL_QUALITY_VALUE = 0.0;
-
         double alpha;
+        double epsilon;
         std::map<std::tuple<State*, Maze::Actions>, double> quality;
-        
-        Maze::Actions greedyAction(State *s);
 
     public:
-        TimeDifferencePlayer(Maze *m, double gamma, int T, double alpha);
+        TimeDifferencePlayer(Maze *m, double gamma, int T, double alpha, double epsilon);
         ~TimeDifferencePlayer() override;
 
     private:

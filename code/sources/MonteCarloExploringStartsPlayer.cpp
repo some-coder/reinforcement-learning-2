@@ -1,5 +1,6 @@
 #include <RandomServices.hpp>
 #include "MonteCarloExploringStartsPlayer.hpp"
+#include "LearningPlayer.hpp"
 
 void MonteCarloExploringStartsPlayer::performInitialisation() {}
 
