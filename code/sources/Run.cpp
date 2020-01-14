@@ -24,6 +24,7 @@ Run::~Run() = default;
  * @return the created player
  */
 void Run::allocatePlayer(int playerIndex, Player::Types type) {
+
     switch (type) {
         case Player::Types::SynchronousPolicyIteration:
             this->players.push_back(new SynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9,
@@ -54,7 +55,7 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
                     1e3));
             break;
         case Player::Types::TDSarsa:
-            this->players.push_back(new SarsaPlayer(&(this->mazes[playerIndex]), 0.9, 2e3, 0.3,
+            this->players.push_back(new SarsaPlayer(&(this->mazes[playerIndex]), 0.9, 1e2, 0.3,
                     0.1));
             break;
     }

@@ -14,7 +14,7 @@ class Maze {
         static constexpr double NORMAL_REWARD = -0.04;
         static constexpr double POSITIVE_REWARD = 1.0;
         static constexpr double NEGATIVE_REWARD = -1.0;
-        static constexpr double GOAL_REWARD = 1.0;
+        static constexpr double GOAL_REWARD = 100.0;
         static constexpr int MAZES_AVAILABLE = 1;
 
     private:

@@ -34,7 +34,8 @@ algorithm.abbreviation <- function(algorithm.name) {
             "Monte Carlo First Visit"       = "MFV",
             "Synchronous Policy Iteration"  = "SPI",
             "Synchronous Value Iteration"   = "SVI",
-            "Monte Carlo Exploring Starts"  = "MES");
+            "Monte Carlo Exploring Starts"  = "MES",
+            "Time-difference SARSA"         = "TDS");
 }
 
 algorithm.abbreviations <- function(algorithm.names) {
