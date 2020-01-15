@@ -11,6 +11,10 @@ TimeDifferencePlayer::TimeDifferencePlayer(Maze *m, double gamma, int T, double 
 
 TimeDifferencePlayer::~TimeDifferencePlayer() = default;
 
+/**
+ * This function initializes the values of quality to zero. Quality is later used to update the
+ * policy of a player.
+ */
 void TimeDifferencePlayer::initialiseQuality() {
     int i;
     State *state;
@@ -25,6 +29,13 @@ void TimeDifferencePlayer::initialiseQuality() {
     }
 }
 
+/**
+ * This function sets a value in quality of a certain state-action pair to the given value.
+ * 
+ * @param s The state 
+ * @param action The action
+ * @param value The quality value for the given state-action pair
+ */
 void TimeDifferencePlayer::setQuality(State *s, Maze::Actions action, double value) {
     this->quality[std::make_tuple(s, action)] = value;
 }

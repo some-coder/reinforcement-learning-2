@@ -6,6 +6,10 @@ SarsaPlayer::SarsaPlayer(Maze *m, double gamma, int T, double alpha, double epsi
 
 SarsaPlayer::~SarsaPlayer() = default;
 
+/**
+ * The public function that gets called when you want the player to play and solve the maze
+ * whilst learning from doing so.
+ */
 void SarsaPlayer::solveMaze() {
     printf("Starting solver.\n");
     do {
@@ -18,6 +22,10 @@ void SarsaPlayer::solveMaze() {
     printf("Done!\n");
 }
 
+/**
+ * Perform iteration is a function that controls the generating of a single episode where the 
+ * player tries to navigate the maze. Every iteration adds 1 to the current epoch.
+ */
 void SarsaPlayer::performIteration() {
     std::tuple<State*, Maze::Actions> startStateActionPair;
     /* Works 'till here (X, Y, Type) */
@@ -28,6 +36,12 @@ void SarsaPlayer::performIteration() {
     this->currentEpoch++;
 }
 
+/**
+ * This function generates the episode where the player tries to navigate the maze. It updates the
+ * quality values (which influences the policy) according to the SARSA update function. This
+ * function continues until the player reached the end of the maze or has reached the maximum
+ * amount of steps for an episode.
+ */
 void SarsaPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateActionPair) {
     int currentIteration, maximumIteration;
     double reward;
@@ -97,6 +111,11 @@ void SarsaPlayer::updatePolicyUsingQuality(State *state) {
     this->policy[state] = newPolicy;
 }
 
+/**
+ * This function returns the state action pair of the start state and its first action.
+ * 
+ * @return The state action pair where the player should begin
+ */
 std::tuple<State*, Maze::Actions> SarsaPlayer::initialStateActionPair() {
     State *s;
     Maze::Actions a;
@@ -109,6 +128,13 @@ std::tuple<State*, Maze::Actions> SarsaPlayer::initialStateActionPair() {
     return std::make_tuple(s, a);
 }
 
+/**
+ * This function returns the resulting state after the player did an action combined with the new
+ * action according to the policy for the new state.
+ * 
+ * @param currentPair The state which the player is in first combined with the action it's going to do
+ * @return The state action pair of the new state the player is in
+ */
 std::tuple<State*, Maze::Actions> SarsaPlayer::nextStateActionPair(
         std::tuple<State*, Maze::Actions> currentPair) {
     std::tuple<State*, double> result;

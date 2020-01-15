@@ -8,10 +8,22 @@ LearningPlayer::LearningPlayer(Maze *m, double gamma, int T, bool initialiseStoc
     this->initialiseStateActionValues();
 }
 
+/**
+ * This function sets a value in state-action values of a certain state-action pair to the 
+ * given value.
+ * 
+ * @param s The state 
+ * @param action The action
+ * @param value The state-action value for the given state-action pair
+ */
 void LearningPlayer::setStateActionValue(State *s, Maze::Actions action, double value) {
     this->stateActionValues[std::make_tuple(s, action)] = value;
 }
 
+/**
+ * This function initializes the values of state-action values to zero. State-action values are 
+ * later used to update the policy of a player.
+ */
 void LearningPlayer::initialiseStateActionValues() {
     int i;
     State *state;
@@ -28,6 +40,11 @@ void LearningPlayer::initialiseStateActionValues() {
 
 LearningPlayer::~LearningPlayer() = default;
 
+/**
+ * Print the state-action values of the player for a certain state.
+ * 
+ * @param s The state for which you want to print the state-action values
+ */
 void LearningPlayer::printStateActionValues(State* s) {
     int actionIndex;
     std::string actionAsString;
@@ -43,6 +60,9 @@ void LearningPlayer::printStateActionValues(State* s) {
     }
 }
 
+/**
+ * Print the policy of the player.
+ */
 void LearningPlayer::printFinalPolicy() {
     int stateIndex;
     State *s;
