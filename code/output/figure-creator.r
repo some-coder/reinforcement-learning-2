@@ -18,6 +18,7 @@ input.frame.column.names <- function(file.name) {
 #' @param file.name The name of the data file in subdirectory 'data'.
 #' @return The frame.
 input.frame.from.program <- function(file.name) {
+    cat(paste("  Reading '", file.name, "'.\n", sep = ""));
     with.extension <- paste('data/', file.name, '.csv', sep = '')
     f <- read.csv(with.extension, stringsAsFactors = FALSE, header = FALSE);
     colnames(f) <- input.frame.column.names(file.name);
@@ -40,6 +41,7 @@ algorithm.abbreviation <- function(algorithm.name) {
 }
 
 algorithm.abbreviations <- function(algorithm.names) {
+    cat("  Abbreviating algorithm names.\n");
     abbreviations <- c();
     for (name in algorithm.names) {
         abbreviations <- c(abbreviations, algorithm.abbreviation(name));
@@ -52,6 +54,7 @@ algorithm.abbreviations <- function(algorithm.names) {
 #' @param timings The timing data per epoch.
 #' @return The frame, collapsed.
 total.timings <- function(timings) {
+    cat("  Aggregating epoch timings into run times.\n");
     return(aggregate(millisecond.timing ~ run.id + maze.id + algorithm, data = timings, FUN = sum));
 }
 
@@ -60,6 +63,7 @@ total.timings <- function(timings) {
 #' @param total.timings Total times of the algorithms.
 #' @param maze.id The maze ID of which to make boxplots for.
 maze.timing.boxplot <- function(total.timings, maze.id) {
+    cat(paste("    ", "Building boxplot of maze '", maze.id, "'.\n", sep = ""));
     m <- maze.id;
     sub <- subset(total.timings, maze.id == m);
     boxplot(millisecond.timing ~ algorithm,
@@ -76,6 +80,7 @@ maze.timing.boxplot <- function(total.timings, maze.id) {
 maze.timing.boxplots <- function(total.timings) {
     maze.amount <- length(unique(total.timings$maze.id));
     par(mfrow = c(maze.amount, 1));
+    cat("  Building run times boxplots.\n");
     for (maze in unique(total.timings$maze.id)) {
         maze.timing.boxplot(total.timings, maze);
     }
@@ -83,6 +88,7 @@ maze.timing.boxplots <- function(total.timings) {
 }
 
 maze.reward.boxplot <- function(gains, maze.id) {
+    cat(paste("    ", "Building boxplot of maze '", maze.id, "'.\n", sep = ""));
     m <- maze.id;
     sub <- subset(gains, maze.id == m);
     boxplot(total.reward ~ algorithm,
@@ -96,6 +102,7 @@ maze.reward.boxplot <- function(gains, maze.id) {
 maze.reward.boxplots <- function(gains) {
     maze.amount <- length(unique(gains$maze.id));
     par(mfrow = c(maze.amount, 1));
+    cat("  Building algorithm average policy rewards boxplots.\n");
     for (maze in unique(gains$maze.id)) {
         maze.reward.boxplot(gains, maze);
     }
