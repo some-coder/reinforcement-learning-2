@@ -32,6 +32,7 @@ std::string Experiment::runMazeIdentifier(int runIndex) {
  * from a previous experiment. This function clears these files.
  */
 void Experiment::clearOldData() {
+    printf("  (1/6) Removing old data.\n");
     std::ofstream output;
     output.open("output/data/timings.csv", std::ofstream::trunc);
     output.close();
@@ -69,6 +70,17 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Experiment::averagePolicy(
     return average;
 }
 
+void Experiment::conductRuns() {
+    int runIndex;
+    printf("  (2/6) Conducting runs.\n");
+    for (runIndex = 0; runIndex < this->runNumber; runIndex++) {
+        Experiment::reportProgress(runIndex, this->runNumber);
+        Run run = Run(runIndex, this->runMazeIdentifier(runIndex), this->selectedPlayers);
+        this->data.push_back(run.conductRun());
+    }
+    printf("\n");
+}
+
 bool Experiment::mazeIdentifierAlreadyPresent(std::string mazeIdentifier) {
     int identifierIndex;
     for (identifierIndex = 0; identifierIndex < (int)this->mazeIdentifiers.size(); identifierIndex++) {
@@ -83,17 +95,20 @@ std::vector<std::string> Experiment::getMazeIdentifiers() {
     int datumIndex;
     std::string current;
     std::vector<std::string> identifiers;
+    printf("  (3/6) Assigning maze identifiers.\n");
     for (datumIndex = 0; datumIndex < (int)this->data.size(); datumIndex++) {
+        Experiment::reportProgress(datumIndex, (int)this->data.size());
         current = this->data[datumIndex].getMazeIdentifier();
         if (!this->mazeIdentifierAlreadyPresent(current)) {
             identifiers.push_back(current);
         }
     }
+    printf("\n");
     return identifiers;
 }
 
 void Experiment::reportProgress(int current, int maximum) {
-    printf("\r\t[%.1lf%%]", (((double)current + 1.0) / maximum) * 100.0);
+    printf("\r    [%.1lf%%]", (((double)current + 1.0) / maximum) * 100.0);
     fflush(stdout);
 }
 
@@ -101,7 +116,9 @@ void Experiment::getAveragePolicies() {
     int mazeIdentifierIndex, playerTypeIndex;
     std::string mazeIdentifier;
     Player::Types playerType;
+    printf("  (4/6) Taking the averages of policies.\n");
     for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
+        Experiment::reportProgress(mazeIdentifierIndex, (int)this->mazeIdentifiers.size());
         mazeIdentifier = this->mazeIdentifiers[mazeIdentifierIndex];
         for (playerTypeIndex = 0; playerTypeIndex < (int)this->selectedPlayers.size(); playerTypeIndex++) {
             playerType = this->selectedPlayers[playerTypeIndex];
@@ -109,6 +126,7 @@ void Experiment::getAveragePolicies() {
                     playerType);
         }
     }
+    printf("\n");
 }
 
 std::map<State*, std::vector<double>> Experiment::convertedPolicy(Maze *m, Player::Types type) {
@@ -147,14 +165,14 @@ void Experiment::evaluateAveragePolicy(int mazeIdentifierIndex, Player::Types ty
 
 void Experiment::evaluateAveragePolicies() {
     int mazeIdentifierIndex, playerIndex;
-    std::cout << "Evaluating average policies." << std::endl;
+    printf("  (5/6) Evaluating average policies.\n");
     for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
         Experiment::reportProgress(mazeIdentifierIndex, (int) this->mazeIdentifiers.size());
         for (playerIndex = 0; playerIndex < (int) this->selectedPlayers.size(); playerIndex++) {
             this->evaluateAveragePolicy(mazeIdentifierIndex, this->selectedPlayers[playerIndex]);
         }
     }
-    std::cout << std::endl;
+    printf("\n");
 }
 
 std::string Experiment::averagePolicyRewardAsString(std::string mazeIdentifier, Player::Types type) {
@@ -192,9 +210,12 @@ void Experiment::writeAveragePoliciesRewards() {
  */
 void Experiment::writeData() {
     int datumIndex;
+    printf("  (6/6) Writing data to output.\n");
     for (datumIndex = 0; datumIndex < (int)this->data.size(); datumIndex++) {
+        Experiment::reportProgress(datumIndex, (int)this->data.size());
         this->data[datumIndex].writeDatumToFiles();
     }
+    printf("\n");
 }
 
 /**
@@ -206,15 +227,9 @@ void Experiment::writeData() {
  * The time it takes for an algorithm to complete an epoch is written to "output/data/timings.csv". The policies of the player are written to "output/data/policies.csv"
  */
 void Experiment::conductExperiment() {
-    int runIndex;
+    printf("\nEXPERIMENT IN PROGRESS\n");
     this->clearOldData();
-    std::cout << "Performing runs..." << std::endl;
-    for (runIndex = 0; runIndex < this->runNumber; runIndex++) {
-        Experiment::reportProgress(runIndex, this->runNumber);
-        Run run = Run(runIndex, this->runMazeIdentifier(runIndex), this->selectedPlayers);
-        this->data.push_back(run.conductRun());
-    }
-    std::cout << std::endl;
+    this->conductRuns();
     this->mazeIdentifiers = this->getMazeIdentifiers();
     this->getAveragePolicies();
     this->evaluateAveragePolicies();

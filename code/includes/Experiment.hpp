@@ -5,7 +5,7 @@
 
 class Experiment {
     private:
-        static constexpr int EVALUATION_RUNS = 1e0;
+        static constexpr int EVALUATION_RUNS = 1e2;
         int runNumber;
         std::vector<std::string> selectedMazes;
         std::vector<Player::Types> selectedPlayers;
@@ -16,6 +16,7 @@ class Experiment {
         std::map<std::tuple<std::string, Player::Types>, std::vector<double>> averagePolicyRewards;
         std::string runMazeIdentifier(int runIndex);
         static void clearOldData();
+        void conductRuns();
         bool mazeIdentifierAlreadyPresent(std::string mazeIdentifier);
         std::vector<std::string> getMazeIdentifiers();
         std::map<std::tuple<int, int, Maze::Actions>, double> averagePolicy(const std::string& mazeIdentifier,

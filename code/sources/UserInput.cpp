@@ -8,10 +8,10 @@
  */
 bool UserInput::useRandomPreBuiltMazes() {
     int input;
-    printf("Should we use random, pre-built mazes?\n");
-    printf("  Options: (0) False, (1) True.\n");
+    printf("  Should we use random, pre-built mazes?\n");
+    printf("    Options: (0) False, (1) True.\n");
     do {
-        printf("  Choice: "), scanf("%d", &input);
+        printf("    Choice: "), scanf("%d", &input);
     } while (input != 0 && input != 1);
     return input == 1;
 }
@@ -23,10 +23,10 @@ bool UserInput::useRandomPreBuiltMazes() {
  */
 int UserInput::randomPreBuiltMazesAmount() {
     int input;
-    printf("How many runs should be performed? Each run has a random maze assigned to it.\n");
-    printf("  Options: An integer (greater than zero).\n");
+    printf("  How many runs should be performed? Each run has a random maze assigned to it.\n");
+    printf("    Options: An integer (greater than zero).\n");
     do {
-        printf("  Choice: "), scanf("%d", &input);
+        printf("    Choice: "), scanf("%d", &input);
     } while (input <= 0);
     return input;
 }
@@ -61,11 +61,11 @@ std::vector<std::string> UserInput::selectedMazes() {
         /* Randomly generate numerous pre-built mazes. */
         return UserInput::randomMazeSelection();
     }
-    printf("Which mazes would you like to use?\n");
-    printf("  Options: Pre-built maze in input/ (excluding .in), or self-built maze (by typing '-').\n");
-    printf("  Multiple entries possible. Stop by typing 'done'.\n");
+    printf("  Which mazes would you like to use?\n");
+    printf("    Options: Pre-built maze in input/ (excluding .in), or self-built maze (by typing '-').\n");
+    printf("    Multiple entries possible. Stop by typing 'done'.\n");
     do {
-        printf("  Choice: ");
+        printf("    Choice: ");
         std::cin >> currentString;
         if (currentString == "-") {
             /* Input maze. */
@@ -87,10 +87,10 @@ std::vector<std::string> UserInput::selectedMazes() {
  */
 bool UserInput::useAllPlayers() {
     int input;
-    printf("Use all available algorithms?\n");
-    printf("  Options: (0) False, (1) True.\n");
+    printf("  Use all available algorithms?\n");
+    printf("    Options: (0) False, (1) True.\n");
     do {
-        printf("  Choice: "), scanf("%d", &input);
+        printf("    Choice: "), scanf("%d", &input);
     } while (input != 0 && input != 1);
     return input == 1;
 }
@@ -139,20 +139,20 @@ std::vector<Player::Types> UserInput::selectedPlayers() {
         }
         return selection;
     }
-    printf("Which algorithms would you like to use?\n");
-    printf("  Options:\n");
-    printf("    (0) Synchronous Policy Iteration.\n");
-    printf("    (1) Asynchronous Policy Iteration.\n");
-    printf("    (2) Synchronous Value Iteration.\n");
-    printf("    (3) Asynchronous Value Iteration.\n");
-    printf("    (4) Monte Carlo Exploring Starts.\n");
-    printf("    (5) Monte Carlo First Visit Control (yields soft policy).\n");
-    printf("    (6) Monte Carlo Every Visit Control (yields soft policy).\n");
-    printf("    (7) Temporal Difference SARSA.\n");
-    printf("    (8) Temporal Difference Q-learning.\n");
-    printf("  Multiple entries possible. Stop by typing '-1'.\n");
+    printf("  Which algorithms would you like to use?\n");
+    printf("    Options:\n");
+    printf("      (0) Synchronous Policy Iteration.\n");
+    printf("      (1) Asynchronous Policy Iteration.\n");
+    printf("      (2) Synchronous Value Iteration.\n");
+    printf("      (3) Asynchronous Value Iteration.\n");
+    printf("      (4) Monte Carlo Exploring Starts.\n");
+    printf("      (5) Monte Carlo First Visit Control (yields soft policy).\n");
+    printf("      (6) Monte Carlo Every Visit Control (yields soft policy).\n");
+    printf("      (7) Temporal Difference SARSA.\n");
+    printf("      (8) Temporal Difference Q-learning.\n");
+    printf("    Multiple entries possible. Stop by typing '-1'.\n");
     do {
-        printf("  Choice: "), scanf("%d", &input);
+        printf("    Choice: "), scanf("%d", &input);
         if (input >= 0 && input < Player::PLAYER_TYPE_AMOUNT) {
             selection.push_back(UserInput::playerTypeFromInteger(input));
         }
@@ -166,5 +166,6 @@ std::vector<Player::Types> UserInput::selectedPlayers() {
  * @return an Experiment with selected players and mazes
  */
 Experiment UserInput::experimentFromUserInput() {
+    printf("SPECIFY EXPERIMENT CONDITIONS\n");
     return Experiment(UserInput::selectedPlayers(), UserInput::selectedMazes());
 }
