@@ -92,7 +92,7 @@ void LearningPlayer::printFinalPolicy() {
  */
 Maze::Actions LearningPlayer::greedyAction(State *s) {
     int actionIndex;
-    std::__1::tuple<State*, Maze::Actions> stateActionPair;
+    std::tuple<State*, Maze::Actions> stateActionPair;
     Maze::Actions currentAction, bestAction;
     double current, best;
     bestAction = Maze::actionFromIndex(0);

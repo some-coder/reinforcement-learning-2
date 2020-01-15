@@ -18,7 +18,7 @@
 class Run {
     private:
         int id;
-        std::vector<Maze> mazes;
+        std::vector<Maze*> mazes;
         std::vector<Player::Types> playerSelection;
         std::vector<Player*> players;
         Datum results;

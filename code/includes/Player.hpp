@@ -20,7 +20,7 @@ class Player {
     protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
         static constexpr int PRESENCE_SCORE_MAXIMUM = 10;
-        static constexpr double EPISODE_TIMEOUT_FRACTION = 5.0;
+        static constexpr double EPISODE_TIMEOUT_FRACTION = 1.5;
         int currentEpoch;
         int timeoutEpoch;
         double discountFactor;

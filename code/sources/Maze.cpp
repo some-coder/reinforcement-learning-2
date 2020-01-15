@@ -94,6 +94,7 @@ void Maze::getMazeSpecialStates() {
 }
 
 Maze::Maze(std::tuple<double, double, double, double> mps, const std::string& inputFile) : mazeIdentifier(inputFile) {
+    printf("Creating maze '%s'.\n", this->mazeIdentifier.c_str());
     if (inputFile.empty()) {
         printf("Please input your self-built maze.\n");
         printf("  Syntax (Step 1): Enter width, height (two integers greater than zero).\n");
@@ -112,6 +113,10 @@ Maze::Maze(std::tuple<double, double, double, double> mps, const std::string& in
 }
 
 Maze::Maze(const std::string& inputFile) : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1), std::move(inputFile)) {}
+
+Maze::~Maze() {
+    printf("Deleting maze '%s'.\n", this->mazeIdentifier.c_str());
+}
 
 bool Maze::shouldStartAtRandomPosition() {
     return this->startingStates.empty();

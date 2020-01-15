@@ -44,6 +44,7 @@ class Maze {
         std::vector<State*> startingStates;
         explicit Maze(std::tuple<double, double, double, double> mps, const std::string& inputFile = "");
         explicit Maze(const std::string& inputFile = "");
+        ~Maze();
         static bool stateIsIntraversible(State *s);
         static bool stateIsTerminal(State *s);
         int indexFromCoordinates(int x, int y);

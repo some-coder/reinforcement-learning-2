@@ -4,8 +4,10 @@
 void Run::buildMazes(const std::string& mazeIdentifier) {
     int mazeIndex;
     for (mazeIndex = 0; mazeIndex < (int)this->playerSelection.size(); mazeIndex++) {
-        this->mazes.emplace_back(mazeIdentifier);
+        printf("Creating maze %d.\n", mazeIndex);
+        this->mazes.push_back(new Maze(mazeIdentifier));
     }
+    printf("Done with looping. Built %d mazes.\n", (int)this->playerSelection.size());
 }
 
 Run::Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSelection) :
@@ -15,7 +17,13 @@ Run::Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSe
     this->buildMazes(mazeIdentifier);
 }
 
-Run::~Run() = default;
+Run::~Run() {
+    int mazeIndex, mazeSize;
+    mazeSize = (int)this->mazes.size();
+    for (mazeIndex = 0; mazeIndex < mazeSize; mazeIndex++) {
+        delete this->mazes[mazeIndex];
+    }
+}
 
 /**
  * Create a player of the provided type and add the player to the vector 'players'.
@@ -27,48 +35,44 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
     printf("%s\n", Player::playerTypeAsString(type).c_str());
     switch (type) {
         case Player::Types::SynchronousPolicyIteration:
-            this->players.push_back(new SynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+            this->players.push_back(new SynchronousPolicyIterationPlayer(this->mazes[playerIndex], 0.9,
                     1e-3));
             break;
         case Player::Types::AsynchronousPolicyIteration:
-            this->players.push_back(new AsynchronousPolicyIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+            this->players.push_back(new AsynchronousPolicyIterationPlayer(this->mazes[playerIndex], 0.9,
                     1e-3, 1e3));
             break;
         case Player::Types::SynchronousValueIteration:
-            this->players.push_back(new SynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+            this->players.push_back(new SynchronousValueIterationPlayer(this->mazes[playerIndex], 0.9,
                     1e-3));
             break;
         case Player::Types::AsynchronousValueIteration:
-            this->players.push_back(new AsynchronousValueIterationPlayer(&(this->mazes[playerIndex]), 0.9,
+            this->players.push_back(new AsynchronousValueIterationPlayer(this->mazes[playerIndex], 0.9,
                     1e-3, 1e3));
             break;
         case Player::Types::MonteCarloExploringStarts:
-            this->players.push_back(new MonteCarloExploringStartsPlayer(&(this->mazes[playerIndex]),
+            this->players.push_back(new MonteCarloExploringStartsPlayer(this->mazes[playerIndex],
                     (double)1e0 - (double)1e-4, 1e3));
             break;
         case Player::Types::MonteCarloFirstVisit:
-            this->players.push_back(new MonteCarloFirstVisitPlayer(&(this->mazes[playerIndex]),
+            this->players.push_back(new MonteCarloFirstVisitPlayer(this->mazes[playerIndex],
                     (double)1e0 - (double)1e-4, 1e3, 0.1));
             break;
         case Player::Types::MonteCarloEveryVisit:
-            this->players.push_back(new MonteCarloEveryVisitPlayer(&(this->mazes[playerIndex]), 0.9,
+            this->players.push_back(new MonteCarloEveryVisitPlayer(this->mazes[playerIndex], 0.9,
                     1e3));
             break;
         case Player::Types::TDSarsa:
-            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
-                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
-            this->players.push_back(new SarsaPlayer(&(this->mazes[playerIndex]), 0.9, 1e2, 0.3,
+            this->players.push_back(new SarsaPlayer(this->mazes[playerIndex], 0.9, 1e2, 0.3,
                     0.1));
-            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
-                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
             break;
         case Player::Types::TDQLearning:
-            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
-                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
-            this->players.push_back(new QLearningPlayer(&(this->mazes[playerIndex]), 0.9, 1e2, 0.3,
+            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex]->startingStates[0]->getX(),
+                   this->mazes[playerIndex]->startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex]->startingStates[0]->getType()));
+            this->players.push_back(new QLearningPlayer(this->mazes[playerIndex], 0.9, 1e2, 0.3,
                                                         0.1));
-            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
-                   this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
+            printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex]->startingStates[0]->getX(),
+                   this->mazes[playerIndex]->startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex]->startingStates[0]->getType()));
             break;
     }
 }
@@ -91,8 +95,6 @@ void Run::runAlgorithms() {
     int playerIndex;
     for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
         printf("Algorithm: %s.\n", Player::playerTypeAsString(this->playerSelection[playerIndex]).c_str());
-        printf("Maze's starting states: (%d, %d): %c.\n", this->mazes[playerIndex].startingStates[0]->getX(),
-               this->mazes[playerIndex].startingStates[0]->getY(), Player::symbolToCharacter(this->mazes[playerIndex].startingStates[0]->getType()));
         this->players[playerIndex]->solveMaze();
     }
 }
@@ -139,8 +141,8 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
  * @return A Datum with the results of this run
  */
 Datum Run::datumFromRun() {
-    return Datum(this->id, this->mazes[0].getMazeWidth(), this->mazes[0].getMazeHeight(),
-            this->mazes[0].getMazeIdentifier(), this->playerSelection,
+    return Datum(this->id, this->mazes[0]->getMazeWidth(), this->mazes[0]->getMazeHeight(),
+            this->mazes[0]->getMazeIdentifier(), this->playerSelection,
             this->prepareTimings(), this->preparePolicies());
 }
 
