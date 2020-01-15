@@ -11,15 +11,12 @@ SarsaPlayer::~SarsaPlayer() = default;
  * whilst learning from doing so.
  */
 void SarsaPlayer::solveMaze() {
-    printf("Starting solver.\n");
     do {
         auto startTime = std::chrono::high_resolution_clock::now();
-        printf("Doing iteration %d.\n", this->currentEpoch);
         this->performIteration();
         auto endTime = std::chrono::high_resolution_clock::now();
         this->epochTimings.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count() / 1e3);
     } while (!this->maximumIterationReached());
-    printf("Done!\n");
 }
 
 /**
@@ -30,9 +27,7 @@ void SarsaPlayer::performIteration() {
     std::tuple<State*, Maze::Actions> startStateActionPair;
     /* Works 'till here (X, Y, Type) */
     startStateActionPair = this->initialStateActionPair();
-    printf("Survived starting iteration!\n");
     this->generateEpisode(startStateActionPair);
-    printf("Survived episode.\n");
     this->currentEpoch++;
 }
 
@@ -119,12 +114,8 @@ void SarsaPlayer::updatePolicyUsingQuality(State *state) {
 std::tuple<State*, Maze::Actions> SarsaPlayer::initialStateActionPair() {
     State *s;
     Maze::Actions a;
-    /* Works 'till here (X, Y, Type) */
     s = this->maze->getStartingState();
-    printf("Got state!\n");
-    printf("X of it is: %d.\n", s->getX());
     a = this->chooseAction(s);
-    printf("Got action!\n");
     return std::make_tuple(s, a);
 }
 

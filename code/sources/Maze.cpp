@@ -94,7 +94,6 @@ void Maze::getMazeSpecialStates() {
 }
 
 Maze::Maze(std::tuple<double, double, double, double> mps, const std::string& inputFile) : mazeIdentifier(inputFile) {
-    printf("Creating maze '%s'.\n", this->mazeIdentifier.c_str());
     if (inputFile.empty()) {
         printf("Please input your self-built maze.\n");
         printf("  Syntax (Step 1): Enter width, height (two integers greater than zero).\n");
@@ -114,9 +113,7 @@ Maze::Maze(std::tuple<double, double, double, double> mps, const std::string& in
 
 Maze::Maze(const std::string& inputFile) : Maze(std::make_tuple(0.8, 0.1, 0.0, 0.1), std::move(inputFile)) {}
 
-Maze::~Maze() {
-    printf("Deleting maze '%s'.\n", this->mazeIdentifier.c_str());
-}
+Maze::~Maze() = default;
 
 bool Maze::shouldStartAtRandomPosition() {
     return this->startingStates.empty();
@@ -149,26 +146,17 @@ State* Maze::getStartingState() {
     int randomIndex;
     State *s;
     if (this->shouldStartAtRandomPosition()) {
-        printf("Got random position!\n");
         do {
             randomIndex = RandomServices::discreteUniformSample((int)this->states.size() - 1);
             s = &(this->states[randomIndex]);
         } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
     } else {
-        printf("Got nonrandom position!\n");
-        /* Works 'till here (X, Y, Type). */
         /* Todo: Does a uniform distribution work with one sample? */
         do {
             randomIndex = RandomServices::discreteUniformSample((int)this->startingStates.size() - 1);
             s = this->startingStates[randomIndex];
         } while (Maze::stateIsTerminal(s) || Maze::stateIsIntraversible(s));
     }
-    printf("(%d, %d): %c.\n", this->getState(14)->getX(), this->getState(14)->getY(),
-           Player::symbolToCharacter(this->getState(14)->getType()));
-    printf("(%d, %d): %c.\n", s->getX(), s->getY(),
-           Player::symbolToCharacter(s->getType()));
-    printf("(%d, %d): %c.\n", this->startingStates[0]->getX(), this->startingStates[0]->getY(),
-            Player::symbolToCharacter(this->startingStates[0]->getType()));
     return s;
 }
 
