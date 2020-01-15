@@ -93,7 +93,8 @@ std::vector<std::string> Experiment::getMazeIdentifiers() {
 }
 
 void Experiment::reportProgress(int current, int maximum) {
-    std::cout << "\r  [" << ((double)current / (maximum - 1.0)) * 100.0 << "%]" << std::flush;
+    printf("\r\t[%.1lf%%]", (((double)current + 1.0) / maximum) * 100.0);
+    fflush(stdout);
 }
 
 void Experiment::getAveragePolicies() {

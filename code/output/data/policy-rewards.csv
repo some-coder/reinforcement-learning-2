@@ -1,2 +1,2 @@
-"input/maze-3.in","Time-difference SARSA","9.120000"
-"input/maze-3.in","Time-difference Q-learning","39.640000"
+"input/maze-2.in","Synchronous Policy Iteration","-1.080000"
+"input/maze-2.in","Asynchronous Policy Iteration","-1.080000"

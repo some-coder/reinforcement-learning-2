@@ -25,7 +25,6 @@ void SarsaPlayer::solveMaze() {
  */
 void SarsaPlayer::performIteration() {
     std::tuple<State*, Maze::Actions> startStateActionPair;
-    /* Works 'till here (X, Y, Type) */
     startStateActionPair = this->initialStateActionPair();
     this->generateEpisode(startStateActionPair);
     this->currentEpoch++;
