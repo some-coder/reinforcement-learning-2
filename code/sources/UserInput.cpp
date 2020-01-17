@@ -103,24 +103,26 @@ bool UserInput::useAllPlayers() {
  */
 Player::Types UserInput::playerTypeFromInteger(int i) {
     switch (i) {
-        case 0:
-            return Player::Types::SynchronousPolicyIteration;
         case 1:
-            return Player::Types::AsynchronousPolicyIteration;
+            return Player::Types::SynchronousPolicyIteration;
         case 2:
-            return Player::Types::SynchronousValueIteration;
+            return Player::Types::AsynchronousPolicyIteration;
         case 3:
-            return Player::Types::AsynchronousValueIteration;
+            return Player::Types::SynchronousValueIteration;
         case 4:
-            return Player::Types::MonteCarloExploringStarts;
+            return Player::Types::AsynchronousValueIteration;
         case 5:
-            return Player::Types::MonteCarloFirstVisit;
+            return Player::Types::MonteCarloExploringStarts;
         case 6:
-            return Player::Types::MonteCarloEveryVisit;
+            return Player::Types::MonteCarloFirstVisit;
         case 7:
+            return Player::Types::MonteCarloEveryVisit;
+        case 8:
             return Player::Types::TDSarsa;
-        default:
+        case 9:
             return Player::Types::TDQLearning;
+        default:
+            return Player::Types::RandomPlayer;
     }
 }
 
@@ -141,15 +143,16 @@ std::vector<Player::Types> UserInput::selectedPlayers() {
     }
     printf("  Which algorithms would you like to use?\n");
     printf("    Options:\n");
-    printf("      (0) Synchronous Policy Iteration.\n");
-    printf("      (1) Asynchronous Policy Iteration.\n");
-    printf("      (2) Synchronous Value Iteration.\n");
-    printf("      (3) Asynchronous Value Iteration.\n");
-    printf("      (4) Monte Carlo Exploring Starts.\n");
-    printf("      (5) Monte Carlo First Visit Control (yields soft policy).\n");
-    printf("      (6) Monte Carlo Every Visit Control (yields soft policy).\n");
-    printf("      (7) Temporal Difference SARSA.\n");
-    printf("      (8) Temporal Difference Q-learning.\n");
+    printf("      (0) Random policy.\n");
+    printf("      (1) Synchronous Policy Iteration.\n");
+    printf("      (2) Asynchronous Policy Iteration.\n");
+    printf("      (3) Synchronous Value Iteration.\n");
+    printf("      (4) Asynchronous Value Iteration.\n");
+    printf("      (5) Monte Carlo Exploring Starts.\n");
+    printf("      (6) Monte Carlo First Visit Control (yields soft policy).\n");
+    printf("      (7) Monte Carlo Every Visit Control (yields soft policy).\n");
+    printf("      (8) Temporal Difference SARSA.\n");
+    printf("      (9) Temporal Difference Q-learning.\n");
     printf("    Multiple entries possible. Stop by typing '-1'.\n");
     do {
         printf("    Choice: "), scanf("%d", &input);

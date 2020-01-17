@@ -152,6 +152,8 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Player::getPolicy() {
 
 std::string Player::playerTypeAsString(Player::Types type) {
     switch (type) {
+        case RandomPlayer:
+            return "Random Policy";
         case SynchronousPolicyIteration:
             return "Synchronous Policy Iteration";
         case AsynchronousPolicyIteration:

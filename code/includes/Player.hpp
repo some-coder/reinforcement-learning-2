@@ -12,15 +12,15 @@
 
 class Player {
     public:
-        enum Types {SynchronousPolicyIteration, AsynchronousPolicyIteration, SynchronousValueIteration,
+        enum Types {RandomPlayer, SynchronousPolicyIteration, AsynchronousPolicyIteration, SynchronousValueIteration,
                 AsynchronousValueIteration, MonteCarloExploringStarts, MonteCarloFirstVisit, MonteCarloEveryVisit,
                 TDSarsa, TDQLearning};
-        static constexpr int PLAYER_TYPE_AMOUNT = 9;
+        static constexpr int PLAYER_TYPE_AMOUNT = 10;
 
     protected:
         static constexpr double INITIAL_STATE_VALUE = 0.0;
         static constexpr int PRESENCE_SCORE_MAXIMUM = 10;
-        static constexpr double EPISODE_TIMEOUT_FRACTION = 1.5;
+        static constexpr double EPISODE_TIMEOUT_FRACTION = 1.2;
         int currentEpoch;
         int timeoutEpoch;
         double discountFactor;

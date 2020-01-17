@@ -60,12 +60,15 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
                     1e3));
             break;
         case Player::Types::TDSarsa:
-            this->players.push_back(new SarsaPlayer(this->mazes[playerIndex], 0.9, 1e2, 0.3,
+            this->players.push_back(new SarsaPlayer(this->mazes[playerIndex], 0.5, 1e2, 0.9,
                     0.1));
             break;
         case Player::Types::TDQLearning:
-            this->players.push_back(new QLearningPlayer(this->mazes[playerIndex], 0.9, 1e2, 0.3,
+            this->players.push_back(new QLearningPlayer(this->mazes[playerIndex], 0.5, 1e2, 0.9,
                                                         0.1));
+            break;
+        default:
+            this->players.push_back(new RandomPlayer(this->mazes[playerIndex]));
             break;
     }
 }

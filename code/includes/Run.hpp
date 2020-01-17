@@ -2,6 +2,7 @@
 #define RUN_HPP
 
 #include "Player.hpp"
+#include "RandomPlayer.hpp"
 #include "SynchronousPolicyIterationPlayer.hpp"
 #include "AsynchronousPolicyIterationPlayer.hpp"
 #include "SynchronousValueIterationPlayer.hpp"

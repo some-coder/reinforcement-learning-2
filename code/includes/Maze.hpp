@@ -12,9 +12,9 @@ class Maze {
         enum Rotations {Zero, Quarter, Half, ThreeQuarters};
         static constexpr int ACTION_NUMBER = 4;
         static constexpr double NORMAL_REWARD = -0.04;
-        static constexpr double POSITIVE_REWARD = 10.0;
+        static constexpr double POSITIVE_REWARD = 0.5;
         static constexpr double NEGATIVE_REWARD = -1.0;
-        static constexpr double GOAL_REWARD = 30.0;
+        static constexpr double GOAL_REWARD = 1.0;
         static constexpr int MAZES_AVAILABLE = 4;
 
     private:

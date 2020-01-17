@@ -29,6 +29,7 @@ input.frame.from.program <- function(file.name) {
 
 algorithm.abbreviation <- function(algorithm.name) {
     switch (algorithm.name,
+            "Random Policy"                 = "RND",
             "Asynchronous Policy Iteration" = "API",
             "Asynchronous Value Iteration"  = "AVI",
             "Monte Carlo Every Visit"       = "MEV",

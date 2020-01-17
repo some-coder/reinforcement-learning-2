@@ -20,6 +20,7 @@ set(SOURCES
         sources/DynamicProgrammingPlayer.cpp
         sources/MonteCarloPlayer.cpp
         sources/TimeDifferencePlayer.cpp
+        sources/RandomPlayer.cpp
         sources/PolicyIterationPlayer.cpp
         sources/ValueIterationPlayer.cpp
         sources/SynchronousPolicyIterationPlayer.cpp
@@ -47,6 +48,7 @@ set(INCLUDES
         includes/DynamicProgrammingPlayer.hpp
         includes/MonteCarloPlayer.hpp
         includes/TimeDifferencePlayer.hpp
+        includes/RandomPlayer.hpp
         includes/PolicyIterationPlayer.hpp
         includes/ValueIterationPlayer.hpp
         includes/SynchronousPolicyIterationPlayer.hpp
