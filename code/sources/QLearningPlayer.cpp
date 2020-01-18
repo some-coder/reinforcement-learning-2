@@ -28,7 +28,9 @@ void QLearningPlayer::performIteration() {
     std::tuple<State*, Maze::Actions> startStateActionPair;
     startStateActionPair = this->initialStateActionPair();
     this->generateEpisode(startStateActionPair);
+    this->addRewardsToTotalRewardPerEpisode();
     this->currentEpoch++;
+    this->rewards.clear();
 }
 
 /**

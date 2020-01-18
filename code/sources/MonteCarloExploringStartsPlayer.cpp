@@ -108,6 +108,7 @@ void MonteCarloExploringStartsPlayer::performIteration() {
         greedyAction = this->greedyAction(std::get<0>(stateActionPair));
         this->policy[std::get<0>(stateActionPair)] = Player::actionAsActionProbabilityDistribution(greedyAction);
     }
+    this->addRewardsToTotalRewardPerEpisode();
     this->currentEpoch++;
     this->episode.clear();
     this->rewards.clear();

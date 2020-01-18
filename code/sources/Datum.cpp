@@ -2,7 +2,8 @@
 
 Datum::Datum(int id, int mazeWidth, int mazeHeight, std::string mazeIdentifier, std::vector<Player::Types> players,
         std::map<Player::Types, std::vector<double>> timings,
-        std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> policies) {
+        std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> policies,
+        std::map<Player::Types, std::vector<double>> averageRewards) {
     this->id = id;
     this->mazeWidth = mazeWidth;
     this->mazeHeight = mazeHeight;
@@ -10,6 +11,7 @@ Datum::Datum(int id, int mazeWidth, int mazeHeight, std::string mazeIdentifier, 
     this->players  = std::move(players);
     this->timings  = std::move(timings);
     this->policies = std::move(policies);
+    this->averageRewards = std::move(averageRewards);
 }
 
 Datum::Datum(int id) {
@@ -32,7 +34,7 @@ std::string Datum::singlePlayerTimings(Player::Types type) {
     for (timingIndex = 0; timingIndex < (int)this->timings[type].size(); timingIndex++) {
         playerTimings.append("\"" + std::to_string(this->id) + "\",");
         playerTimings.append("\"" + this->mazeIdentifier + "\",");
-        playerTimings.append("\"" + Player::playerTypeAsString(type) + "\",");
+        playerTimings.append("\"" + Player::playerTypeAsStringShortened(type) + "\",");
         playerTimings.append("\"" + std::to_string(timingIndex) + "\",");
         playerTimings.append("\"" + std::to_string(this->timings[type][timingIndex]) + "\"\n");
     }
@@ -72,7 +74,7 @@ std::string Datum::singlePlayerPolicy(Player::Types type) {
                 stateActionPair = std::make_tuple(xIndex, yIndex, (Maze::Actions)actionIndex);
                 playerPolicy.append("\"" + std::to_string(this->id) + "\",");
                 playerPolicy.append("\"" + this->mazeIdentifier + "\",");
-                playerPolicy.append("\"" + Player::playerTypeAsString(type) + "\",");
+                playerPolicy.append("\"" + Player::playerTypeAsStringShortened(type) + "\",");
                 playerPolicy.append("\"" + std::to_string(xIndex) + "\",");
                 playerPolicy.append("\"" + std::to_string(yIndex) + "\",");
                 playerPolicy.append("\"" + Maze::actionAsString((Maze::Actions)actionIndex) + "\",");
@@ -99,6 +101,31 @@ std::string Datum::playerPolicies() {
     return playerPolicies;
 }
 
+std::string Datum::singlePlayerAverageReward(Player::Types type) {
+    int timeIndex, size;
+    std::vector<double> averageReward;
+    std::string output;
+    averageReward = this->averageRewards[type];
+    size = averageReward.size();
+    for (timeIndex = 0; timeIndex < size; timeIndex++) {
+        output.append("\"" + std::to_string(this->id) + "\",");
+        output.append("\"" + std::to_string(timeIndex) + "\",");
+        output.append("\"" + this->mazeIdentifier + "\",");
+        output.append("\"" + Player::playerTypeAsStringShortened(type) + "\",");
+        output.append("\"" + std::to_string(averageReward[timeIndex]) + "\"\n");
+    }
+    return output;
+}
+
+std::string Datum::playerAverageRewards() {
+    int playerIndex;
+    std::string playerAverageRewards;
+    for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
+        playerAverageRewards.append(this->singlePlayerAverageReward(this->players[playerIndex]));
+    }
+    return playerAverageRewards;
+}
+
 /**
  * Writes the timings and policies of the player for every epoch to "output/data/".
  * 
@@ -110,8 +137,11 @@ void Datum::writeDatumToFiles() {
     output.open("output/data/timings.csv", std::ios_base::app);
     output << this->playerTimings();
     output.close();
-    output.open("output/data/policies.csv", std::ios_base::app);
+    output.open("output/data/average-policies.csv", std::ios_base::app);
     output << this->playerPolicies();
+    output.close();
+    output.open("output/data/progression.csv", std::ios_base::app);
+    output << this->playerAverageRewards();
     output.close();
 }
 

@@ -5,10 +5,11 @@
 #' @param file.name The file
 input.frame.column.names <- function(file.name) {
     switch (file.name,
-            'policies' = c("run.id", "maze.id", "algorithm", "x", "y", "action",
-                                "selection.probability"),
-            'policy-rewards' = c("maze.id", "algorithm", "total.reward"),
-            'timings' = c("run.id", "maze.id", "algorithm", "iteration", "millisecond.timing"));
+            'average-policies' = c("run.id", "maze.id", "algorithm", "x", "y", "action",
+                                   "selection.probability"),
+            'exploitation' = c("maze.id", "algorithm", "total.reward"),
+            'timings' = c("run.id", "maze.id", "algorithm", "iteration", "millisecond.timing"),
+            'progression' = c("run.id", "time", "maze.id", "algorithm", "episode.reward"));
 }
 
 #' Returns a frame of the given data created by the project's main program.
@@ -152,6 +153,63 @@ rewards.tests <- function(rewards, maze.id) {
     }
 }
 
+make.empty.plot <- function(data, maze) {
+    x.limits <- range(data$time);
+    y.limits <- range(data$episode.reward);
+    plot(c(0, 0),
+         type = "n",
+         xlab = "Time (Epochs)",
+         ylab = "Average total reward",
+         main = paste("Time vs. Average Total Reward\nOn ", maze, sep = ""),
+         xlim = x.limits,
+         ylim = y.limits,
+         panel.first = grid());
+}
+
+algorithm.color <- function(algorithm) {
+    switch(algorithm,
+           "MCES" = "#396ab1",
+           "MCFV" = "#da7c30",
+           "MCEV" = "#3e9651",
+           "TDS"  = "#cc2529",
+           "TDQ"  = "#535154");
+}
+
+algorithm.colors <- function(algorithms) {
+    colors <- c();
+    for (alg in algorithms) {
+        colors <- c(colors, algorithm.color(alg));
+    }
+    return(colors);
+}
+
+maze.progression.plot <- function(data, maze) {
+    make.empty.plot(data, maze);
+    for (alg in unique(data$algorithm)) {
+        single <- subset(data, algorithm == alg, select = c(time, episode.reward));
+        lines(single$episode.reward ~ single$time, col = algorithm.color(alg));
+    }
+    x.limits <- range(data$time);
+    y.limits <- range(data$episode.reward);
+    x.pos <- x.limits[1] + (7/10) * abs(x.limits[2] - x.limits[1]);
+    y.pos <- y.limits[1] + (2/10) * abs(y.limits[2] - y.limits[1]);
+    legend(xy.coords(x.pos, y.pos),
+           legend = unique(data$algorithm),
+           col = algorithm.colors(unique(data$algorithm)),
+           lty = 1,
+           title = 'Legend');
+}
+
+maze.progression.plots <- function(progression) {
+    maze.amount <- length(unique(progression$maze.id));
+    par(mfrow = c(maze.amount, 1));
+    data <- aggregate(episode.reward ~ time + maze.id + algorithm, data = progression, FUN = mean);
+    for (maze in unique(progression$maze.id)) {
+        sub <- subset(data, maze.id == maze);
+        maze.progression.plot(sub, maze);
+    }
+}
+
 # -- Output ------------------------------------------------------------------------------------------------------------
 
 #' Runs this script's main program.
@@ -159,19 +217,23 @@ rewards.tests <- function(rewards, maze.id) {
 #' @return The exit signal. Either 'success' or 'failure'.
 main <- function() {
     timings <- input.frame.from.program('timings'); 
-    rewards <- input.frame.from.program('policy-rewards');
+    rewards <- input.frame.from.program('exploitation');
+    progression <- input.frame.from.program('progression');
     totals  <- total.timings(timings);
-    totals$algorithm <- algorithm.abbreviations(totals$algorithm);
     postscript("figures/time-boxplot.eps", horizontal = FALSE,
                onefile = FALSE, paper = 'special', height = 10,
                width = 10);
     maze.timing.boxplots(totals);
     dev.off();
-    postscript("figures/gains.eps", horizontal = FALSE,
+    postscript("figures/exploitation-boxplot.eps", horizontal = FALSE,
                onefile = FALSE, paper = 'special', height = 10,
                width = 10);
-    rewards$algorithm <- algorithm.abbreviations(rewards$algorithm);
     maze.reward.boxplots(rewards);
+    dev.off();
+    postscript("figures/progression-plot.eps", horizontal = FALSE,
+               onefile = FALSE, paper = 'special', height = 10,
+               width = 10);
+    maze.progression.plots(progression);
     dev.off();
     return("success");
 }

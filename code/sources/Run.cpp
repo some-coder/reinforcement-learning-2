@@ -60,12 +60,12 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
                     1e3));
             break;
         case Player::Types::TDSarsa:
-            this->players.push_back(new SarsaPlayer(this->mazes[playerIndex], 0.5, 1e2, 0.9,
-                    0.1));
+            this->players.push_back(new SarsaPlayer(this->mazes[playerIndex], 9e-1, 5e3, 2.5e-1,
+                    5e-1));
             break;
         case Player::Types::TDQLearning:
-            this->players.push_back(new QLearningPlayer(this->mazes[playerIndex], 0.5, 1e2, 0.9,
-                                                        0.1));
+            this->players.push_back(new QLearningPlayer(this->mazes[playerIndex], 9e-1, 5e3, 2.5e-1,
+                                                        5e-1));
             break;
         default:
             this->players.push_back(new RandomPlayer(this->mazes[playerIndex]));
@@ -126,6 +126,15 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
     return playerPolicies;
 }
 
+std::map<Player::Types, std::vector<double>> Run::prepareAverageRewards() {
+    int playerIndex;
+    std::map<Player::Types, std::vector<double>> playerAverageRewards;
+    for (playerIndex = 0; playerIndex < (int)this->players.size(); playerIndex++) {
+        playerAverageRewards[this->playerSelection[playerIndex]] = this->players[playerIndex]->getTotalRewardPerEpisode();
+    }
+    return playerAverageRewards;
+}
+
 /**
  * Creates a datum of the run.
  * 
@@ -138,7 +147,7 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
 Datum Run::datumFromRun() {
     return Datum(this->id, this->mazes[0]->getMazeWidth(), this->mazes[0]->getMazeHeight(),
             this->mazes[0]->getMazeIdentifier(), this->playerSelection,
-            this->prepareTimings(), this->preparePolicies());
+            this->prepareTimings(), this->preparePolicies(), this->prepareAverageRewards());
 }
 
 /**

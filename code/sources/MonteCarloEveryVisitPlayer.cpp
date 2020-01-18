@@ -111,6 +111,7 @@ void MonteCarloEveryVisitPlayer::performIteration() {
             break;
         }
     }
+    this->addRewardsToTotalRewardPerEpisode();
     this->currentEpoch++;
     this->episode.clear();
     this->rewards.clear();

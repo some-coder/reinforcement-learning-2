@@ -108,6 +108,7 @@ void MonteCarloFirstVisitPlayer::performIteration() {
         greedyAction = this->greedyAction(std::get<0>(stateActionPair));
         this->updateStatePolicy(std::get<0>(stateActionPair), greedyAction);
     }
+    this->addRewardsToTotalRewardPerEpisode();
     this->currentEpoch++;
     this->episode.clear();
     this->rewards.clear();

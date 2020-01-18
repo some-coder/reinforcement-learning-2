@@ -26,6 +26,7 @@ class Run {
         void buildMazes(const std::string& mazeIdentifier);
         std::map<Player::Types, std::vector<double>> prepareTimings();
         std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> preparePolicies();
+        std::map<Player::Types, std::vector<double>> prepareAverageRewards();
         void allocatePlayer(int playerIndex, Player::Types type);
         void allocatePlayers();
         void runAlgorithms();

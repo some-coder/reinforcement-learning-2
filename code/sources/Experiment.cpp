@@ -36,9 +36,11 @@ void Experiment::clearOldData() {
     std::ofstream output;
     output.open("output/data/timings.csv", std::ofstream::trunc);
     output.close();
-    output.open("output/data/policies.csv", std::ofstream::trunc);
+    output.open("output/data/average-policies.csv", std::ofstream::trunc);
     output.close();
-    output.open("output/data/policy-rewards.csv", std::ofstream::trunc);
+    output.open("output/data/exploitation.csv", std::ofstream::trunc);
+    output.close();
+    output.open("output/data/progression.csv", std::ofstream::trunc);
     output.close();
 }
 
@@ -182,7 +184,7 @@ std::string Experiment::averagePolicyRewardAsString(std::string mazeIdentifier, 
     rewards = &(this->averagePolicyRewards[std::make_tuple(mazeIdentifier, type)]);
     for (rewardsIndex = 0; rewardsIndex < (int)rewards->size(); rewardsIndex++) {
         s.append("\"" + mazeIdentifier + "\",");
-        s.append("\"" + Player::playerTypeAsString(type) + "\",");
+        s.append("\"" + Player::playerTypeAsStringShortened(type) + "\",");
         s.append("\"" + std::to_string((*rewards)[rewardsIndex]) + "\"\n");
     }
     return s;
@@ -191,7 +193,7 @@ std::string Experiment::averagePolicyRewardAsString(std::string mazeIdentifier, 
 void Experiment::writeAveragePoliciesRewards() {
     int mazeIdentifierIndex, playerIndex;
     std::ofstream output;
-    output.open("output/data/policy-rewards.csv");
+    output.open("output/data/exploitation.csv");
     for (mazeIdentifierIndex = 0; mazeIdentifierIndex < (int)this->mazeIdentifiers.size(); mazeIdentifierIndex++) {
         for (playerIndex = 0; playerIndex < (int)this->selectedPlayers.size(); playerIndex++) {
             output << this->averagePolicyRewardAsString(this->mazeIdentifiers[mazeIdentifierIndex],

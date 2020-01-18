@@ -150,6 +150,10 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Player::getPolicy() {
     return outputPolicy;
 }
 
+std::vector<double> Player::getTotalRewardPerEpisode() {
+    return std::vector<double>();
+}
+
 std::string Player::playerTypeAsString(Player::Types type) {
     switch (type) {
         case RandomPlayer:
@@ -174,6 +178,33 @@ std::string Player::playerTypeAsString(Player::Types type) {
             return "Time-difference Q-learning";
         default:
             return "Unknown Algorithm";
+    }
+}
+
+std::string Player::playerTypeAsStringShortened(Player::Types type) {
+    switch (type) {
+        case RandomPlayer:
+            return "RAND";
+        case SynchronousPolicyIteration:
+            return "SPI";
+        case AsynchronousPolicyIteration:
+            return "API";
+        case SynchronousValueIteration:
+            return "SVI";
+        case AsynchronousValueIteration:
+            return "AVI";
+        case MonteCarloExploringStarts:
+            return "MCES";
+        case MonteCarloFirstVisit:
+            return "MCFV";
+        case MonteCarloEveryVisit:
+            return "MCEV";
+        case TDSarsa:
+            return "TDS";
+        case TDQLearning:
+            return "TDQ";
+        default:
+            return "?";
     }
 }
 

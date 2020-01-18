@@ -109,3 +109,17 @@ Maze::Actions LearningPlayer::greedyAction(State *s) {
     }
     return bestAction;
 }
+
+void LearningPlayer::addRewardsToTotalRewardPerEpisode() {
+    int rewardIndex;
+    double total;
+    total = 0.0;
+    for (rewardIndex = 0; rewardIndex < (int)this->rewards.size(); rewardIndex++) {
+        total += this->rewards[rewardIndex];
+    }
+    this->totalRewardPerEpisode.push_back(total);
+}
+
+std::vector<double> LearningPlayer::getTotalRewardPerEpisode() {
+    return this->totalRewardPerEpisode;
+}
