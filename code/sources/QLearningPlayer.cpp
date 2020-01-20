@@ -1,10 +1,22 @@
 #include "QLearningPlayer.hpp"
 
+/**
+ * Constructs a time-difference Q-learning player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param T The maximum iteration before forcing a stop.
+ * @param alpha The learning rate.
+ * @param epsilon The exploration rate.
+ */
 QLearningPlayer::QLearningPlayer(Maze *m, double gamma, int T, double alpha, double epsilon) :
         TimeDifferencePlayer(m, gamma, T, alpha, epsilon) {
     this->updatePolicyUsingStateActionValues();
 }
 
+/**
+ * Destructs the time-difference Q-learning player.
+ */
 QLearningPlayer::~QLearningPlayer() = default;
 
 /**

@@ -1,9 +1,21 @@
 #include "SarsaPlayer.hpp"
 
+/**
+ * Constructs a time-difference SARSA player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param T The maximum iteration before forcing a stop.
+ * @param alpha The learning rate.
+ * @param epsilon The exploration rate.
+ */
 SarsaPlayer::SarsaPlayer(Maze *m, double gamma, int T, double alpha, double epsilon) : TimeDifferencePlayer(m, gamma, T, alpha, epsilon) {
     this->updatePolicyUsingQuality();   /* Overwrite parent's policy construction, which was arbitrary. */
 }
 
+/**
+ * Destructs the time-difference SARSA player.
+ */
 SarsaPlayer::~SarsaPlayer() = default;
 
 /**
@@ -160,32 +172,3 @@ Maze::Actions SarsaPlayer::greedyAction(State *s) {
     }
     return bestAction;
 }
-
-/*
-Evaluate_Policy(policy):
-    randomly_initialize_non_terminal_states_values()
-
-    Loop number_of_episodes:
-        let s = start_state()  
-        # Play episode until the end
-
-        Loop until game_over():    
-            let a = get_action(policy, s, 0.1) 
-            # get action to perform on state s according 
-            # to the given policy 90% of the time, and a
-            # random action 10% of the time.    
-        
-            let (s', r) = make_move(s, a) 
-            #make move from s using a and get 
-            #the new state s' and the reward r
-            # incrementally compute the average at V(s). Notice that V(s)
-            # depends on an estimate of V(s') and not on the return 
-            # G as in MC
-
-            let V(s) = V(s) + alpha * [r + gamma * V(s') - V(s)]
-    
-            let s = s'
-        End Loop
-    End Loop
-*/
-

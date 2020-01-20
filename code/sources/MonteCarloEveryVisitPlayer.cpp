@@ -1,14 +1,26 @@
-#include <RandomServices.hpp>
 #include "MonteCarloEveryVisitPlayer.hpp"
 #include "LearningPlayer.hpp"
 
+/**
+ * Constructs a Monte Carlo every-visit player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param T The maximum iteration before forcing a stop.
+ */
 MonteCarloEveryVisitPlayer::MonteCarloEveryVisitPlayer(Maze *m, double gamma, int T) : MonteCarloPlayer(m, gamma, T) {
     this->temperature = STARTING_TEMPERATURE;
     this->G = this->W = 0.0;
 }
 
+/**
+ * Destructs the Monte Carlo every-visit player.
+ */
 MonteCarloEveryVisitPlayer::~MonteCarloEveryVisitPlayer() = default;
 
+/**
+ * Initalises the C (count) parameter of the algorithm.
+ */
 void MonteCarloEveryVisitPlayer::initialiseC() {
     int stateIndex, actionIndex;
     for (stateIndex = 0; stateIndex < (int)this->stateValues.size(); stateIndex++) {
@@ -18,8 +30,15 @@ void MonteCarloEveryVisitPlayer::initialiseC() {
     }
 }
 
+/**
+ * Constructs an exploration policy for the supplied state.
+ *
+ * This policy is used to actually traverse the maze. It is not the policy that
+ * will be optimised across time.
+ *
+ * @return The exploration policy for this state.
+ */
 std::vector<double> MonteCarloEveryVisitPlayer::stateExplorationPolicy() {
-    /* Todo: Is total randomness acceptable? */
     int actionIndex;
     std::vector<double> statePolicy;
     for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
@@ -28,6 +47,9 @@ std::vector<double> MonteCarloEveryVisitPlayer::stateExplorationPolicy() {
     return statePolicy;
 }
 
+/**
+ * Initialises the exploration policy across the states.
+ */
 void MonteCarloEveryVisitPlayer::initialiseExplorationPolicy() {
     int stateIndex;
     for (stateIndex = 0; stateIndex < (int)this->stateValues.size(); stateIndex++) {
@@ -35,16 +57,40 @@ void MonteCarloEveryVisitPlayer::initialiseExplorationPolicy() {
     }
 }
 
+/**
+ * Obtains the action probability of doing the given action in this state.
+ *
+ * @param s The state in which the action is performed.
+ * @param a The action to perform.
+ * @return The performance probability.
+ */
 double MonteCarloEveryVisitPlayer::actionProbability(State *s, Maze::Actions a) {
     return this->explorationPolicy[s][a];
 }
 
+/**
+ * Obtains the first state-action pair for an episode generation.
+ *
+ * @return The initial state-action pair.
+ */
 std::tuple<State*, Maze::Actions> MonteCarloEveryVisitPlayer::initialStateActionPair() {
     State *startingState;
     startingState = this->maze->getStartingState();
     return std::make_tuple(startingState, this->chooseAction(startingState));
 }
 
+/**
+ * Updates the exploration policy.
+ *
+ * Although the exploration policy is not optimised over execution, we do alter
+ * it so as to more effectively explore the maze. Specifically, we lower the
+ * rate of exploration to reduce the amount of updates to non-essential tiles.
+ * We do so using a 'temperature' that gets cooled across time, not unlike
+ * algorithms like simulated annealing.
+ *
+ * @param s The state for which to update the exploration policy.
+ * @param greedyAction The greedy action for this state.
+ */
 void MonteCarloEveryVisitPlayer::updateExplorationPolicy(State *s, Maze::Actions greedyAction) {
     int actionIndex;
     double newActionProbability;
@@ -60,6 +106,12 @@ void MonteCarloEveryVisitPlayer::updateExplorationPolicy(State *s, Maze::Actions
     }
 }
 
+/**
+ * Obtains the succeeding state-action pair, given a current tuple.
+ *
+ * @param currentPair The current state-action pair.
+ * @return The successor tuple.
+ */
 std::tuple<State*, Maze::Actions> MonteCarloEveryVisitPlayer::nextStateActionPair(
         std::tuple<State *, Maze::Actions> currentPair) {
     std::tuple<State*, double> result;
@@ -68,6 +120,11 @@ std::tuple<State*, Maze::Actions> MonteCarloEveryVisitPlayer::nextStateActionPai
     return std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
 }
 
+/**
+ * Generates a complete episode of successive state-action pairs.
+ *
+ * @param startStateActionPair The initial state-action pair to depart from.
+ */
 void MonteCarloEveryVisitPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateActionPair) {
     int currentIteration, maximumIteration;
     std::tuple<State*, Maze::Actions> stateActionPair;
@@ -84,11 +141,17 @@ void MonteCarloEveryVisitPlayer::generateEpisode(std::tuple<State*, Maze::Action
     this->maze->resetMaze();
 }
 
+/**
+ * Performs the initialisation step of the Monte Carlo every-visit player.
+ */
 void MonteCarloEveryVisitPlayer::performInitialisation() {
     this->initialiseC();
     this->initialiseExplorationPolicy();
 }
 
+/**
+ * Performs an iteration step of the Monte Carlo every-visit player.
+ */
 void MonteCarloEveryVisitPlayer::performIteration() {
     int iteration;
     std::tuple<State*, Maze::Actions> stateActionPair;
@@ -117,6 +180,9 @@ void MonteCarloEveryVisitPlayer::performIteration() {
     this->rewards.clear();
 }
 
+/**
+ * Solves the maze the player was assigned to address.
+ */
 void MonteCarloEveryVisitPlayer::solveMaze() {
     this->performInitialisation();
     do {
