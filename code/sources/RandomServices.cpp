@@ -1,4 +1,3 @@
-#include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <cmath>
@@ -8,15 +7,26 @@ static double firstNormal;
 static double secondNormal;
 static bool shouldGenerate;
 
+/**
+ * Provides a sequence-starter for the RNG's pseudorandom number sequence.
+ */
 void RandomServices::seed() {
     srandom(time(nullptr));
 }
 
+/**
+ * Initialises the component of the RNG responsible for Gaussian values.
+ */
 void RandomServices::initialiseNormalNumberGenerator() {
     shouldGenerate = false;
     firstNormal = secondNormal = 0.0;
 }
 
+/**
+ * Obtains a random integer within the RNG's generation boundaries.
+ *
+ * @return A random integer.
+ */
 double RandomServices::randomValue() {
     return (double)random() * (1.0 / RAND_MAX);
 }
@@ -54,10 +64,25 @@ double RandomServices::normalSample(double mean, double standardDeviation) {
     return firstNormal;
 }
 
+/**
+ * Obtains a sample from the given Bernoulli distribution.
+ *
+ * @param p The Bernoulli distribution parameter.
+ * @return The sample.
+ */
 bool RandomServices::bernoulliSample(double p) {
     return randomValue() <= p;
 }
 
+/**
+ * Obtains a sample from the given discrete uniform distribution.
+ *
+ * Sampling starts from zero (inclusive), and ends at the specified ceiling.
+ * Said ceiling is inclusive, too.
+ *
+ * @param ceiling The ceiling number of the distribution. Inclusive.
+ * @return The sample.
+ */
 int RandomServices::discreteUniformSample(int ceiling) {
     double random;
     double range[2] = {0.0, 1.0};
@@ -74,18 +99,53 @@ int RandomServices::discreteUniformSample(int ceiling) {
     return sample;
 }
 
+/**
+ * Obtains a sample from the given discrete uniform distribution.
+ *
+ * Sampling starts from the minimum, which is inclusive, and ends at the
+ * maximum. Said maximum is also inclusive.
+ *
+ * @param min The minimum integer that can be drawn. Inclusive.
+ * @param max The maximum integer that can be drawn. Inclusive.
+ * @return The sample.
+ */
 int RandomServices::discreteUniformSample(int min, int max) {
     return min + discreteUniformSample((max - min));
 }
 
+/**
+ * Obtains a sample from the specified continuous uniform distribution.
+ *
+ * Sampling starts from zero (inclusive). The ceiling specifies the maximum
+ * continuous value that can be drawn, and is also inclusive.
+ *
+ * @param ceiling The maximum continuous value that can be sampled. Inclusive.
+ * @return The sample.
+ */
 double RandomServices::continuousUniformSample(double ceiling) {
     return ceiling * randomValue();
 }
 
+/**
+ * Obtains a sample from the specified continuous uniform distribution.
+ *
+ * Sampling starts from the minimum, which is inclusive, and ends at the
+ * maximum. Said maximum is also inclusive.
+ *
+ * @param min The minimum continuous value that can be drawn. Inclusive.
+ * @param max The maximum continuous value that can be drawn. Inclusive.
+ * @return The sample.
+ */
 double RandomServices::continuousUniformSample(double min, double max) {
     return min + continuousUniformSample((max - min));
 }
 
+/**
+ * Initialises the RNG.
+ *
+ * Calling this method at the top of the main program is essential for this
+ * class to work effectively.
+ */
 void RandomServices::initialiseRandomServices() {
     seed();
     initialiseNormalNumberGenerator();

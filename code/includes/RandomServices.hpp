@@ -3,12 +3,6 @@
 
 #include <limits>
 
-/* - Normal(mu, st.dev)
- * - Bernoulli(p)
- * - DiscreteUniform(0, l)
- * - ContinuousUniform(min, max)
- */
-
 class RandomServices {
     private:
         constexpr static double epsilon = std::numeric_limits<double>::min();
