@@ -1,12 +1,27 @@
 #include <RandomServices.hpp>
 #include "Player.hpp"
 
+/**
+ * Constructs an arbitrary state policy in which actions are non-probabilistic.
+ *
+ * @return The state policy.
+ */
 std::vector<double> Player::randomDiscretePolicy() {
     int randomActionIndex;
     randomActionIndex = RandomServices::discreteUniformSample(Maze::ACTION_NUMBER - 1);
     return Player::actionAsActionProbabilityDistribution(Maze::actionFromIndex(randomActionIndex));
 }
 
+/**
+ * Constructs an arbitrary state policy in which actions are probabilistic.
+ *
+ * At the moment, no variations between the returned policies exists; all
+ * deliver one in which each action is equally probable to be performed,
+ * regardless of state. This is due to some algorithms requiring such a policy
+ * to be soft.
+ *
+ * @return The state policy.
+ */
 std::vector<double> Player::randomStochasticPolicy() {
     int actionIndex;
     std::vector<int> presenceScores;
@@ -25,6 +40,12 @@ std::vector<double> Player::randomStochasticPolicy() {
     return probabilisticPolicy;
 }
 
+/**
+ * Constructs a random (possibly stochastic) state policy for the player.
+ *
+ * @param stochastic Should the returned policy be probabilistic?
+ * @return The state policy.
+ */
 std::vector<double> Player::randomStatePolicy(bool stochastic) {
     if (stochastic) {
         return Player::randomStochasticPolicy();
@@ -33,6 +54,11 @@ std::vector<double> Player::randomStatePolicy(bool stochastic) {
     }
 }
 
+/**
+ * Sets a random (possibly stochastic) maze-wide policy for the player.
+ *
+ * @param stochastic Should the configured policy be probabilistic?
+ */
 void Player::initialisePolicy(bool stochastic) {
     int i;
     State* s;
@@ -44,15 +70,30 @@ void Player::initialisePolicy(bool stochastic) {
     }
 }
 
+/**
+ * Constructs a player.
+ *
+ * @param m The maze which the player should solve.
+ * @param gamma The discounting factor for earlier-obtained rewards.
+ * @param initialiseStochastic Should the player's initial policy be
+ *      probabilistic?
+ */
 Player::Player(Maze* m, double gamma, bool initialiseStochastic) {
     this->maze = m;
     this->discountFactor = gamma;
     this->initialiseStateValues();
     this->initialisePolicy(initialiseStochastic);
+    this->currentEpoch = this->timeoutEpoch = 0;
 }
 
+/**
+ * Destructs a player.
+ */
 Player::~Player() = default;
 
+/**
+ * Initialises the state valuations to a pre-specified constant.
+ */
 void Player::initialiseStateValues() {
     int i;
     State *state;
@@ -62,6 +103,7 @@ void Player::initialiseStateValues() {
         state = &(states->at(i));
         if (state->getType() == State::Types::goal ||
             state->getType() == State::Types::pit) {
+            /* Terminal states' valuations should be their rewards. */
             this->stateValues[state] = Maze::getReward(state);
         } else {
             this->stateValues[state] = INITIAL_STATE_VALUE;
@@ -69,10 +111,25 @@ void Player::initialiseStateValues() {
     }
 }
 
+/**
+ * Obtains the probability of choosing the given action in the specified state.
+ *
+ * @param s The state in the state-action pair.
+ * @param a The action in the state-action pair.
+ * @return The probability of having the action as intention in the state.
+ */
 double Player::actionProbability(State *s, Maze::Actions a) {
     return this->policy[s][a];
 }
 
+/**
+ * Derives a discrete action probability distribution from the given action.
+ *
+ * This method is only meant for discrete, non-probabilistic players.
+ *
+ * @param a The intended action.
+ * @return The action probability distribution.
+ */
 std::vector<double> Player::actionAsActionProbabilityDistribution(Maze::Actions a) {
     int actionIndex;
     std::vector<double> distribution;
@@ -104,35 +161,20 @@ Maze::Actions Player::chooseAction(State *s) {
     return Maze::actionFromIndex(Maze::ACTION_NUMBER - 1);
 }
 
-void Player::printStateActionProbabilities(State *s) {
-    int actionIndex;
-    printf("[");
-    for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
-        printf("%.3lf%s", this->policy[s][actionIndex], (actionIndex == Maze::ACTION_NUMBER - 1 ? "]" : ", "));
-    }
-}
-
-void Player::printFinalPolicy() {
-    int i;
-    State *s;
-    for (i = 0; i < (int)this->maze->getStates()->size(); i++) {
-        s = this->maze->getState(i);
-        printf("State (%d, %d) ", s->getX(), s->getY());
-        if (Maze::stateIsTerminal(s)) {
-            printf("is terminal and has ");
-        } else if (Maze::stateIsIntraversible(s)) {
-            printf("is intraversible and has ");
-        } else {
-            printf("has action %s and ", Maze::actionAsString(this->chooseAction(s)).c_str());
-        }
-        printf("state utility %.3lf.\n", this->stateValues[s]);
-    }
-}
-
+/**
+ * Obtains the time elapsed per epoch, expressed in milliseconds.
+ *
+ * @return The epoch timings, in milliseconds.
+ */
 std::vector<double> Player::getEpochTimings() {
     return this->epochTimings;
 }
 
+/**
+ * Obtains the complete policy of the player.
+ *
+ * @return The player's policy.
+ */
 std::map<std::tuple<int, int, Maze::Actions>, double> Player::getPolicy() {
     int stateIndex, actionIndex;
     State *s;
@@ -150,37 +192,24 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Player::getPolicy() {
     return outputPolicy;
 }
 
+/**
+ * Obtains each episode's total collected reward.
+ *
+ * @return The episode rewards.
+ */
 std::vector<double> Player::getTotalRewardPerEpisode() {
     return std::vector<double>();
 }
 
-std::string Player::playerTypeAsString(Player::Types type) {
-    switch (type) {
-        case RandomPlayer:
-            return "Random Policy";
-        case SynchronousPolicyIteration:
-            return "Synchronous Policy Iteration";
-        case AsynchronousPolicyIteration:
-            return "Asynchronous Policy Iteration";
-        case SynchronousValueIteration:
-            return "Synchronous Value Iteration";
-        case AsynchronousValueIteration:
-            return "Asynchronous Value Iteration";
-        case MonteCarloExploringStarts:
-            return "Monte Carlo Exploring Starts";
-        case MonteCarloFirstVisit:
-            return "Monte Carlo First Visit";
-        case MonteCarloEveryVisit:
-            return "Monte Carlo Every Visit";
-        case TDSarsa:
-            return "Time-difference SARSA";
-        case TDQLearning:
-            return "Time-difference Q-learning";
-        default:
-            return "Unknown Algorithm";
-    }
-}
-
+/**
+ * Obtains the string version of the player's type.
+ *
+ * The type of a player is simply the algorithm the player employs in solving
+ * mazes. This may be as simplistic or elaborate as desired.
+ *
+ * @param type The player type.
+ * @return The string version of the player type.
+ */
 std::string Player::playerTypeAsStringShortened(Player::Types type) {
     switch (type) {
         case RandomPlayer:
@@ -208,48 +237,11 @@ std::string Player::playerTypeAsStringShortened(Player::Types type) {
     }
 }
 
+/**
+ * Determines whether the timeout epoch has been reached.
+ *
+ * @return The question's answer.
+ */
 bool Player::maximumIterationReached() {
     return this->currentEpoch >= this->timeoutEpoch;
-}
-
-char Player::symbolToCharacter(State::Types symbol) {
-    switch (symbol) {
-        case State::Types::path:
-            return '.';
-        case State::Types::start:
-            return '*';
-        case State::Types::goal:
-            return '1';
-        case State::Types::warp:
-            return '0';
-        case State::Types::lever:
-            return ':';
-        case State::Types::gate:
-            return '|';
-        case State::Types::snack:
-            return '%';
-        case State::Types::pit:
-            return '#';
-        default:
-            return ' ';
-    }
-}
-
-void Player::printSituation(State *currentState) {
-    int stateIndex;
-    State *s;
-    stateIndex = 0;
-    printf("Position: (%d, %d)\n", currentState->getX(), currentState->getY());
-    do {
-        s = this->maze->getState(stateIndex);
-        if (s->getX() == currentState->getX() && s->getY() == currentState->getY()) {
-            printf("P");
-        } else {
-            printf("%c", Player::symbolToCharacter(this->maze->getState(stateIndex)->getType()));
-        }
-        stateIndex++;
-        if (this->maze->getState(stateIndex)->getX() == 0) {
-            printf("\n");
-        }
-    } while (stateIndex < (int)this->maze->getStates()->size());
 }

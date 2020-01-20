@@ -42,15 +42,10 @@ class Player {
         virtual ~Player();
         virtual Maze::Actions chooseAction(State *s);
         virtual void solveMaze() = 0;
-        virtual void printStateActionProbabilities(State *s);
-        virtual void printFinalPolicy();
         std::vector<double> getEpochTimings();
         std::map<std::tuple<int, int, Maze::Actions>, double> getPolicy();
         virtual std::vector<double> getTotalRewardPerEpisode();
-        static std::string playerTypeAsString(Player::Types type);
         static std::string playerTypeAsStringShortened(Player::Types type);
-        static char symbolToCharacter(State::Types symbol);
-        void printSituation(State *currentState);
 };
 
 #endif

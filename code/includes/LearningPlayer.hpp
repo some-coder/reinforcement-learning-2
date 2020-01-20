@@ -21,8 +21,6 @@ class LearningPlayer : public Player {
         LearningPlayer(Maze *m, double gamma, int T, bool initialiseStochastic = false);
         ~LearningPlayer() override;
         void setStateActionValue(State *s, Maze::Actions action, double value);
-        void printStateActionValues(State *s);
-        void printFinalPolicy() override;
         std::vector<double> getTotalRewardPerEpisode() override;
 };
 

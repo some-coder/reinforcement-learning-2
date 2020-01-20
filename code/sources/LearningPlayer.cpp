@@ -41,50 +41,6 @@ void LearningPlayer::initialiseStateActionValues() {
 LearningPlayer::~LearningPlayer() = default;
 
 /**
- * Print the state-action values of the player for a certain state.
- * 
- * @param s The state for which you want to print the state-action values
- */
-void LearningPlayer::printStateActionValues(State* s) {
-    int actionIndex;
-    std::string actionAsString;
-    Maze::Actions action;
-    std::tuple<State*, Maze::Actions> stateActionPair;
-    double value;
-    for (actionIndex = 0; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
-        action = Maze::actionFromIndex(actionIndex);
-        actionAsString = Maze::actionAsString(action);
-        stateActionPair = std::make_tuple(s, action);
-        value = this->stateActionValues[stateActionPair];
-        printf("\t\t%s has value %.3lf.\n", actionAsString.c_str(), value);
-    }
-}
-
-/**
- * Print the policy of the player.
- */
-void LearningPlayer::printFinalPolicy() {
-    int stateIndex;
-    State *s;
-    std::string policyAction;
-    for (stateIndex = 0; stateIndex < (int)this->stateValues.size(); stateIndex++) {
-        s = this->maze->getState(stateIndex);
-        printf("\tState (%d, %d) ", s->getX(), s->getY());
-        if (Maze::stateIsTerminal(s)) {
-            printf("is terminal.\n");
-        } else if (Maze::stateIsIntraversible(s)) {
-            printf("is intraversible.\n");
-        } else {
-            policyAction = Maze::actionAsString(this->chooseAction(s));
-            printf("has action probability distribution ");
-            this->printStateActionProbabilities(s);
-            printf(".\n");
-            this->printStateActionValues(s);
-        }
-    }
-}
-
-/**
  * Returns the action with the highest stateActionValue in the provided state.
  *
  * @param s the state for which the action has to be chosen
