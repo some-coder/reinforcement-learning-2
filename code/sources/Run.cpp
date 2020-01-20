@@ -49,16 +49,6 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
             break;
         case Player::Types::MonteCarloExploringStarts:
             this->players.push_back(new MonteCarloExploringStartsPlayer(this->mazes[playerIndex],
-<<<<<<< HEAD
-                    (double)1e0 - (double)1e-4, 4e3));
-            break;
-        case Player::Types::MonteCarloFirstVisit:
-            this->players.push_back(new MonteCarloFirstVisitPlayer(this->mazes[playerIndex],
-                    (double)1e0 - (double)1e-4, 4e3, 0.1));
-            break;
-        case Player::Types::MonteCarloEveryVisit:
-            this->players.push_back(new MonteCarloEveryVisitPlayer(this->mazes[playerIndex], 0.9,
-=======
                     9e-1, 4e3));
             break;
         case Player::Types::MonteCarloFirstVisit:
@@ -67,24 +57,15 @@ void Run::allocatePlayer(int playerIndex, Player::Types type) {
             break;
         case Player::Types::MonteCarloEveryVisit:
             this->players.push_back(new MonteCarloEveryVisitPlayer(this->mazes[playerIndex], 9e-1,
->>>>>>> ae959df89db8beceb50715482c98e8ad238521c5
                     8e3));
             break;
         case Player::Types::TDSarsa:
             this->players.push_back(new SarsaPlayer(this->mazes[playerIndex], 9e-1, 8e3, 1.0e-1,
-<<<<<<< HEAD
-                    1e-1));
-            break;
-        case Player::Types::TDQLearning:
-            this->players.push_back(new QLearningPlayer(this->mazes[playerIndex], 9e-1, 8e3, 1.0e-1,
-                                                        1e-2));
-=======
                     3e-3));
             break;
         case Player::Types::TDQLearning:
             this->players.push_back(new QLearningPlayer(this->mazes[playerIndex], 9e-1, 8e3, 1.0e-1,
                                                         3e-3));
->>>>>>> ae959df89db8beceb50715482c98e8ad238521c5
             break;
         default:
             this->players.push_back(new RandomPlayer(this->mazes[playerIndex]));
