@@ -1,6 +1,13 @@
 #include <RandomServices.hpp>
 #include "DynamicProgrammingPlayer.hpp"
 
+/**
+ * Constructs a dynamic programming player.
+ *
+ * @param m The maze the player needs to solve.
+ * @param gamma The discount factor for earlier-obtained rewards.
+ * @param theta The minimal utility difference to keep iterating.
+ */
 DynamicProgrammingPlayer::DynamicProgrammingPlayer(Maze *m, double gamma, double theta) : Player(m, gamma) {
     this->maze = m;
     this->discountFactor = gamma;
@@ -8,8 +15,17 @@ DynamicProgrammingPlayer::DynamicProgrammingPlayer(Maze *m, double gamma, double
     this->copyStateValues(&(this->stateValues), &(this->oldStateValues));
 }
 
+/**
+ * Destructs the dynamic programming player.
+ */
 DynamicProgrammingPlayer::~DynamicProgrammingPlayer() = default;
 
+/**
+ * Copies the values of the states to a new, target state-value map.
+ *
+ * @param source The state-value mapping from which to copy.
+ * @param target The state-value mapping to copy to.
+ */
 void DynamicProgrammingPlayer::copyStateValues(std::map<State*, double> *source, std::map<State*, double> *target) {
     int i;
     double stateValue;
@@ -21,6 +37,14 @@ void DynamicProgrammingPlayer::copyStateValues(std::map<State*, double> *source,
     }
 }
 
+/**
+ * Obtains an arbitrary nontrivial state from the player's set of states.
+ *
+ * A state is regarded as being 'nontrivial' if it is neither terminal nor
+ * intraversible.
+ *
+ * @return A random nontrivial state.
+ */
 State* DynamicProgrammingPlayer::randomNontrivialState() {
     State *s;
     int randomIndex;

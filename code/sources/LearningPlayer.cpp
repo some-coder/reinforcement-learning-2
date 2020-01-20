@@ -1,6 +1,13 @@
-#include "MonteCarloPlayer.hpp"
 #include "LearningPlayer.hpp"
 
+/**
+ * Constructs a learning player.
+ *
+ * @param m The maze the player needs to solve.
+ * @param gamma The discount factor to be applied to earlier-obtained rewards.
+ * @param T The timeout epoch.
+ * @param initialiseStochastic Should the player be initialised stochastically?
+ */
 LearningPlayer::LearningPlayer(Maze *m, double gamma, int T, bool initialiseStochastic) :
         Player(m, gamma, initialiseStochastic) {
     this->timeoutEpoch = T;
@@ -38,6 +45,9 @@ void LearningPlayer::initialiseStateActionValues() {
     }
 }
 
+/**
+ * Destructs the current player.
+ */
 LearningPlayer::~LearningPlayer() = default;
 
 /**
@@ -55,6 +65,8 @@ Maze::Actions LearningPlayer::greedyAction(State *s) {
     stateActionPair = std::make_tuple(s, bestAction);
     best = this->stateActionValues[stateActionPair];
     for (actionIndex = 1; actionIndex < Maze::ACTION_NUMBER; actionIndex++) {
+        /* Per alternative action, check whether it trumps our current
+           action. */
         currentAction = Maze::actionFromIndex(actionIndex);
         stateActionPair = std::make_tuple(s, currentAction);
         current = this->stateActionValues[stateActionPair];
@@ -66,6 +78,9 @@ Maze::Actions LearningPlayer::greedyAction(State *s) {
     return bestAction;
 }
 
+/**
+ * Accumulates the rewards of the current episode, and appends it to the totals.
+ */
 void LearningPlayer::addRewardsToTotalRewardPerEpisode() {
     int rewardIndex;
     double total;
@@ -76,6 +91,11 @@ void LearningPlayer::addRewardsToTotalRewardPerEpisode() {
     this->totalRewardPerEpisode.push_back(total);
 }
 
+/**
+ * Obtains the total reward obtained per episode.
+ *
+ * @return The episode reward totals.
+ */
 std::vector<double> LearningPlayer::getTotalRewardPerEpisode() {
     return this->totalRewardPerEpisode;
 }
