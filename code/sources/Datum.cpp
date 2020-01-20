@@ -1,5 +1,17 @@
 #include "Datum.hpp"
 
+/**
+ * Constructs a new datum.
+ *
+ * @param id The unique identifier of the datum.
+ * @param mazeWidth The width of the maze to be stored.
+ * @param mazeHeight The height of the maze to be stored.
+ * @param mazeIdentifier The unique identifier of the maze.
+ * @param players The player types present within this datum.
+ * @param timings A mapping from player types to episode timing data.
+ * @param policies A mapping from player types to a final maze policy.
+ * @param averageRewards A mapping from player types to total reward.
+ */
 Datum::Datum(int id, int mazeWidth, int mazeHeight, std::string mazeIdentifier, std::vector<Player::Types> players,
         std::map<Player::Types, std::vector<double>> timings,
         std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> policies,
@@ -14,11 +26,22 @@ Datum::Datum(int id, int mazeWidth, int mazeHeight, std::string mazeIdentifier, 
     this->averageRewards = std::move(averageRewards);
 }
 
+/**
+ * Constructs a partially incomplete datum.
+ *
+ * This incomplete constructor may be called when a datum needs to be
+ * constructed ad hoc, but not all data is at hand to supply to it.
+ *
+ * @param id The identifier of this datum.
+ */
 Datum::Datum(int id) {
     this->id = id;
     this->mazeWidth = this->mazeHeight = 0;
 }
 
+/**
+ * Destructs the datum.
+ */
 Datum::~Datum() = default;
 
 /**
@@ -101,6 +124,12 @@ std::string Datum::playerPolicies() {
     return playerPolicies;
 }
 
+/**
+ * Stringifies the total rewards per episode the given player type obtained.
+ *
+ * @param type The player's type.
+ * @return The player type's total reward.
+ */
 std::string Datum::singlePlayerAverageReward(Player::Types type) {
     int timeIndex, size;
     std::vector<double> averageReward;
@@ -117,6 +146,11 @@ std::string Datum::singlePlayerAverageReward(Player::Types type) {
     return output;
 }
 
+/**
+ * Stringifies the total rewards per episode for all player types.
+ *
+ * @return The player's total rewards per episode.
+ */
 std::string Datum::playerAverageRewards() {
     int playerIndex;
     std::string playerAverageRewards;
@@ -145,10 +179,21 @@ void Datum::writeDatumToFiles() {
     output.close();
 }
 
+/**
+ * Obtains the maze identifier this datum holds.
+ *
+ * @return The maze identifier.
+ */
 std::string Datum::getMazeIdentifier() {
     return this->mazeIdentifier;
 }
 
+/**
+ * Obtains the policy of the given player type.
+ *
+ * @param type The player type of which to get the policy.
+ * @return The player type's policy.
+ */
 std::map<std::tuple<int, int, Maze::Actions>, double> Datum::getPolicy(Player::Types type) {
     return this->policies[type];
 }

@@ -1,6 +1,14 @@
 #include <utility>
 #include "Run.hpp"
 
+/**
+ * Builds, for each player participating in the run, an identical maze.
+ *
+ * It is recommended that pre-specified mazes are fed into this method,
+ * especially when a significant amount of runs are involved.
+ *
+ * @param mazeIdentifier The maze identifier to build with.
+ */
 void Run::buildMazes(const std::string& mazeIdentifier) {
     int mazeIndex;
     for (mazeIndex = 0; mazeIndex < (int)this->playerSelection.size(); mazeIndex++) {
@@ -8,6 +16,13 @@ void Run::buildMazes(const std::string& mazeIdentifier) {
     }
 }
 
+/**
+ * Constructs a run.
+ *
+ * @param id The identifier of this run.
+ * @param mazeIdentifier The maze's identifier associated with this run.
+ * @param playerSelection The selection of player types involved in this run.
+ */
 Run::Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSelection) :
         results(id) {
     this->id = id;
@@ -15,6 +30,9 @@ Run::Run(int id, std::string mazeIdentifier, std::vector<Player::Types> playerSe
     this->buildMazes(mazeIdentifier);
 }
 
+/**
+ * Destructs the run.
+ */
 Run::~Run() {
     int mazeIndex, mazeSize;
     mazeSize = (int)this->mazes.size();
@@ -126,6 +144,11 @@ std::map<Player::Types, std::map<std::tuple<int, int, Maze::Actions>, double>> R
     return playerPolicies;
 }
 
+/**
+ * Maps the player type to its average reward obtained per episode.
+ *
+ * @return The average reward per episode per player type.
+ */
 std::map<Player::Types, std::vector<double>> Run::prepareAverageRewards() {
     int playerIndex;
     std::map<Player::Types, std::vector<double>> playerAverageRewards;

@@ -2,19 +2,40 @@
 #include <ExploitPlayer.hpp>
 #include "Experiment.hpp"
 
+/**
+ * Constructs an experiment.
+ *
+ * @param selectedPlayers The player types to use.
+ * @param runNumber The number of runs involved.
+ */
 Experiment::Experiment(std::vector<Player::Types> selectedPlayers, int runNumber) {
     this->selectedPlayers = std::move(selectedPlayers);
     this->runNumber = runNumber;
 }
 
+/**
+ * Constructs an experiment.
+ *
+ * @param selectedPlayers The player types to use.
+ * @param selectedMazes The maze identifiers of the mazes to use.
+ */
 Experiment::Experiment(std::vector<Player::Types> selectedPlayers, std::vector<std::string> selectedMazes) {
     this->selectedPlayers = std::move(selectedPlayers);
     this->selectedMazes   = std::move(selectedMazes);
     this->runNumber = (int)this->selectedMazes.size();
 }
 
+/**
+ * Destructs the experiment.
+ */
 Experiment::~Experiment() = default;
 
+/**
+ * Obtains the maze identifier of the given run.
+ *
+ * @param runIndex The index of the run of which to get the maze identifier.
+ * @return The maze identifier.
+ */
 std::string Experiment::runMazeIdentifier(int runIndex) {
     int mazeIndex;
     if (this->selectedMazes.empty()) {
@@ -44,6 +65,13 @@ void Experiment::clearOldData() {
     output.close();
 }
 
+/**
+ * Compute the average policy of some player, in some maze.
+ *
+ * @param mazeIdentifier The identifier of the maze.
+ * @param type The player type.
+ * @return The average policy.
+ */
 std::map<std::tuple<int, int, Maze::Actions>, double> Experiment::averagePolicy(const std::string& mazeIdentifier,
         Player::Types type) {
     int datumIndex, count;
@@ -72,6 +100,9 @@ std::map<std::tuple<int, int, Maze::Actions>, double> Experiment::averagePolicy(
     return average;
 }
 
+/**
+ * Conduct the experiment by running all runs.
+ */
 void Experiment::conductRuns() {
     int runIndex;
     printf("  (2/6) Conducting runs.\n");
@@ -83,6 +114,12 @@ void Experiment::conductRuns() {
     printf("\n");
 }
 
+/**
+ * Determines whether the given maze identifier is already present.
+ *
+ * @param mazeIdentifier The maze identifier to check for.
+ * @return The question's answer.
+ */
 bool Experiment::mazeIdentifierAlreadyPresent(std::string mazeIdentifier) {
     int identifierIndex;
     for (identifierIndex = 0; identifierIndex < (int)this->mazeIdentifiers.size(); identifierIndex++) {
@@ -93,6 +130,11 @@ bool Experiment::mazeIdentifierAlreadyPresent(std::string mazeIdentifier) {
     return false;
 }
 
+/**
+ * Stringify the maze identifiers.
+ *
+ * @return The maze identifiers, stringified.
+ */
 std::vector<std::string> Experiment::getMazeIdentifiers() {
     int datumIndex;
     std::string current;
@@ -109,11 +151,20 @@ std::vector<std::string> Experiment::getMazeIdentifiers() {
     return identifiers;
 }
 
+/**
+ * Reports the progress on some sector of the experiment.
+ *
+ * @param current The current progress, expressed as an integer.
+ * @param maximum The goal, expressed as an integer.
+ */
 void Experiment::reportProgress(int current, int maximum) {
     printf("\r    [%.1lf%%]", (((double)current + 1.0) / maximum) * 100.0);
     fflush(stdout);
 }
 
+/**
+ * Computes the average policies of the players on each individual maze.
+ */
 void Experiment::getAveragePolicies() {
     int mazeIdentifierIndex, playerTypeIndex;
     std::string mazeIdentifier;
@@ -131,6 +182,13 @@ void Experiment::getAveragePolicies() {
     printf("\n");
 }
 
+/**
+ * Obtains the policies in converted form, ready for output.
+ *
+ * @param m The maze to convert a player's policy on it for.
+ * @param type The player whose policy to convert.
+ * @return The converted policy.s
+ */
 std::map<State*, std::vector<double>> Experiment::convertedPolicy(Maze *m, Player::Types type) {
     int stateIndex, actionIndex;
     State *s;
@@ -150,6 +208,12 @@ std::map<State*, std::vector<double>> Experiment::convertedPolicy(Maze *m, Playe
     return converted;
 }
 
+/**
+ * Employs exploit players to evaluate a player's policy on a maze.
+ *
+ * @param mazeIdentifierIndex The identifier index to the maze to evaluate.
+ * @param type The player type to evaluate for.
+ */
 void Experiment::evaluateAveragePolicy(int mazeIdentifierIndex, Player::Types type) {
     int evaluationIndex;
     std::string mazeIdentifier = this->mazeIdentifiers[mazeIdentifierIndex];
@@ -165,6 +229,9 @@ void Experiment::evaluateAveragePolicy(int mazeIdentifierIndex, Player::Types ty
     this->averagePolicyRewards[std::make_tuple(maze.getMazeIdentifier(), type)] = rewards;
 }
 
+/**
+ * Employs exploit players to evaluate all player's policies on all mazes.
+ */
 void Experiment::evaluateAveragePolicies() {
     int mazeIdentifierIndex, playerIndex;
     printf("  (5/6) Evaluating average policies.\n");
@@ -177,6 +244,13 @@ void Experiment::evaluateAveragePolicies() {
     printf("\n");
 }
 
+/**
+ * Converts a player's average policy reward on a maze to a string.
+ *
+ * @param mazeIdentifier The identifier to the maze to stringify for.
+ * @param type The player type to stringify for.
+ * @return The average policy reward of a player on a maze, as a string.
+ */
 std::string Experiment::averagePolicyRewardAsString(std::string mazeIdentifier, Player::Types type) {
     int rewardsIndex;
     std::vector<double> *rewards;
@@ -190,6 +264,9 @@ std::string Experiment::averagePolicyRewardAsString(std::string mazeIdentifier, 
     return s;
 }
 
+/**
+ * Writes the average policy rewards to output.
+ */
 void Experiment::writeAveragePoliciesRewards() {
     int mazeIdentifierIndex, playerIndex;
     std::ofstream output;
