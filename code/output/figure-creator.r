@@ -232,6 +232,9 @@ maze.progression.plots <- function(progression) {
 #' 
 #' @return The exit signal. Either 'success' or 'failure'.
 main <- function() {
+    if (!file.exists('figures/')) {
+        dir.create('figures/');
+    }
     timings <- input.frame.from.program('timings'); 
     rewards <- input.frame.from.program('exploitation');
     progression <- input.frame.from.program('progression');
