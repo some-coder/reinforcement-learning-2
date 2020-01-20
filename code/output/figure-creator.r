@@ -166,6 +166,22 @@ make.empty.plot <- function(data, maze) {
          panel.first = grid());
 }
 
+prepare.window.for.progression.plots <- function(maze.amount) {
+    dims <- c(1, 1);
+    if (maze.amount == 1) {
+        dims <- c(1, 1);
+    } else if (maze.amount == 2) {
+        dims <- c(1, 2);
+    }  else if (maze.amount == 3 || maze.amount == 4) {
+        dims <- c(2, 2);
+    } else if (maze.amount == 5 || maze.amount == 6) {
+        dims <- c(3, 2);
+    }  else if (maze.amount == 7 || maze.amount == 8) {
+        dims <- c(4, 2);
+    }
+    par(mfrow = dims);
+}
+
 algorithm.color <- function(algorithm) {
     switch(algorithm,
            "MCES" = "#396ab1",
@@ -192,7 +208,7 @@ maze.progression.plot <- function(data, maze) {
     x.limits <- range(data$time);
     y.limits <- range(data$episode.reward);
     x.pos <- x.limits[1] + (7/10) * abs(x.limits[2] - x.limits[1]);
-    y.pos <- y.limits[1] + (2/10) * abs(y.limits[2] - y.limits[1]);
+    y.pos <- y.limits[1] + (5/10) * abs(y.limits[2] - y.limits[1]);
     legend(xy.coords(x.pos, y.pos),
            legend = unique(data$algorithm),
            col = algorithm.colors(unique(data$algorithm)),
@@ -230,11 +246,13 @@ main <- function() {
                width = 10);
     maze.reward.boxplots(rewards);
     dev.off();
+    prepare.window.for.progression.plots(length(unique(progression$maze.id)));
     postscript("figures/progression-plot.eps", horizontal = FALSE,
                onefile = FALSE, paper = 'special', height = 10,
                width = 10);
     maze.progression.plots(progression);
     dev.off();
+    par(mfrow = c(1, 1));
     return("success");
 }
 

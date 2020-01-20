@@ -16,7 +16,6 @@ class State {
         int getX();
         int getY();
         Types getType();
-        void setType(Types t);
         void setActivation(bool activation);
 };
 
