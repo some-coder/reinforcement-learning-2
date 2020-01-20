@@ -1,6 +1,14 @@
 #include <cmath>
 #include "AsynchronousPolicyIterationPlayer.hpp"
 
+/**
+ * Constructs an asynchronous policy iteration player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param theta The minimal utility difference to decide to keep iterating.
+ * @param maximumIteration The maximum iteration to keep running for.
+ */
 AsynchronousPolicyIterationPlayer::AsynchronousPolicyIterationPlayer(Maze *m, double gamma, double theta,
         int maximumIteration) : PolicyIterationPlayer(m, gamma, theta) {
     this->currentState = nullptr;
@@ -8,8 +16,14 @@ AsynchronousPolicyIterationPlayer::AsynchronousPolicyIterationPlayer(Maze *m, do
     this->maximumIteration = maximumIteration;
 }
 
+/**
+ * Destructs the asynchronous policy iteration player.
+ */
 AsynchronousPolicyIterationPlayer::~AsynchronousPolicyIterationPlayer() = default;
 
+/**
+ * Performs the evaluation step of the asynchronous policy iteration player.
+ */
 void AsynchronousPolicyIterationPlayer::performEvaluationStep() {
     double delta, oldValue;
     State *s;
@@ -24,6 +38,9 @@ void AsynchronousPolicyIterationPlayer::performEvaluationStep() {
     } while (delta >= this->theta);
 }
 
+/**
+ * Performs the improvement step of the asynchronous policy iteration player.
+ */
 void AsynchronousPolicyIterationPlayer::performImprovementStep() {
     Maze::Actions greedy;
     greedy = this->greedyActionForState(this->currentState);

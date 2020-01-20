@@ -1,14 +1,29 @@
 #include "MonteCarloFirstVisitPlayer.hpp"
 #include "LearningPlayer.hpp"
 
+/**
+ * Constructs a Monte Carlo first-visit player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param T The minimal utility difference to decide to keep iterating.
+ * @param epsilon The error rate.
+ */
 MonteCarloFirstVisitPlayer::MonteCarloFirstVisitPlayer(Maze *m, double gamma, int T, double epsilon) :
         MonteCarloPlayer(m, gamma, T, true) {
-    /* Todo: Assumes epsilon-soft policy, but policy is completely random. Okay? */
     this->epsilon = epsilon;
 }
 
+/**
+ * Destructs the Monte Carlo first-visit player.
+ */
 MonteCarloFirstVisitPlayer::~MonteCarloFirstVisitPlayer() = default;
 
+/**
+ * Obtains the first state-action pair for an episode generation.
+ *
+ * @return The initial state-action pair.
+ */
 std::tuple<State*, Maze::Actions> MonteCarloFirstVisitPlayer::initialStateActionPair() {
     State *s;
     Maze::Actions a;
@@ -17,6 +32,12 @@ std::tuple<State*, Maze::Actions> MonteCarloFirstVisitPlayer::initialStateAction
     return std::make_tuple(s, a);
 }
 
+/**
+ * Obtains the succeeding state-action pair, given a current tuple.
+ *
+ * @param currentPair The current state-action pair.
+ * @return The successor tuple.
+ */
 std::tuple<State*, Maze::Actions> MonteCarloFirstVisitPlayer::nextStateActionPair(
         std::tuple<State*, Maze::Actions> currentPair) {
     std::tuple<State*, double> result;
@@ -25,12 +46,17 @@ std::tuple<State*, Maze::Actions> MonteCarloFirstVisitPlayer::nextStateActionPai
     return std::make_tuple(std::get<0>(result), this->chooseAction(std::get<0>(result)));
 }
 
+/**
+ * Generates a complete episode of successive state-action pairs.
+ *
+ * @param startStateActionPair The initial state-action pair to depart from.
+ */
 void MonteCarloFirstVisitPlayer::generateEpisode(std::tuple<State*, Maze::Actions> startStateActionPair) {
     int currentIteration, maximumIteration;
     std::tuple<State*, Maze::Actions> stateActionPair;
     currentIteration = -1;
     maximumIteration = std::ceil(EPISODE_TIMEOUT_FRACTION * (double)this->stateValues.size());
-    stateActionPair = this->initialStateActionPair();
+    stateActionPair = startStateActionPair;
     this->episode.push_back(stateActionPair);
     this->rewards.push_back(0.0);  /* First iteration has no reward. */
     do {
@@ -41,10 +67,23 @@ void MonteCarloFirstVisitPlayer::generateEpisode(std::tuple<State*, Maze::Action
     this->maze->resetMaze();
 }
 
+/**
+ * Computes a single component of the episode's returns.
+ *
+ * @param k The exponent to raise the gamma to.
+ * @param rewardIndex The index of the current reward component.
+ * @return The value of the component of the episode's returns.
+ */
 double MonteCarloFirstVisitPlayer::episodeReturnComponent(int k, int rewardIndex) {
     return std::pow(this->discountFactor, k) * this->rewards[rewardIndex];
 }
 
+/**
+ * Computes the current episode's total returns.
+ *
+ * @param onsetIndex The index from which to start.
+ * @return The episode's total returns.
+ */
 double MonteCarloFirstVisitPlayer::episodeReturn(int onsetIndex) {
     int index;
     double episodeReturn;
@@ -55,6 +94,12 @@ double MonteCarloFirstVisitPlayer::episodeReturn(int onsetIndex) {
     return episodeReturn;
 }
 
+/**
+ * Computes the average of the current episode's returns.
+ *
+ * @param stateActionPair THe state-action pair of which to get the mean return.
+ * @return The state-action pair's average returns over episodes.
+ */
 double MonteCarloFirstVisitPlayer::returnsAverage(std::tuple<State*, Maze::Actions> stateActionPair) {
     int returnsIndex;
     double sum;
@@ -71,6 +116,12 @@ double MonteCarloFirstVisitPlayer::returnsAverage(std::tuple<State*, Maze::Actio
     }
 }
 
+/**
+ * Updates the policy of the supplied state, given its now-greedy action.
+ *
+ * @param s The state to start from.
+ * @param greedyAction The greedy action in this state.
+ */
 void MonteCarloFirstVisitPlayer::updateStatePolicy(State *s, Maze::Actions greedyAction) {
     int actionIndex;
     Maze::Actions currentAction;
@@ -88,8 +139,16 @@ void MonteCarloFirstVisitPlayer::updateStatePolicy(State *s, Maze::Actions greed
     this->policy[s] = newPolicy;
 }
 
+/**
+ * Performs the initialisation step of the Monte Carlo first visit player.
+ *
+ * Note that this method is trivial, although kept for compatibility reasons.
+ */
 void MonteCarloFirstVisitPlayer::performInitialisation() {}
 
+/**
+ * Performs the iteration step of the Monte Carlo first visit player.
+ */
 void MonteCarloFirstVisitPlayer::performIteration() {
     int index;
     double currentReturn;
@@ -114,8 +173,10 @@ void MonteCarloFirstVisitPlayer::performIteration() {
     this->rewards.clear();
 }
 
+/**
+ * Solves the maze the player was assigned to address.
+ */
 void MonteCarloFirstVisitPlayer::solveMaze() {
-    //TODO: what's the use of calling performInitialisation() if it does nothing?
     this->performInitialisation();
     do {
         auto startTime = std::chrono::high_resolution_clock::now();

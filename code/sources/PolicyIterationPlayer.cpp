@@ -1,11 +1,29 @@
-#include "RandomServices.hpp"
 #include "PolicyIterationPlayer.hpp"
 
+/**
+ * Constructs a policy iteration player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param theta The minimal utility difference to decide to keep iterating.
+ */
 PolicyIterationPlayer::PolicyIterationPlayer(Maze *m, double gamma, double theta) :
         DynamicProgrammingPlayer(m, gamma, theta) {
     this->policyIsStable = true;
 }
 
+/**
+ * Destructs the policy iteration player.
+ */
+PolicyIterationPlayer::~PolicyIterationPlayer() = default;
+
+/**
+ * Obtains the valuation of the given state, if its dominant action is supplied.
+ *
+ * @param s The state to evaluate.
+ * @param a The dominant action to undertake in this state.
+ * @return The state's value.
+ */
 double PolicyIterationPlayer::stateValue(State *s, Maze::Actions a) {
     int i;
     double newValue;
@@ -21,10 +39,23 @@ double PolicyIterationPlayer::stateValue(State *s, Maze::Actions a) {
     return newValue;
 }
 
+/**
+ * Obtains an updated version of the state's value, given current information.
+ *
+ * @param s The state to evaluate.
+ * @param a The dominant action to undertake in this state.
+ * @return The state's value.
+ */
 double PolicyIterationPlayer::updatedStateValue(State *s, Maze::Actions a) {
     return Maze::getReward(s) + this->discountFactor * this->stateValue(s, a);
 }
 
+/**
+ * Obtains the greedy action for the supplied state.
+ *
+ * @param s The state for which to get the greedy action.
+ * @return The state's greedy action.
+ */
 Maze::Actions PolicyIterationPlayer::greedyActionForState(State *s) {
     double bestValue, currentValue;
     int bestIndex, i;
@@ -46,17 +77,12 @@ Maze::Actions PolicyIterationPlayer::greedyActionForState(State *s) {
  * policy and then improving the policy where needed.
  */
 void PolicyIterationPlayer::solveMaze() {
-    //TODO: why is there a variable i?
-    int i = 0;
     do {
         auto startTime = std::chrono::high_resolution_clock::now();
         this->policyIsStable = true;
         this->performEvaluationStep();
         this->performImprovementStep();
-        i++;
         auto endTime = std::chrono::high_resolution_clock::now();
         this->epochTimings.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - startTime).count() / 1e3);
     } while (!this->policyIsStable);
 }
-
-PolicyIterationPlayer::~PolicyIterationPlayer() = default;

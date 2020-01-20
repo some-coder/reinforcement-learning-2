@@ -2,13 +2,24 @@
 #include <cmath>
 #include "SynchronousPolicyIterationPlayer.hpp"
 
-/* Todo: This method gets stuck sometimes. */
-
+/**
+ * Constructs a new synchronous policy iteration player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param theta The minimal utility difference to decide to keep iterating.
+ */
 SynchronousPolicyIterationPlayer::SynchronousPolicyIterationPlayer(Maze *m, double gamma, double theta) :
     PolicyIterationPlayer(m, gamma, theta) {}
 
+/**
+ * Destructs the synchronous policy iteration player.
+ */
 SynchronousPolicyIterationPlayer::~SynchronousPolicyIterationPlayer() = default;
 
+/**
+ * Performs the evaluation step of the policy iteration algorithm.
+ */
 void SynchronousPolicyIterationPlayer::performEvaluationStep() {
     int i;
     double delta, oldValue;
@@ -29,6 +40,9 @@ void SynchronousPolicyIterationPlayer::performEvaluationStep() {
     } while (delta >= this->theta);
 }
 
+/**
+ * Performs the improvement step of the policy iteration algorithm.
+ */
 void SynchronousPolicyIterationPlayer::performImprovementStep() {
     int i;
     State *s;

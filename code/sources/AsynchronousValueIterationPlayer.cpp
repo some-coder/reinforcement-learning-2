@@ -1,13 +1,27 @@
 #include "AsynchronousValueIterationPlayer.hpp"
 
+/**
+ * Constructs the asynchronous value iteration player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param theta The minimal utility difference to decide to keep iterating.
+ * @param maximumIteration The maximum iteration to keep running for.
+ */
 AsynchronousValueIterationPlayer::AsynchronousValueIterationPlayer(Maze *m, double gamma, double theta,
         int maximumIteration) : ValueIterationPlayer(m, gamma, theta) {
     this->iteration = -1;
     this->maximumIteration = maximumIteration;
 }
 
+/**
+ * Destructs the asynchronous value iteration player.
+ */
 AsynchronousValueIterationPlayer::~AsynchronousValueIterationPlayer() = default;
 
+/**
+ * Performs the repetition step of the asynchronous policy iteration algorithm.
+ */
 void AsynchronousValueIterationPlayer::performRepetitionStep() {
     double delta;
     State *s;
@@ -24,6 +38,9 @@ void AsynchronousValueIterationPlayer::performRepetitionStep() {
     } while (this->iteration < this->maximumIteration || delta >= this->theta);
 }
 
+/**
+ * Performs the building step of the asynchronous policy iteration algorithm.
+ */
 void AsynchronousValueIterationPlayer::performConstructionStep() {
     int stateIndex;
     State* s;

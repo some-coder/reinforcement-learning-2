@@ -1,11 +1,24 @@
 #include <cmath>
 #include "SynchronousValueIterationPlayer.hpp"
 
+/**
+ * Constructs a synchronous value iteration player.
+ *
+ * @param m The maze to be solved by the player.
+ * @param gamma The discount factor to apply to earlier-obtained rewards.
+ * @param theta The minimal utility difference to decide to keep iterating.
+ */
 SynchronousValueIterationPlayer::SynchronousValueIterationPlayer(Maze *m, double gamma, double theta) :
         ValueIterationPlayer(m, gamma, theta) {}
 
+/**
+ * Destructs the synchronous value iteration player.
+ */
 SynchronousValueIterationPlayer::~SynchronousValueIterationPlayer() = default;
 
+/**
+ * Performs the repetition step of the synchronous value iteration algorithm.
+ */
 void SynchronousValueIterationPlayer::performRepetitionStep() {
     double delta;
     int stateIndex;
@@ -27,6 +40,9 @@ void SynchronousValueIterationPlayer::performRepetitionStep() {
     } while (delta >= this->theta);
 }
 
+/**
+ * Performs the building step of the synchronous value iteration algorithm.
+ */
 void SynchronousValueIterationPlayer::performConstructionStep() {
     int stateIndex;
     State *s;
