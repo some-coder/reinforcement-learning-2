@@ -7,13 +7,7 @@
  * @return a boolean; true when the user wants to randomly add mazes, false when he does not
  */
 bool UserInput::useRandomPreBuiltMazes() {
-    int input;
-    printf("  Should we use random, pre-built mazes?\n");
-    printf("    Options: (0) False, (1) True.\n");
-    do {
-        printf("    Choice: "), scanf("%d", &input);
-    } while (input != 0 && input != 1);
-    return input == 1;
+    return false;
 }
 
 /**
