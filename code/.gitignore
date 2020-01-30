@@ -1,0 +1,59 @@
+# Ignore binaries
+*
+!*.*
+!*/
+
+# Ignore classic makefiles
+makefile
+Makefile
+
+# Ignore LaTeX outputs 
+*.aux
+*.log
+*.synctex.gz
+*.out
+*.bbl
+*.blg
+
+# Ignore MacOS support files
+.DS_Store
+__MACOSX
+*.dSYM
+
+# Ignore ontologies and website metadata
+*.xml
+
+# Ignore Java bytecode
+*.class
+
+# Ignore IntelliJ IDEA settings
+.idea/
+
+# Ignore R (Studio) swap-like files
+.Rhistory
+*.csv
+*.eps
+
+# Ignore Python files
+*.pyo
+*.pyc
+
+# Ignore CMake auxilaries
+CMakeCache.txt
+CMakeFiles/
+armedBandits.cbp
+cmake-build-bedug/
+cmake_install.cmake
+*.cbp
+
+# Ignore swap files (Vim)
+*.swp
+
+# Ignore Visual Studio Code configuration data 
+.vscode/
+compile_commands.json
+
+# Project-specific ignores
+*.eps
+*.csv
+Rplots.pdf
