@@ -19,6 +19,29 @@ This program is known to work on:
 * Ubuntu 16.04.6 LTS
 * MacOS Catalina 10.15.2
 
+#### Viewing the mazes
+
+In order to view the set-up of the different mazes, follow the listed
+instructions directly below.
+
+1. Ensure you're located in the root directory of this project.
+2. `cd code/input/`
+3. Choose the maze type to investigate, either `cd static` or `cd dynamic`.
+4. Check individual mazes of a type with `less`, e.g. `less maze-1.in`
+
+A quick table of symbol meanings:
+
+| Symbol | Meaning |
+|---|---|
+| `.` | Path |
+| ` ` | Empty tile (or wall) |
+| `*` | Start |
+| `1` | Goal |
+| `0` | Warp |
+| `%` | Snack |
+| `:` | Lever |
+| `|` | Gate |
+
 ## How to compile the program
 
 1. First, `cd` to this directory.
