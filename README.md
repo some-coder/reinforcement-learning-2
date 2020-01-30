@@ -68,3 +68,13 @@ Enter each maze on a separate line. Use `done` to stop. For instance:
 4. Wait for the figure creator to finish.
 5. `cd figures/`
 6. Open any of the figures. E.g., `xdg-open exploitation-boxplot.eps &`.
+
+In the progression plot, each line has a separate color indicating
+a different algorithm. We had to leave out legends due to space constraints,
+thus, we explain these here.
+
+* Monte Carlo Exploring Starts (MCES): Blue;
+* Monte Carlo First Visit (MCFV): Orange;
+* Monte Carlo Every Visit (MCEV): Green;
+* Time-difference (TDS): Red;
+* Time-difference (TDQ): Grey.
