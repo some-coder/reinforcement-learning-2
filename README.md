@@ -40,7 +40,7 @@ A quick table of symbol meanings:
 | `0` | Warp |
 | `%` | Snack |
 | `:` | Lever |
-| `|` | Gate |
+| `\|` | Gate |
 
 ## How to compile the program
 
