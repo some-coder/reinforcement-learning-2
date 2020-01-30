@@ -21,6 +21,9 @@ input.frame.column.names <- function(file.name) {
 input.frame.from.program <- function(file.name) {
   cat(paste("  Reading '", file.name, "'.\n", sep = ""));
   with.extension <- paste('data/', file.name, '.csv', sep = '')
+  if (file.info(with.extension)$size == 0) {
+    return(data.frame());
+  }
   f <- read.csv(with.extension, stringsAsFactors = FALSE, header = FALSE);
   colnames(f) <- input.frame.column.names(file.name);
   return(f);
@@ -212,8 +215,10 @@ algorithm.colors <- function(algorithms) {
 maze.progression.plot <- function(data, maze) {
   make.empty.plot(data, maze);
   for (alg in unique(data$algorithm)) {
-    single <- subset(data, algorithm == alg, select = c(time, episode.reward));
-    lines(single$episode.reward ~ single$time, col = algorithm.color(alg));
+    if (alg != "SPI" && alg != "API" && alg != "SVI" && alg != "AVI") {
+      single <- subset(data, algorithm == alg, select = c(time, episode.reward));
+      lines(single$episode.reward ~ single$time, col = algorithm.color(alg));
+    }
   }
   x.limits <- range(data$time);
   y.limits <- range(data$episode.reward);
@@ -241,7 +246,7 @@ main <- function() {
   if (!file.exists('figures/')) {
     dir.create('figures/');
   }
-  timings <- input.frame.from.program('timings'); 
+  timings <- input.frame.from.program('timings');
   rewards <- input.frame.from.program('exploitation');
   progression <- input.frame.from.program('progression');
   totals  <- total.timings(timings);
@@ -255,12 +260,17 @@ main <- function() {
              width = 10);
   maze.reward.boxplots(rewards);
   dev.off();
-  prepare.window.for.progression.plots(length(unique(progression$maze.id)));
-  postscript("figures/progression-plot.eps", horizontal = FALSE,
+  if (!is.null(progression$run.id)) {
+    prepare.window.for.progression.plots(length(unique(progression$maze.id)));
+    postscript("figures/progression-plot.eps", horizontal = FALSE,
              onefile = FALSE, paper = 'special', height = 10,
              width = 10);
-  maze.progression.plots(progression);
-  dev.off();
+    maze.progression.plots(progression);
+    dev.off();
+  } else {
+    cat(paste('  [NOTICE] As your program does not have learning players, there\'s no progression plot.\n'));
+    cat(paste('           There may be an old \'progression-plot.eps\', but it is not of this experiment.\n'));
+  }
   return("success");
 }
 
